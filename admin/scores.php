@@ -12,7 +12,7 @@ requireAdmin();
 $db = getDB();
 
 // Filtre parametreleri (GET)
-$filterType = $_GET['type'] ?? 'all';   // 'all', 'bulmaca', 'eslestirme', 'kategori'
+$filterType = $_GET['type'] ?? 'all';
 $filterUser = trim($_GET['user'] ?? '');
 
 // Temel sorgu
@@ -25,13 +25,11 @@ $sql = 'SELECT s.id, u.username, a.name as activity_name, a.type,
 
 $params = [];
 
-// Tür filtresi
 if ($filterType !== 'all') {
     $sql .= ' AND a.type = ?';
     $params[] = $filterType;
 }
 
-// Kullanıcı filtresi
 if ($filterUser !== '') {
     $sql .= ' AND u.username LIKE ?';
     $params[] = '%' . $filterUser . '%';
@@ -43,7 +41,7 @@ $stmt = $db->prepare($sql);
 $stmt->execute($params);
 $scores = $stmt->fetchAll();
 
-// Toplu istatistikler
+// Özet istatistikler
 $totalGames = count($scores);
 $totalScore = array_sum(array_column($scores, 'score'));
 $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
@@ -55,19 +53,33 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
 <div class="admin-wrapper">
 
     <!-- Sol sidebar -->
-    <aside class="admin-sidebar">
-        <div class="admin-sidebar-title">Admin Menü</div>
+    <aside class="admin-sidebar" aria-label="Admin menü">
+        <div class="admin-sidebar-title">Yönetim Paneli</div>
         <nav aria-label="Admin navigasyon">
             <ul>
-                <li><a href="/genclik-rehberim/admin/index.php"><i class="fa-solid fa-gauge"></i> Genel Bakış</a></li>
-                <li><a href="/genclik-rehberim/admin/users.php"><i class="fa-solid fa-users"></i> Kullanıcılar</a></li>
-                <li><a href="/genclik-rehberim/admin/scores.php" class="active"><i class="fa-solid fa-chart-bar"></i> Skorlar</a></li>
-                <li style="margin-top:2rem">
-                    <a href="/genclik-rehberim/index.php"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+                <li>
+                    <a href="/genclik-rehberim/admin/index.php">
+                        <span class="material-symbols-outlined">dashboard</span> Genel Bakış
+                    </a>
                 </li>
                 <li>
-                    <a href="/genclik-rehberim/logout.php" style="color:var(--secondary)!important">
-                        <i class="fa-solid fa-right-from-bracket"></i> Çıkış
+                    <a href="/genclik-rehberim/admin/users.php">
+                        <span class="material-symbols-outlined">groups</span> Kullanıcılar
+                    </a>
+                </li>
+                <li>
+                    <a href="/genclik-rehberim/admin/scores.php" class="active">
+                        <span class="material-symbols-outlined">bar_chart</span> Skorlar
+                    </a>
+                </li>
+                <li style="margin-top:1.5rem">
+                    <a href="/genclik-rehberim/index.php">
+                        <span class="material-symbols-outlined">home</span> Ana Sayfa
+                    </a>
+                </li>
+                <li>
+                    <a href="/genclik-rehberim/logout.php" style="color:var(--error)!important">
+                        <span class="material-symbols-outlined">logout</span> Çıkış
                     </a>
                 </li>
             </ul>
@@ -78,78 +90,96 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
     <section class="admin-content">
 
         <h1 class="admin-page-title">
-            <i class="fa-solid fa-chart-bar"></i>
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">bar_chart</span>
             Skor İzleme
         </h1>
 
         <!-- Filtre kartı -->
         <div class="card" style="margin-bottom:2rem">
             <div class="card-header">
-                <h2><i class="fa-solid fa-filter"></i> Filtrele</h2>
+                <h2>
+                    <span class="material-symbols-outlined">filter_list</span>
+                    Filtrele
+                </h2>
             </div>
-            <form method="GET" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
+            <div style="padding:1.25rem">
+                <form method="GET" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
 
-                <!-- Etkinlik türü filtresi -->
-                <div class="form-group" style="margin-bottom:0;flex:1;min-width:200px">
-                    <label>Etkinlik Türü</label>
-                    <div class="input-wrap">
-                        <i class="fa-solid fa-gamepad"></i>
-                        <select name="type" style="width:100%;padding:0.9rem 1rem 0.9rem 2.8rem;border:2px solid #e2e8f0;border-radius:var(--radius);font-family:var(--font);font-size:1rem;background:var(--bg-light);color:var(--text-dark);cursor:pointer">
-                            <option value="all"        <?= $filterType==='all'         ?'selected':'' ?>>Tümü</option>
-                            <option value="bulmaca"    <?= $filterType==='bulmaca'     ?'selected':'' ?>>Bulmaca</option>
-                            <option value="eslestirme" <?= $filterType==='eslestirme'  ?'selected':'' ?>>Eşleştirme</option>
-                            <option value="kategori"   <?= $filterType==='kategori'    ?'selected':'' ?>>Kategori</option>
+                    <!-- Etkinlik türü filtresi -->
+                    <div style="flex:1;min-width:180px">
+                        <label class="form-label">Etkinlik Türü</label>
+                        <select name="type" class="form-control" style="border-radius:10px;cursor:pointer">
+                            <option value="all"        <?= $filterType==='all'        ?'selected':'' ?>>Tümü</option>
+                            <option value="bulmaca"    <?= $filterType==='bulmaca'    ?'selected':'' ?>>Bulmaca</option>
+                            <option value="eslestirme" <?= $filterType==='eslestirme' ?'selected':'' ?>>Eşleştirme</option>
+                            <option value="kategori"   <?= $filterType==='kategori'   ?'selected':'' ?>>Kategori</option>
                         </select>
                     </div>
-                </div>
 
-                <!-- Kullanıcı adı filtresi -->
-                <div class="form-group" style="margin-bottom:0;flex:1;min-width:200px">
-                    <label>Kullanıcı Ara</label>
-                    <div class="input-wrap">
-                        <i class="fa-solid fa-search"></i>
-                        <input type="text" name="user" placeholder="Kullanıcı adı..."
-                               value="<?= e($filterUser) ?>">
+                    <!-- Kullanıcı adı filtresi -->
+                    <div style="flex:1;min-width:180px">
+                        <label class="form-label">Kullanıcı Ara</label>
+                        <input type="text" name="user" class="form-control"
+                               placeholder="Kullanıcı adı..." value="<?= e($filterUser) ?>">
                     </div>
-                </div>
 
-                <button type="submit" class="btn btn-primary" style="margin-bottom:0;height:48px">
-                    <i class="fa-solid fa-search"></i> Filtrele
-                </button>
+                    <div style="display:flex;gap:0.5rem;align-items:flex-end">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="material-symbols-outlined">search</span> Filtrele
+                        </button>
+                        <a href="/genclik-rehberim/admin/scores.php" class="btn btn-outline">
+                            <span class="material-symbols-outlined">close</span> Temizle
+                        </a>
+                    </div>
 
-                <a href="/genclik-rehberim/admin/scores.php" class="btn btn-outline" style="height:48px">
-                    <i class="fa-solid fa-xmark"></i> Temizle
-                </a>
-
-            </form>
+                </form>
+            </div>
         </div>
 
         <!-- Mini istatistikler -->
         <div class="admin-stats-grid" style="margin-bottom:2rem">
             <div class="stat-card">
-                <div class="stat-icon purple"><i class="fa-solid fa-list-check"></i></div>
-                <div class="stat-info"><p>Sonuç Sayısı</p><h3><?= $totalGames ?></h3></div>
+                <div class="stat-icon purple">
+                    <span class="material-symbols-outlined">format_list_numbered</span>
+                </div>
+                <div class="stat-info">
+                    <p>Sonuç Sayısı</p>
+                    <h3><?= $totalGames ?></h3>
+                </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon pink"><i class="fa-solid fa-trophy"></i></div>
-                <div class="stat-info"><p>Toplam Puan</p><h3><?= $totalScore ?></h3></div>
+                <div class="stat-icon yellow">
+                    <span class="material-symbols-outlined">emoji_events</span>
+                </div>
+                <div class="stat-info">
+                    <p>Toplam Puan</p>
+                    <h3><?= $totalScore ?></h3>
+                </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon green"><i class="fa-solid fa-chart-line"></i></div>
-                <div class="stat-info"><p>Ortalama Puan</p><h3><?= $avgScore ?></h3></div>
+                <div class="stat-icon green">
+                    <span class="material-symbols-outlined">leaderboard</span>
+                </div>
+                <div class="stat-info">
+                    <p>Ortalama Puan</p>
+                    <h3><?= $avgScore ?></h3>
+                </div>
             </div>
         </div>
 
         <!-- Skor tablosu -->
         <div class="card">
             <div class="card-header">
-                <h2><i class="fa-solid fa-table"></i> Skor Listesi</h2>
-                <span style="color:var(--text-muted);font-size:0.85rem">(En fazla 200 kayıt)</span>
+                <h2>
+                    <span class="material-symbols-outlined">table_view</span>
+                    Skor Listesi
+                </h2>
+                <span style="color:var(--on-surface-variant);font-size:0.82rem">(En fazla 200 kayıt)</span>
             </div>
 
             <?php if (empty($scores)): ?>
                 <div class="empty-state">
-                    <i class="fa-solid fa-chart-bar"></i>
+                    <span class="material-symbols-outlined">bar_chart</span>
                     <p>Filtreye uygun skor bulunamadı.</p>
                 </div>
             <?php else: ?>
@@ -162,7 +192,7 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                             <th>Etkinlik</th>
                             <th>Tür</th>
                             <th>Puan</th>
-                            <th>Oran</th>
+                            <th>Başarı Oranı</th>
                             <th>Tarih</th>
                         </tr>
                     </thead>
@@ -171,9 +201,9 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                         <?php $percent = $row['max_score'] > 0
                             ? round(($row['score'] / $row['max_score']) * 100) : 0; ?>
                         <tr>
-                            <td style="color:var(--text-muted)"><?= $i + 1 ?></td>
+                            <td style="color:var(--on-surface-variant);font-size:0.82rem"><?= $i + 1 ?></td>
                             <td><strong><?= e($row['username']) ?></strong></td>
-                            <td><?= e($row['activity_name']) ?></td>
+                            <td style="color:var(--on-surface-variant)"><?= e($row['activity_name']) ?></td>
                             <td>
                                 <span class="badge badge-<?= e($row['type']) ?>">
                                     <?= e($row['type']) ?>
@@ -183,17 +213,16 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                                 <?= (int)$row['score'] ?>/<?= (int)$row['max_score'] ?>
                             </td>
                             <td>
-                                <div class="score-bar-wrap">
-                                    <div class="score-bar">
-                                        <div class="score-bar-fill" data-width="<?= $percent ?>%"
-                                             style="width:0%"></div>
+                                <div class="progress-cell">
+                                    <div class="progress-track">
+                                        <div class="progress-fill" style="width:<?= $percent ?>%"></div>
                                     </div>
-                                    <span style="font-size:0.8rem;font-weight:700;color:var(--primary);min-width:36px">
+                                    <span style="font-size:0.78rem;font-weight:700;color:var(--on-surface-variant);min-width:34px">
                                         <?= $percent ?>%
                                     </span>
                                 </div>
                             </td>
-                            <td style="color:var(--text-muted);font-size:0.85rem">
+                            <td style="color:var(--on-surface-variant);font-size:0.82rem">
                                 <?= date('d.m.Y H:i', strtotime($row['played_at'])) ?>
                             </td>
                         </tr>

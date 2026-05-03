@@ -18,93 +18,153 @@ $leaderboard = getLeaderboard(3);
     <!-- Hero bölümü -->
     <section class="hero" aria-label="Ana tanıtım">
         <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fa-solid fa-shield-heart"></i>
-                Akran Zorbalığı Farkındalık Projesi
+
+            <!-- Sol: Metin -->
+            <div class="hero-text">
+                <!-- Gamification rozeti -->
+                <div class="hero-badge">
+                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">stars</span>
+                    Gençlik Rehberim
+                </div>
+
+                <h1>
+                    Birlikte Daha Güçlüyüz:<br>
+                    <span>Zorbalığa Dur De!</span>
+                </h1>
+
+                <p>
+                    Okulda ve dijital dünyada güvenli bir alan yaratmak senin elinde.
+                    Oyunlar oynayarak öğren ve pozitif enerjini etrafına yay.
+                </p>
+
+                <div class="hero-buttons">
+                    <?php if (isLoggedIn()): ?>
+                        <a href="/genclik-rehberim/dashboard.php" class="btn btn-primary btn-lg">
+                            <span class="material-symbols-outlined">bar_chart</span> Panele Git
+                        </a>
+                    <?php else: ?>
+                        <a href="/genclik-rehberim/register.php" class="btn btn-primary btn-lg">
+                            <span class="material-symbols-outlined">rocket_launch</span> Hemen Başla
+                        </a>
+                        <a href="/genclik-rehberim/login.php" class="btn btn-surface btn-lg">
+                            <span class="material-symbols-outlined">play_circle</span> Nasıl Çalışır?
+                        </a>
+                    <?php endif; ?>
+                </div>
             </div>
-            <h1>Zorbalığa Karşı Birlikte,<br>Güç Sende!</h1>
-            <p>
-                Eğlenceli oyunlar ve etkinliklerle zorbalığa karşı doğru davranışları öğren.
-                Her doğru cevap seni daha güçlü kılar!
-            </p>
-            <div class="hero-buttons">
-                <?php if (isLoggedIn()): ?>
-                    <a href="/genclik-rehberim/dashboard.php" class="btn btn-primary btn-lg">
-                        <i class="fa-solid fa-chart-line"></i> Panele Git
-                    </a>
-                <?php else: ?>
-                    <a href="/genclik-rehberim/register.php" class="btn btn-primary btn-lg">
-                        <i class="fa-solid fa-rocket"></i> Hemen Başla
-                    </a>
-                    <a href="/genclik-rehberim/login.php" class="btn btn-outline btn-lg"
-                       style="border-color:rgba(255,255,255,0.5);color:white">
-                        <i class="fa-solid fa-right-to-bracket"></i> Giriş Yap
-                    </a>
-                <?php endif; ?>
+
+            <!-- Sağ: Görsel -->
+            <div class="hero-visual" aria-hidden="true">
+                <div class="hero-visual-bg"></div>
+                <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1a12dl0OwJg5B0SZ14DTQlbC8OVnIJn50bWvOZ0H3IBz42j1Ge_qLViey_Fk2XYwRtYQmf7s2nvq4947nod0aO32JM9cS4oIYuUJHcWDYEydT4vcHoeTIJT68CkDGlPE0OZ-0EBGnWxQQ-aTrV6woCV8z2agpWj-VNBymzar-Y2rOyUMsADer6igK8Y8DLON2DWepkBtmyDsLu3MXikvAwgnW0TA-j7jCK25s3Rd7YuaddIn6S5wxVvbb-URo5gnorEwpk4LI3imN"
+                    alt="Pozitif enerji dolu öğrenciler"
+                    class="hero-image"
+                    loading="lazy">
+                <div class="hero-floating-card">
+                    <div class="hero-floating-icon">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">favorite</span>
+                    </div>
+                    <div>
+                        <p class="hero-floating-num">1000+</p>
+                        <p class="hero-floating-label">Destekçi</p>
+                    </div>
+                </div>
             </div>
+
         </div>
     </section>
 
-    <!-- Özellikler bölümü -->
+    <!-- Oyun kartları bölümü -->
     <section class="games-section" aria-label="Etkinlikler">
         <div class="section-title">
-            <h2>Hangi Etkinliği <span>Oynamak İstersin?</span></h2>
-            <p>Her etkinlik zorbalıkla mücadelede farklı bir beceri kazandırır</p>
+            <h2>Eğlenirken <span>Öğren</span></h2>
+            <p>Kendini geliştirmek hiç bu kadar keyifli olmamıştı.</p>
         </div>
 
         <div class="game-grid">
 
             <!-- Bulmaca Kartı -->
             <article class="game-card card-bulmaca">
-                <div class="game-card-icon">
-                    <i class="fa-solid fa-puzzle-piece"></i>
+                <div class="game-card-top">
+                    <div class="game-card-icon">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">extension</span>
+                    </div>
+                    <span class="game-card-arrow">
+                        <span class="material-symbols-outlined">arrow_outward</span>
+                    </span>
                 </div>
-                <h3>Zorbalık Bulmacası</h3>
-                <p>
-                    Zorba davranışa karşı koyma yöntemlerini soruları cevaplayarak öğren.
-                    10 soruluk kelime bulmacası!
-                </p>
+                <div>
+                    <h3>Zorbalık Bulmacası</h3>
+                    <p>Zorba davranışa karşı koyma yöntemlerini soruları cevaplayarak öğren. 10 soruluk kelime bulmacası!</p>
+                </div>
                 <div class="score-badge">
-                    <i class="fa-solid fa-star"></i> Max 100 Puan
+                    <span class="material-symbols-outlined">star</span> Max 100 Puan
+                </div>
+                <div class="game-card-preview">
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPUGP5lIwsHR4-QzBI2banxpDuTGwWw994X_j9N1zZ4QFygnL05FRcrxItPRFsRzyduQ5T6ciJK-NklP5OPQeSi18Cv_BjDohO-eWdJ7DiSUuj6Wk-wB-FcLPqJ1ZA8RcFEMhUsIE04yxputL_dnwYwZ6OmCHXioPCPpJWP6RZqrCuopUQxgoTWCyvEv86YvASGCl6plNhQqzy37RpREBe2pfsF6qSp2GtMQtA9hcY6wyV1E9kQlpUtrDW0EC6hWnVvcnERhI9A_Px"
+                        alt="Bulmaca Önizleme"
+                        loading="lazy">
                 </div>
                 <a href="/genclik-rehberim/games/bulmaca.php" class="btn btn-primary">
-                    <i class="fa-solid fa-play"></i> Oyna
+                    <span class="material-symbols-outlined">play_arrow</span> Oyna
                 </a>
             </article>
 
             <!-- Eşleştirme Kartı -->
             <article class="game-card card-eslestirme">
-                <div class="game-card-icon">
-                    <i class="fa-solid fa-arrows-left-right"></i>
+                <div class="game-card-top">
+                    <div class="game-card-icon">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">join_inner</span>
+                    </div>
+                    <span class="game-card-arrow">
+                        <span class="material-symbols-outlined">arrow_outward</span>
+                    </span>
                 </div>
-                <h3>Doğru mu, Yanlış mı?</h3>
-                <p>
-                    Davranışları sürükle-bırak ile doğru ve yanlış kutularına yerleştir.
-                    14 kart eşleştirme!
-                </p>
+                <div>
+                    <h3>Doğru mu, Yanlış mı?</h3>
+                    <p>Davranışları sürükle-bırak ile doğru ve yanlış kutularına yerleştir. 14 kart eşleştirme!</p>
+                </div>
                 <div class="score-badge">
-                    <i class="fa-solid fa-star"></i> Max 140 Puan
+                    <span class="material-symbols-outlined">star</span> Max 140 Puan
+                </div>
+                <div class="game-card-preview">
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTd_WKaslyxrGXH234c6wW3-u3HsjdJ4ptAcUMyGYC3BAppDPOtGXioPCPpJWP6RZqrCuopUQxgoTWCyvEv86YvASGCl6plNhQqzy37RpREBe2pfsF6qSp2GtMQtA9hcY6wyV1E9kQlpUtrDW0EC6hWnVvcnERhI9A_Px"
+                        alt="Eşleştirme Önizleme"
+                        loading="lazy">
                 </div>
                 <a href="/genclik-rehberim/games/eslestirme.php" class="btn btn-secondary">
-                    <i class="fa-solid fa-play"></i> Başla
+                    <span class="material-symbols-outlined">play_arrow</span> Başla
                 </a>
             </article>
 
             <!-- Kategori Kartı -->
             <article class="game-card card-kategori">
-                <div class="game-card-icon">
-                    <i class="fa-solid fa-tags"></i>
+                <div class="game-card-top">
+                    <div class="game-card-icon">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">category</span>
+                    </div>
+                    <span class="game-card-arrow">
+                        <span class="material-symbols-outlined">arrow_outward</span>
+                    </span>
                 </div>
-                <h3>Zorbalık mı, Değil mi?</h3>
-                <p>
-                    17 kelimeyi "Zorbalık" ve "Zorbalık Değil" kutularına yerleştir.
-                    Farkındalığını artır!
-                </p>
+                <div>
+                    <h3>Zorbalık mı, Değil mi?</h3>
+                    <p>17 kelimeyi "Zorbalık" ve "Zorbalık Değil" kutularına yerleştir. Farkındalığını artır!</p>
+                </div>
                 <div class="score-badge">
-                    <i class="fa-solid fa-star"></i> Max 170 Puan
+                    <span class="material-symbols-outlined">star</span> Max 170 Puan
+                </div>
+                <div class="game-card-preview">
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI3xG9eRCTmh3biwFdqp_mfXC1v40DWsxGWBXFl6s-4EorAWwifYOMsBYHdJjoc2C9lUrVJ5KMs6jowW1ZBrQFUr-LFlHv58-ubjSR4MloUPOfLU-u5pAE9iSbgtJZISx_zKXyqmtSk6WN-gnNb0ErZRXum_Zc6zDS1_WAHaE1I5ADKFF3Xc7D-OX4NRDvX6IXO0CswqffEFkaUann6x_bkEOuyK7se7lWQjRfetsRnyujNTU0N--BE6fwTM-zXE7o3H7afws0flx8"
+                        alt="Kategori Önizleme"
+                        loading="lazy">
                 </div>
                 <a href="/genclik-rehberim/games/kategori.php" class="btn btn-success">
-                    <i class="fa-solid fa-play"></i> Sırala
+                    <span class="material-symbols-outlined">play_arrow</span> Sırala
                 </a>
             </article>
 
@@ -112,69 +172,58 @@ $leaderboard = getLeaderboard(3);
     </section>
 
     <!-- Bilgi bölümü -->
-    <section style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 5rem 1.5rem; color: white;">
-        <div style="max-width:900px;margin:0 auto;text-align:center">
-            <h2 style="font-size:2rem;font-weight:900;margin-bottom:1rem">
-                Akran Zorbalığı Nedir?
-            </h2>
-            <p style="color:rgba(255,255,255,0.75);font-size:1.1rem;max-width:650px;margin:0 auto 3rem">
+    <section class="info-section" aria-label="Zorbalık hakkında bilgi">
+        <div class="info-section-inner">
+            <h2>Akran Zorbalığı Nedir?</h2>
+            <p>
                 Akran zorbalığı; bir kişinin başkalarına tekrarlı olarak fiziksel, sözel veya sosyal zarar vermesidir.
                 Doğru davranışları öğrenmek zorbalığı durdurmada en etkili adımdır.
             </p>
 
-            <!-- 3 bilgi kartı -->
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem">
-                <div style="background:rgba(255,255,255,0.05);border-radius:16px;padding:2rem;border:1px solid rgba(255,255,255,0.1)">
-                    <div style="font-size:2.5rem;margin-bottom:1rem">🛡️</div>
-                    <h3 style="font-weight:800;margin-bottom:0.5rem">Kendini Koru</h3>
-                    <p style="color:rgba(255,255,255,0.65);font-size:0.95rem">
-                        Zorbalıkla karşılaştığında güvenli bir yere git ve yetişkinlere haber ver.
-                    </p>
-                </div>
-                <div style="background:rgba(255,255,255,0.05);border-radius:16px;padding:2rem;border:1px solid rgba(255,255,255,0.1)">
-                    <div style="font-size:2.5rem;margin-bottom:1rem">🤝</div>
-                    <h3 style="font-weight:800;margin-bottom:0.5rem">Destekle</h3>
-                    <p style="color:rgba(255,255,255,0.65);font-size:0.95rem">
-                        Zorbalığa uğrayan arkadaşının yanında ol ve ona destek ver.
-                    </p>
-                </div>
-                <div style="background:rgba(255,255,255,0.05);border-radius:16px;padding:2rem;border:1px solid rgba(255,255,255,0.1)">
-                    <div style="font-size:2.5rem;margin-bottom:1rem">📢</div>
-                    <h3 style="font-weight:800;margin-bottom:0.5rem">Bildir</h3>
-                    <p style="color:rgba(255,255,255,0.65);font-size:0.95rem">
-                        Gördüğün zorbalığı öğretmenine veya güvendiğin bir yetişkine söyle.
-                    </p>
-                </div>
+            <div class="info-cards">
+                <article class="info-card">
+                    <span class="info-card-icon" aria-hidden="true">🛡️</span>
+                    <h3>Kendini Koru</h3>
+                    <p>Zorbalıkla karşılaştığında güvenli bir yere git ve yetişkinlere haber ver.</p>
+                </article>
+                <article class="info-card">
+                    <span class="info-card-icon" aria-hidden="true">🤝</span>
+                    <h3>Destekle</h3>
+                    <p>Zorbalığa uğrayan arkadaşının yanında ol ve ona destek ver.</p>
+                </article>
+                <article class="info-card">
+                    <span class="info-card-icon" aria-hidden="true">📢</span>
+                    <h3>Bildir</h3>
+                    <p>Gördüğün zorbalığı öğretmenine veya güvendiğin bir yetişkine söyle.</p>
+                </article>
             </div>
         </div>
     </section>
 
     <!-- Liderlik Tablosu (kısa) -->
     <?php if (!empty($leaderboard)): ?>
-    <section style="padding:5rem 1.5rem;max-width:600px;margin:0 auto;text-align:center">
+    <section class="leaderboard-section" aria-label="Liderlik tablosu">
         <div class="section-title">
             <h2>🏆 <span>Liderler</span></h2>
             <p>En yüksek puanı toplayan öğrenciler</p>
         </div>
         <div class="card">
-            <?php foreach ($leaderboard as $i => $leader): ?>
-            <div style="display:flex;align-items:center;gap:1rem;padding:1rem;
-                        border-bottom:<?= $i < count($leaderboard)-1 ? '1px solid var(--bg-light)' : 'none' ?>">
-                <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-                    font-weight:900;font-size:1rem;flex-shrink:0;
-                    background:<?= $i===0?'linear-gradient(135deg,#FFBE0B,#f59e0b)':($i===1?'linear-gradient(135deg,#a8b0c0,#94a3b8)':'linear-gradient(135deg,#c47722,#b45309)') ?>;
-                    color:white;box-shadow:0 2px 8px rgba(0,0,0,0.2)">
-                    <?= $i===0?'🥇':($i===1?'🥈':'🥉') ?>
+            <div class="leaderboard-list">
+                <?php foreach ($leaderboard as $i => $leader): ?>
+                <div class="leaderboard-row">
+                    <div class="leaderboard-rank <?= $i===0?'rank-1':($i===1?'rank-2':($i===2?'rank-3':'rank-other')) ?>">
+                        <?= $i===0?'🥇':($i===1?'🥈':($i===2?'🥉':'#'.($i+1))) ?>
+                    </div>
+                    <div>
+                        <div class="leaderboard-name"><?= e($leader['username']) ?></div>
+                        <div class="leaderboard-meta"><?= $leader['games_played'] ?> oyun oynandı</div>
+                    </div>
+                    <div class="leaderboard-score">
+                        <?= $leader['total_score'] ?> <span>puan</span>
+                    </div>
                 </div>
-                <div style="flex:1;text-align:left">
-                    <strong><?= e($leader['username']) ?></strong>
-                    <div style="font-size:0.8rem;color:var(--text-muted)"><?= $leader['games_played'] ?> oyun oynandı</div>
-                </div>
-                <div style="font-size:1.3rem;font-weight:900;color:var(--primary)">
-                    <?= $leader['total_score'] ?> <span style="font-size:0.75rem;color:var(--text-muted)">puan</span>
-                </div>
+                <?php endforeach; ?>
             </div>
-            <?php endforeach; ?>
         </div>
     </section>
     <?php endif; ?>

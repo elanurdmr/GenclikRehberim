@@ -9,10 +9,11 @@
 <footer class="site-footer">
     <div class="footer-inner">
 
-        <!-- Logo ve kısa açıklama -->
+        <!-- Marka ve açıklama -->
         <div class="footer-brand">
             <span class="footer-logo">
-                <i class="fa-solid fa-shield-heart"></i> Gençlik Rehberim
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">shield_person</span>
+                Gençlik Rehberim
             </span>
             <p>Akran zorbalığına karşı farkındalık ve doğru davranışları öğretmek amacıyla geliştirilmiştir.</p>
         </div>
@@ -28,12 +29,32 @@
             </ul>
         </nav>
 
-        <!-- İletişim / Bilgi -->
+        <!-- Hukuki bağlantılar -->
+        <nav class="footer-nav" aria-label="Hukuki bağlantılar">
+            <h4>Bağlantılar</h4>
+            <ul>
+                <li><a href="#">Hakkımızda</a></li>
+                <li><a href="#">Gizlilik Politikası</a></li>
+                <li><a href="#">Kullanım Şartları</a></li>
+                <li><a href="#">İletişim</a></li>
+            </ul>
+        </nav>
+
+        <!-- Proje bilgisi -->
         <div class="footer-info">
             <h4>Proje Hakkında</h4>
-            <p><i class="fa-solid fa-graduation-cap"></i> Web Tasarımı Dersi Projesi</p>
-            <p><i class="fa-solid fa-code"></i> PHP · MySQL · JavaScript</p>
-            <p><i class="fa-solid fa-heart"></i> Gençlere destek için yapıldı</p>
+            <p>
+                <span class="material-symbols-outlined">school</span>
+                Web Tasarımı Dersi Projesi
+            </p>
+            <p>
+                <span class="material-symbols-outlined">code</span>
+                PHP · MySQL · JavaScript
+            </p>
+            <p>
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">favorite</span>
+                Gençlere destek için yapıldı
+            </p>
         </div>
 
     </div>

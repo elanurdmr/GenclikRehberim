@@ -13,15 +13,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (navToggle && navLinks) {
         navToggle.addEventListener('click', function () {
-            // Menüyü aç/kapat
             navLinks.classList.toggle('open');
-            const icon = navToggle.querySelector('i');
-            // İkon geçişi: bars ↔ xmark
-            if (navLinks.classList.contains('open')) {
-                icon.classList.replace('fa-bars', 'fa-xmark');
-            } else {
-                icon.classList.replace('fa-xmark', 'fa-bars');
-            }
+            const isOpen = navLinks.classList.contains('open');
+            // Material Symbols: metin içeriği değiştir
+            const icon = navToggle.querySelector('.material-symbols-outlined');
+            if (icon) icon.textContent = isOpen ? 'close' : 'menu';
+            navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         });
     }
 
@@ -30,8 +27,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (navLinks && navToggle) {
             if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
                 navLinks.classList.remove('open');
-                const icon = navToggle.querySelector('i');
-                if (icon) icon.classList.replace('fa-xmark', 'fa-bars');
+                const icon = navToggle.querySelector('.material-symbols-outlined');
+                if (icon) icon.textContent = 'menu';
+                navToggle.setAttribute('aria-expanded', 'false');
             }
         }
     });

@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $targetId = (int)($_POST['user_id'] ?? 0);
 
     if ($_POST['action'] === 'delete') {
-        // Kendini silmeye çalışıyorsa engelle
         if ($targetId === (int)$_SESSION['user_id']) {
             $error = 'Kendinizi silemezsiniz.';
         } else {
@@ -29,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         }
     }
 
-    // Rol değiştirme
     if ($_POST['action'] === 'toggle_role') {
         if ($targetId === (int)$_SESSION['user_id']) {
             $error = 'Kendi rolünüzü değiştiremezsiniz.';
@@ -57,19 +55,33 @@ $users = getAllUsers();
 <div class="admin-wrapper">
 
     <!-- Sol sidebar -->
-    <aside class="admin-sidebar">
-        <div class="admin-sidebar-title">Admin Menü</div>
+    <aside class="admin-sidebar" aria-label="Admin menü">
+        <div class="admin-sidebar-title">Yönetim Paneli</div>
         <nav aria-label="Admin navigasyon">
             <ul>
-                <li><a href="/genclik-rehberim/admin/index.php"><i class="fa-solid fa-gauge"></i> Genel Bakış</a></li>
-                <li><a href="/genclik-rehberim/admin/users.php" class="active"><i class="fa-solid fa-users"></i> Kullanıcılar</a></li>
-                <li><a href="/genclik-rehberim/admin/scores.php"><i class="fa-solid fa-chart-bar"></i> Skorlar</a></li>
-                <li style="margin-top:2rem">
-                    <a href="/genclik-rehberim/index.php"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+                <li>
+                    <a href="/genclik-rehberim/admin/index.php">
+                        <span class="material-symbols-outlined">dashboard</span> Genel Bakış
+                    </a>
                 </li>
                 <li>
-                    <a href="/genclik-rehberim/logout.php" style="color:var(--secondary)!important">
-                        <i class="fa-solid fa-right-from-bracket"></i> Çıkış
+                    <a href="/genclik-rehberim/admin/users.php" class="active">
+                        <span class="material-symbols-outlined">groups</span> Kullanıcılar
+                    </a>
+                </li>
+                <li>
+                    <a href="/genclik-rehberim/admin/scores.php">
+                        <span class="material-symbols-outlined">bar_chart</span> Skorlar
+                    </a>
+                </li>
+                <li style="margin-top:1.5rem">
+                    <a href="/genclik-rehberim/index.php">
+                        <span class="material-symbols-outlined">home</span> Ana Sayfa
+                    </a>
+                </li>
+                <li>
+                    <a href="/genclik-rehberim/logout.php" style="color:var(--error)!important">
+                        <span class="material-symbols-outlined">logout</span> Çıkış
                     </a>
                 </li>
             </ul>
@@ -80,21 +92,21 @@ $users = getAllUsers();
     <section class="admin-content">
 
         <h1 class="admin-page-title">
-            <i class="fa-solid fa-users"></i>
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">groups</span>
             Kullanıcı Yönetimi
         </h1>
 
         <!-- Başarı / Hata mesajları -->
         <?php if ($message): ?>
             <div class="alert alert-success">
-                <i class="fa-solid fa-circle-check"></i>
+                <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">check_circle</span>
                 <?= e($message) ?>
             </div>
         <?php endif; ?>
 
         <?php if ($error): ?>
-            <div class="alert alert-error">
-                <i class="fa-solid fa-circle-exclamation"></i>
+            <div class="alert alert-danger">
+                <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">error</span>
                 <?= e($error) ?>
             </div>
         <?php endif; ?>
@@ -103,17 +115,15 @@ $users = getAllUsers();
         <div class="card">
             <div class="card-header">
                 <h2>
-                    <i class="fa-solid fa-list"></i>
+                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">format_list_bulleted</span>
                     Tüm Kullanıcılar
-                    <span style="background:var(--bg-light);padding:0.2rem 0.8rem;border-radius:50px;font-size:0.8rem;margin-left:0.5rem">
-                        <?= count($users) ?>
-                    </span>
                 </h2>
+                <span class="badge badge-active"><?= count($users) ?> kullanıcı</span>
             </div>
 
             <?php if (empty($users)): ?>
                 <div class="empty-state">
-                    <i class="fa-solid fa-users"></i>
+                    <span class="material-symbols-outlined">groups</span>
                     <p>Henüz kullanıcı yok.</p>
                 </div>
             <?php else: ?>
@@ -126,7 +136,7 @@ $users = getAllUsers();
                             <th>E-posta</th>
                             <th>Rol</th>
                             <th>Toplam Puan</th>
-                            <th>Oyun Sayısı</th>
+                            <th>Oyun</th>
                             <th>Kayıt Tarihi</th>
                             <th>İşlemler</th>
                         </tr>
@@ -134,24 +144,24 @@ $users = getAllUsers();
                     <tbody>
                         <?php foreach ($users as $user): ?>
                         <tr>
-                            <td style="color:var(--text-muted)">#<?= $user['id'] ?></td>
+                            <td style="color:var(--on-surface-variant);font-size:0.85rem">#<?= $user['id'] ?></td>
                             <td>
                                 <strong><?= e($user['username']) ?></strong>
                                 <?php if ($user['id'] == $_SESSION['user_id']): ?>
-                                    <span style="color:var(--primary);font-size:0.75rem"> (Sen)</span>
+                                    <span style="color:var(--primary);font-size:0.72rem;font-weight:700;margin-left:4px">(Sen)</span>
                                 <?php endif; ?>
                             </td>
-                            <td><?= e($user['email']) ?></td>
+                            <td style="color:var(--on-surface-variant)"><?= e($user['email']) ?></td>
                             <td>
-                                <span class="badge" style="<?= $user['role']==='admin'
-                                    ? 'background:rgba(108,99,255,0.12);color:var(--primary)'
-                                    : 'background:rgba(67,233,123,0.12);color:#059669' ?>">
-                                    <?= $user['role'] === 'admin' ? '👑 Admin' : '🎓 Öğrenci' ?>
-                                </span>
+                                <?php if ($user['role'] === 'admin'): ?>
+                                    <span class="badge badge-bulmaca">👑 Admin</span>
+                                <?php else: ?>
+                                    <span class="badge badge-success">🎓 Öğrenci</span>
+                                <?php endif; ?>
                             </td>
-                            <td style="font-weight:800;color:var(--primary)"><?= $user['total_score'] ?></td>
-                            <td><?= $user['games_played'] ?></td>
-                            <td style="color:var(--text-muted);font-size:0.85rem">
+                            <td style="font-weight:800;color:var(--primary)"><?= (int)$user['total_score'] ?></td>
+                            <td><?= (int)$user['games_played'] ?></td>
+                            <td style="color:var(--on-surface-variant);font-size:0.85rem">
                                 <?= date('d.m.Y', strtotime($user['created_at'])) ?>
                             </td>
                             <td>
@@ -161,10 +171,9 @@ $users = getAllUsers();
                                         <!-- Rol değiştirme -->
                                         <form method="POST" style="display:inline">
                                             <input type="hidden" name="action" value="toggle_role">
-                                            <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
-                                            <button type="submit" class="btn btn-outline btn-sm"
-                                                    title="Rolü Değiştir">
-                                                <i class="fa-solid fa-user-gear"></i>
+                                            <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">
+                                            <button type="submit" class="btn btn-outline btn-sm" title="Rolü Değiştir">
+                                                <span class="material-symbols-outlined" style="font-size:14px">manage_accounts</span>
                                                 <?= $user['role'] === 'admin' ? 'Öğrenci Yap' : 'Admin Yap' ?>
                                             </button>
                                         </form>
@@ -173,15 +182,14 @@ $users = getAllUsers();
                                         <form method="POST" style="display:inline"
                                               onsubmit="return confirm('<?= e($user['username']) ?> kullanıcısını silmek istediğinizden emin misiniz?')">
                                             <input type="hidden" name="action" value="delete">
-                                            <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                    title="Kullanıcıyı Sil">
-                                                <i class="fa-solid fa-trash"></i>
+                                            <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Kullanıcıyı Sil">
+                                                <span class="material-symbols-outlined" style="font-size:14px">delete</span>
                                             </button>
                                         </form>
 
                                     <?php else: ?>
-                                        <span style="color:var(--text-muted);font-size:0.85rem">—</span>
+                                        <span style="color:var(--on-surface-variant);font-size:0.85rem">—</span>
                                     <?php endif; ?>
                                 </div>
                             </td>
