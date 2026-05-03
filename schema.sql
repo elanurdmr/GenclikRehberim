@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS activities (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     name        VARCHAR(100) NOT NULL,
     description TEXT,
-    type        ENUM('bulmaca','eslestirme','kategori') NOT NULL
+    type        ENUM('bulmaca','eslestirme','kategori','wordle') NOT NULL
 ) ENGINE=InnoDB;
 
 -- ============================================================
@@ -58,4 +58,5 @@ INSERT INTO users (username, email, password, role) VALUES
 INSERT INTO activities (name, description, type) VALUES
 ('Zorba Davranışa Karşı Koyma Bulmacası', 'Zorbalıkla başa çıkma yöntemlerini bulmaca ile öğren', 'bulmaca'),
 ('Doğru mu, Yanlış mı? Eşleştirme',       'Doğru ve yanlış davranışları eşleştir',               'eslestirme'),
-('Zorbalık mı, Değil mi? Kategori',        'Davranışları doğru kutuya yerleştir',                 'kategori');
+('Zorbalık mı, Değil mi? Kategori',        'Davranışları doğru kutuya yerleştir',                 'kategori'),
+('Wordle — 5 Harfli Kelime',                'Altı denemede kelimeyi bul, Türkçe harf desteğiyle', 'wordle');

@@ -24,6 +24,8 @@
             <ul>
                 <li><a href="/genclik-rehberim/index.php">Ana Sayfa</a></li>
                 <li><a href="/genclik-rehberim/games/bulmaca.php">Bulmaca</a></li>
+                <li><a href="/genclik-rehberim/games/cengelbulmaca.php">Çengel Bulmaca</a></li>
+                <li><a href="/genclik-rehberim/games/wordle.php">Wordle</a></li>
                 <li><a href="/genclik-rehberim/games/eslestirme.php">Eşleştirme</a></li>
                 <li><a href="/genclik-rehberim/games/kategori.php">Kategori</a></li>
             </ul>

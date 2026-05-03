@@ -113,6 +113,7 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                             <option value="bulmaca"    <?= $filterType==='bulmaca'    ?'selected':'' ?>>Bulmaca</option>
                             <option value="eslestirme" <?= $filterType==='eslestirme' ?'selected':'' ?>>Eşleştirme</option>
                             <option value="kategori"   <?= $filterType==='kategori'   ?'selected':'' ?>>Kategori</option>
+                            <option value="wordle"     <?= $filterType==='wordle'     ?'selected':'' ?>>Wordle</option>
                         </select>
                     </div>
 

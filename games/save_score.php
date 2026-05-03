@@ -36,12 +36,12 @@ $score      = isset($data['score'])       ? (int)$data['score']       : 0;
 $maxScore   = isset($data['max_score'])   ? (int)$data['max_score']   : 100;
 
 // Değerlerin geçerli aralıkta olduğunu kontrol et
-if ($activityId < 1 || $activityId > 3) {
+if ($activityId < 1 || $activityId > 4) {
     echo json_encode(['success' => false, 'message' => 'Geçersiz etkinlik ID.']);
     exit;
 }
 
-if ($score < 0 || $maxScore < 1 || $score > $maxScore) {
+if ($score < 0 || $maxScore < 1 || $score > $maxScore || $maxScore > 500) {
     echo json_encode(['success' => false, 'message' => 'Geçersiz puan değeri.']);
     exit;
 }

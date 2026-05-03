@@ -63,10 +63,15 @@ $recentScores = array_slice($recentScores, 0, 5);
 
         <!-- Sayfa başlığı + eylem butonları -->
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem">
-            <h1 class="admin-page-title" style="margin-bottom:0">
-                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dashboard</span>
-                Admin Paneli
-            </h1>
+            <div>
+                <h1 class="admin-page-title" style="margin-bottom:0.35rem">
+                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dashboard</span>
+                    Yönetim Paneli
+                </h1>
+                <p class="text-body-base" style="color:var(--on-surface-variant);margin:0;max-width:440px;font-size:0.95rem">
+                    Öğrenci etkinlikleri, skorlar ve kullanıcıların genel görünümü. Veriler <strong>PDO / MariaDB</strong> ile güncellenir.
+                </p>
+            </div>
             <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
                 <a href="/genclik-rehberim/admin/scores.php" class="btn btn-surface btn-sm">
                     <span class="material-symbols-outlined">download</span> Tüm Skorlar
@@ -136,7 +141,7 @@ $recentScores = array_slice($recentScores, 0, 5);
                 </div>
                 <div class="stat-info">
                     <p>Etkinlik Sayısı</p>
-                    <h3>3</h3>
+                    <h3>4</h3>
                 </div>
             </div>
 

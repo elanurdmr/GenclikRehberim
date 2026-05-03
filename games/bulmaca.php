@@ -7,6 +7,8 @@
  */
 
 require_once '../includes/header.php';
+
+$cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
 ?>
 
 <!-- ===== BULMACA OYUNU ===== -->
@@ -18,16 +20,42 @@ require_once '../includes/header.php';
 
     <div class="game-wrapper">
 
+        <?php if ($cengelMode): ?>
+        <div class="cengel-bento-grid">
+            <aside class="cengel-sidebar" aria-label="İpuçları">
+                <div class="cengel-clue-active">
+                    <div class="cengel-clue-tag">
+                        <span class="material-symbols-outlined" style="font-size:16px">lightbulb</span>
+                        Günlük bulmaca
+                    </div>
+                    <p>Soldaki listede tüm soruların ipuçları var. Sağda soruları sırayla yanıtla — her doğru cevap 10 puan!</p>
+                </div>
+                <div class="cengel-clue-list">
+                    <div class="cengel-clue-item"><strong>1.</strong> Zorbalık olunca ne istemeliyiz?</div>
+                    <div class="cengel-clue-item"><strong>2.</strong> Yaşadığımız olayı kime anlatırız?</div>
+                    <div class="cengel-clue-item"><strong>3.</strong> Yardım bulamazsak ne yapmaya devam etmeliyiz?</div>
+                    <div class="cengel-clue-item"><strong>4.</strong> Zorba karşısında nasıl durmalıyız?</div>
+                    <div class="cengel-clue-item"><strong>5.</strong> Korktuğumuzu göstermemek zorbaya ne yapar?</div>
+                    <div class="cengel-clue-item"><strong>6.</strong> Korkunca sakinleşmek için ne alıp veririz?</div>
+                    <div class="cengel-clue-item"><strong>7.</strong> "Başarabilirim" gibi sözlere ne denir?</div>
+                    <div class="cengel-clue-item"><strong>8.</strong> Sözel zorbalıkta cevap vermeden ne yaparız?</div>
+                    <div class="cengel-clue-item"><strong>9.</strong> Fiziksel zorbalıkta nereye gideriz?</div>
+                    <div class="cengel-clue-item"><strong>10.</strong> Daha güvende olmak için nerede bulunuruz?</div>
+                </div>
+            </aside>
+            <div class="cengel-main-col">
+        <?php endif; ?>
+
         <!-- Oyun Başlık Alanı -->
         <header class="game-header-area">
             <div class="game-page-label">
                 <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_fire_department</span>
-                Zorbalık Farkındalığı · Etkinlik 1
+                <?= $cengelMode ? 'Çengel bulmaca görünümü · Etkinlik 1' : 'Zorbalık Farkındalığı · Etkinlik 1' ?>
             </div>
 
             <div class="game-header-row">
                 <div class="game-header-text">
-                    <h1>Zorbalık Bulmacası</h1>
+                    <h1><?= $cengelMode ? 'Çengel Bulmaca' : 'Zorbalık Bulmacası' ?></h1>
                     <p>Soruları okuyup boş kutulara doğru harfleri yaz. Her doğru cevap <strong>10 puan</strong>!</p>
                 </div>
 
@@ -241,6 +269,11 @@ require_once '../includes/header.php';
             </button>
         </div>
 
+        <?php if ($cengelMode): ?>
+            </div>
+        </div>
+        <?php endif; ?>
+
     </div>
 </main>
 
@@ -257,7 +290,7 @@ require_once '../includes/header.php';
             <button class="btn btn-primary" onclick="restartGame()">
                 <span class="material-symbols-outlined">refresh</span> Tekrar Oyna
             </button>
-            <a href="/genclik-rehberim/dashboard.php" class="btn btn-outline">
+            <a href="/genclik-rehberim/ogrencipanel.php" class="btn btn-outline">
                 <span class="material-symbols-outlined">bar_chart</span> Panele Git
             </a>
         </div>
@@ -429,7 +462,7 @@ function finishGame() {
         if (data && data.success) {
             saveStatus.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
         } else if (data && data.login_required) {
-            saveStatus.innerHTML = '<a href="/genclik-rehberim/login.php" style="color:var(--primary);font-weight:700">Puanı kaydetmek için giriş yap</a>';
+            saveStatus.innerHTML = '<a href="/genclik-rehberim/girisyap.php" style="color:var(--primary);font-weight:700">Puanı kaydetmek için giriş yap</a>';
         }
     });
 }
