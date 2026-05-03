@@ -134,7 +134,7 @@ require_once '../includes/header.php';
             <button class="btn btn-primary" onclick="restartGame()">
                 <span class="material-symbols-outlined">refresh</span> Tekrar Oyna
             </button>
-            <a href="/genclik-rehberim/dashboard.php" class="btn btn-outline">
+            <a href="/genclik-rehberim/ogrencipanel.php" class="btn btn-outline">
                 <span class="material-symbols-outlined">bar_chart</span> Panele Git
             </a>
         </div>
@@ -357,7 +357,7 @@ function checkAll() {
         if (data && data.success) {
             saveStatus.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
         } else if (data && data.login_required) {
-            saveStatus.innerHTML = '<a href="/genclik-rehberim/login.php" style="color:var(--primary);font-weight:700">Puanı kaydetmek için giriş yap</a>';
+            saveStatus.innerHTML = '<a href="/genclik-rehberim/girisyap.php" style="color:var(--primary);font-weight:700">Puanı kaydetmek için giriş yap</a>';
         }
     });
 }

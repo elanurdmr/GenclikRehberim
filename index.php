@@ -39,14 +39,14 @@ $leaderboard = getLeaderboard(3);
 
                 <div class="hero-buttons">
                     <?php if (isLoggedIn()): ?>
-                        <a href="/genclik-rehberim/dashboard.php" class="btn btn-primary btn-lg">
+                        <a href="/genclik-rehberim/ogrencipanel.php" class="btn btn-primary btn-lg">
                             <span class="material-symbols-outlined">bar_chart</span> Panele Git
                         </a>
                     <?php else: ?>
-                        <a href="/genclik-rehberim/register.php" class="btn btn-primary btn-lg">
+                        <a href="/genclik-rehberim/kayitol.php" class="btn btn-primary btn-lg">
                             <span class="material-symbols-outlined">rocket_launch</span> Hemen Başla
                         </a>
-                        <a href="/genclik-rehberim/login.php" class="btn btn-surface btn-lg">
+                        <a href="/genclik-rehberim/girisyap.php" class="btn btn-surface btn-lg">
                             <span class="material-symbols-outlined">play_circle</span> Nasıl Çalışır?
                         </a>
                     <?php endif; ?>
@@ -76,7 +76,7 @@ $leaderboard = getLeaderboard(3);
     </section>
 
     <!-- Oyun kartları bölümü -->
-    <section class="games-section" aria-label="Etkinlikler">
+    <section class="games-section" id="oyunlar" aria-label="Etkinlikler">
         <div class="section-title">
             <h2>Eğlenirken <span>Öğren</span></h2>
             <p>Kendini geliştirmek hiç bu kadar keyifli olmamıştı.</p>
@@ -108,6 +108,56 @@ $leaderboard = getLeaderboard(3);
                         loading="lazy">
                 </div>
                 <a href="/genclik-rehberim/games/bulmaca.php" class="btn btn-primary">
+                    <span class="material-symbols-outlined">play_arrow</span> Oyna
+                </a>
+            </article>
+
+            <!-- Çengel bulmaca -->
+            <article class="game-card card-bulmaca">
+                <div class="game-card-top">
+                    <div class="game-card-icon">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">grid_on</span>
+                    </div>
+                    <span class="game-card-arrow">
+                        <span class="material-symbols-outlined">arrow_outward</span>
+                    </span>
+                </div>
+                <div>
+                    <h3>Çengel Bulmaca</h3>
+                    <p>Aynı 10 soru; solda ipuçları, sağda tahmin. Zorbalıkla başa çıkma ipuçlarını pekiştir.</p>
+                </div>
+                <div class="score-badge">
+                    <span class="material-symbols-outlined">star</span> Max 100 Puan
+                </div>
+                <div class="game-card-preview" style="background:linear-gradient(135deg,var(--secondary-container),var(--secondary));min-height:140px;display:flex;align-items:center;justify-content:center">
+                    <span class="material-symbols-outlined" style="font-size:64px;color:var(--on-secondary);font-variation-settings:'FILL' 1">grid_on</span>
+                </div>
+                <a href="/genclik-rehberim/games/cengelbulmaca.php" class="btn btn-secondary">
+                    <span class="material-symbols-outlined">play_arrow</span> Oyna
+                </a>
+            </article>
+
+            <!-- Wordle -->
+            <article class="game-card" style="border-color:rgba(7,95,171,0.2)">
+                <div class="game-card-top">
+                    <div class="game-card-icon" style="background:linear-gradient(135deg,#5d9cec,#075fab)">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">spellcheck</span>
+                    </div>
+                    <span class="game-card-arrow">
+                        <span class="material-symbols-outlined">arrow_outward</span>
+                    </span>
+                </div>
+                <div>
+                    <h3>Wordle (5 Harf)</h3>
+                    <p>Türkçe harflerle altı denemede kelimeyi bul. Yeşil, sarı ve gri ipuçlarını kullan.</p>
+                </div>
+                <div class="score-badge">
+                    <span class="material-symbols-outlined">star</span> Max 100 Puan
+                </div>
+                <div class="game-card-preview" style="background:linear-gradient(180deg,#0d47a1,#1565c0);min-height:140px;display:flex;align-items:center;justify-content:center">
+                    <span class="material-symbols-outlined" style="font-size:64px;color:#fff;font-variation-settings:'FILL' 1">abc</span>
+                </div>
+                <a href="/genclik-rehberim/games/wordle.php" class="btn btn-primary">
                     <span class="material-symbols-outlined">play_arrow</span> Oyna
                 </a>
             </article>

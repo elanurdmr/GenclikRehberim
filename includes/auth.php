@@ -30,7 +30,7 @@ function isAdmin(): bool {
  */
 function requireLogin(): void {
     if (!isLoggedIn()) {
-        header('Location: /genclik-rehberim/login.php');
+        header('Location: /genclik-rehberim/girisyap.php');
         exit;
     }
 }
@@ -77,9 +77,9 @@ function registerUser(string $username, string $email, string $password): array 
 function loginUser(string $username, string $password): array {
     $db = getDB();
 
-    // Kullanıcıyı bul
-    $stmt = $db->prepare('SELECT * FROM users WHERE username = ?');
-    $stmt->execute([$username]);
+    // Kullanıcı adı veya e-posta ile giriş
+    $stmt = $db->prepare('SELECT * FROM users WHERE username = ? OR email = ?');
+    $stmt->execute([$username, $username]);
     $user = $stmt->fetch();
 
     if (!$user || !password_verify($password, $user['password'])) {
@@ -100,6 +100,6 @@ function loginUser(string $username, string $password): array {
 function logoutUser(): void {
     $_SESSION = [];
     session_destroy();
-    header('Location: /genclik-rehberim/login.php');
+    header('Location: /genclik-rehberim/girisyap.php');
     exit;
 }

@@ -55,6 +55,16 @@ require_once __DIR__ . '/functions.php';
                 </a>
             </li>
             <li>
+                <a href="/genclik-rehberim/games/cengelbulmaca.php">
+                    <span class="material-symbols-outlined">grid_on</span> Çengel
+                </a>
+            </li>
+            <li>
+                <a href="/genclik-rehberim/games/wordle.php">
+                    <span class="material-symbols-outlined">spellcheck</span> Wordle
+                </a>
+            </li>
+            <li>
                 <a href="/genclik-rehberim/games/eslestirme.php">
                     <span class="material-symbols-outlined">join_inner</span> Eşleştirme
                 </a>
@@ -67,8 +77,8 @@ require_once __DIR__ . '/functions.php';
 
             <?php if (isLoggedIn()): ?>
                 <li>
-                    <a href="/genclik-rehberim/dashboard.php">
-                        <span class="material-symbols-outlined">bar_chart</span> Puan Takibi
+                    <a href="/genclik-rehberim/ogrencipanel.php">
+                        <span class="material-symbols-outlined">bar_chart</span> Öğrenci Paneli
                     </a>
                 </li>
                 <?php if (isAdmin()): ?>
@@ -86,12 +96,12 @@ require_once __DIR__ . '/functions.php';
                 </li>
             <?php else: ?>
                 <li>
-                    <a href="/genclik-rehberim/login.php" class="btn-nav-login">
-                        <span class="material-symbols-outlined">login</span> Giriş
+                    <a href="/genclik-rehberim/girisyap.php" class="btn-nav-login">
+                        <span class="material-symbols-outlined">login</span> Giriş Yap
                     </a>
                 </li>
                 <li>
-                    <a href="/genclik-rehberim/register.php" class="btn-nav-register">
+                    <a href="/genclik-rehberim/kayitol.php" class="btn-nav-register">
                         <span class="material-symbols-outlined">person_add</span> Kayıt Ol
                     </a>
                 </li>
