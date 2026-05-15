@@ -6,6 +6,7 @@
  * PDF kaynağı: 1. Etkinlik — 10 soru & cevap
  */
 
+$pageTitle = 'Zorbalık Bulmacası';
 require_once '../includes/header.php';
 
 $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
@@ -98,6 +99,7 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
                 </p>
                 <div class="letter-boxes" data-answer="YARDIM" id="boxes1"></div>
                 <div class="quiz-input-wrap">
+                    <label class="visually-hidden" for="input1">Soru 1 cevap kutusu</label>
                     <input type="text" class="quiz-input" id="input1" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off" aria-label="Soru 1 cevap kutusu">
                     <button class="btn btn-primary" onclick="checkAnswer(1)">
                         <span class="material-symbols-outlined">check</span> Kontrol
@@ -115,6 +117,7 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
                 </p>
                 <div class="letter-boxes" data-answer="YETİŞKİN" id="boxes2"></div>
                 <div class="quiz-input-wrap">
+                    <label class="visually-hidden" for="input2">Soru 2 cevap kutusu</label>
                     <input type="text" class="quiz-input" id="input2" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off" aria-label="Soru 2 cevap kutusu">
                     <button class="btn btn-primary" onclick="checkAnswer(2)">
                         <span class="material-symbols-outlined">check</span> Kontrol
@@ -132,7 +135,8 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
                 </p>
                 <div class="letter-boxes" data-answer="ARAMAK" id="boxes3"></div>
                 <div class="quiz-input-wrap">
-                    <input type="text" class="quiz-input" id="input3" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off">
+                    <label class="visually-hidden" for="input3">Soru 3 cevap kutusu</label>
+                    <input type="text" class="quiz-input" id="input3" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off" aria-label="Soru 3 cevap kutusu">
                     <button class="btn btn-primary" onclick="checkAnswer(3)">
                         <span class="material-symbols-outlined">check</span> Kontrol
                     </button>
@@ -149,7 +153,8 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
                 </p>
                 <div class="letter-boxes" data-answer="DİK" id="boxes4"></div>
                 <div class="quiz-input-wrap">
-                    <input type="text" class="quiz-input" id="input4" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off">
+                    <label class="visually-hidden" for="input4">Soru 4 cevap kutusu</label>
+                    <input type="text" class="quiz-input" id="input4" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off" aria-label="Soru 4 cevap kutusu">
                     <button class="btn btn-primary" onclick="checkAnswer(4)">
                         <span class="material-symbols-outlined">check</span> Kontrol
                     </button>
@@ -166,7 +171,8 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
                 </p>
                 <div class="letter-boxes" data-answer="UZAKLAŞTIRIR" id="boxes5"></div>
                 <div class="quiz-input-wrap">
-                    <input type="text" class="quiz-input" id="input5" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off">
+                    <label class="visually-hidden" for="input5">Soru 5 cevap kutusu</label>
+                    <input type="text" class="quiz-input" id="input5" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off" aria-label="Soru 5 cevap kutusu">
                     <button class="btn btn-primary" onclick="checkAnswer(5)">
                         <span class="material-symbols-outlined">check</span> Kontrol
                     </button>
@@ -183,7 +189,8 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
                 </p>
                 <div class="letter-boxes" data-answer="NEFES" id="boxes6"></div>
                 <div class="quiz-input-wrap">
-                    <input type="text" class="quiz-input" id="input6" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off">
+                    <label class="visually-hidden" for="input6">Soru 6 cevap kutusu</label>
+                    <input type="text" class="quiz-input" id="input6" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off" aria-label="Soru 6 cevap kutusu">
                     <button class="btn btn-primary" onclick="checkAnswer(6)">
                         <span class="material-symbols-outlined">check</span> Kontrol
                     </button>
@@ -200,7 +207,8 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
                 </p>
                 <div class="letter-boxes" data-answer="OLUMLU SÖZ" id="boxes7"></div>
                 <div class="quiz-input-wrap">
-                    <input type="text" class="quiz-input" id="input7" placeholder="Cevabınızı yazın..." maxlength="25" autocomplete="off">
+                    <label class="visually-hidden" for="input7">Soru 7 cevap kutusu</label>
+                    <input type="text" class="quiz-input" id="input7" placeholder="Cevabınızı yazın..." maxlength="25" autocomplete="off" aria-label="Soru 7 cevap kutusu">
                     <button class="btn btn-primary" onclick="checkAnswer(7)">
                         <span class="material-symbols-outlined">check</span> Kontrol
                     </button>
@@ -217,7 +225,8 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
                 </p>
                 <div class="letter-boxes" data-answer="UZAKLAŞIRIZ" id="boxes8"></div>
                 <div class="quiz-input-wrap">
-                    <input type="text" class="quiz-input" id="input8" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off">
+                    <label class="visually-hidden" for="input8">Soru 8 cevap kutusu</label>
+                    <input type="text" class="quiz-input" id="input8" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off" aria-label="Soru 8 cevap kutusu">
                     <button class="btn btn-primary" onclick="checkAnswer(8)">
                         <span class="material-symbols-outlined">check</span> Kontrol
                     </button>
@@ -234,7 +243,8 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
                 </p>
                 <div class="letter-boxes" data-answer="GÜVENLİ YER" id="boxes9"></div>
                 <div class="quiz-input-wrap">
-                    <input type="text" class="quiz-input" id="input9" placeholder="Cevabınızı yazın..." maxlength="25" autocomplete="off">
+                    <label class="visually-hidden" for="input9">Soru 9 cevap kutusu</label>
+                    <input type="text" class="quiz-input" id="input9" placeholder="Cevabınızı yazın..." maxlength="25" autocomplete="off" aria-label="Soru 9 cevap kutusu">
                     <button class="btn btn-primary" onclick="checkAnswer(9)">
                         <span class="material-symbols-outlined">check</span> Kontrol
                     </button>
@@ -251,7 +261,8 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
                 </p>
                 <div class="letter-boxes" data-answer="KALABALIK" id="boxes10"></div>
                 <div class="quiz-input-wrap">
-                    <input type="text" class="quiz-input" id="input10" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off">
+                    <label class="visually-hidden" for="input10">Soru 10 cevap kutusu</label>
+                    <input type="text" class="quiz-input" id="input10" placeholder="Cevabınızı yazın..." maxlength="20" autocomplete="off" aria-label="Soru 10 cevap kutusu">
                     <button class="btn btn-primary" onclick="checkAnswer(10)">
                         <span class="material-symbols-outlined">check</span> Kontrol
                     </button>
@@ -297,179 +308,7 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
     </div>
 </div>
 
-<!-- Bulmaca JavaScript Mantığı -->
-<script>
-/* ===========================================================
-   BULMACA OYUNU — JavaScript
-   10 sorulu kelime tahmin oyunu
-   =========================================================== */
-
-// Doğru cevaplar dizisi (indeks 1'den başlar)
-const ANSWERS = {
-    1:  'YARDIM',
-    2:  'YETİŞKİN',
-    3:  'ARAMAK',
-    4:  'DİK',
-    5:  'UZAKLAŞTIRIR',
-    6:  'NEFES',
-    7:  'OLUMLU SÖZ',
-    8:  'UZAKLAŞIRIZ',
-    9:  'GÜVENLİ YER',
-    10: 'KALABALIK'
-};
-
-const TOTAL_QUESTIONS = 10;
-const POINTS_PER_Q    = 10;
-let score           = 0;
-let answeredCount   = 0;
-let answered        = {};
-
-/* ------ Sayfa yüklenince harf kutularını oluştur ------ */
-document.addEventListener('DOMContentLoaded', function () {
-    for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
-        buildLetterBoxes(i, ANSWERS[i]);
-        document.getElementById('input' + i).addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') checkAnswer(i);
-        });
-    }
-});
-
-function buildLetterBoxes(qNum, answer) {
-    const container = document.getElementById('boxes' + qNum);
-    container.innerHTML = '';
-
-    for (let i = 0; i < answer.length; i++) {
-        if (answer[i] === ' ') {
-            const spacer = document.createElement('div');
-            spacer.className = 'letter-space';
-            container.appendChild(spacer);
-        } else {
-            const box = document.createElement('div');
-            box.className = 'letter-box';
-            box.id = 'box_' + qNum + '_' + i;
-            box.textContent = '_';
-            container.appendChild(box);
-        }
-    }
-}
-
-function normalizeTurkish(str) {
-    return str
-        .toUpperCase()
-        .replace(/i/g, 'İ')
-        .replace(/ı/g, 'I')
-        .trim();
-}
-
-function checkAnswer(qNum) {
-    if (answered[qNum]) return;
-
-    const input      = document.getElementById('input' + qNum);
-    const feedback   = document.getElementById('fb' + qNum);
-    const userAnswer = normalizeTurkish(input.value);
-    const correct    = normalizeTurkish(ANSWERS[qNum]);
-
-    if (!userAnswer) {
-        input.classList.add('shake');
-        setTimeout(() => input.classList.remove('shake'), 500);
-        return;
-    }
-
-    if (userAnswer === correct) {
-        score += POINTS_PER_Q;
-        answered[qNum] = true;
-        answeredCount++;
-        revealLetters(qNum, ANSWERS[qNum], 'revealed');
-        feedback.className  = 'answer-feedback show correct-fb';
-        feedback.innerHTML  = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;">check_circle</span> Harika! Doğru cevap: <strong>' + ANSWERS[qNum] + '</strong>';
-        input.disabled = true;
-        input.parentElement.querySelector('button').disabled = true;
-        updateProgress();
-    } else {
-        revealLetters(qNum, ANSWERS[qNum], 'wrong');
-        feedback.className = 'answer-feedback show wrong-fb';
-        feedback.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;">cancel</span> Yanlış! Doğru cevap: <strong>' + ANSWERS[qNum] + '</strong>';
-        answered[qNum] = true;
-        answeredCount++;
-        input.disabled = true;
-        input.parentElement.querySelector('button').disabled = true;
-        updateProgress();
-    }
-}
-
-function revealLetters(qNum, answer, cssClass) {
-    let boxIdx = 0;
-    for (let i = 0; i < answer.length; i++) {
-        if (answer[i] === ' ') continue;
-        const box = document.getElementById('box_' + qNum + '_' + i);
-        if (box) {
-            (function(b, letter, delay) {
-                setTimeout(function () {
-                    b.textContent = letter;
-                    b.classList.add(cssClass);
-                }, delay);
-            })(box, answer[i], boxIdx * 80);
-            boxIdx++;
-        }
-    }
-}
-
-function updateProgress() {
-    const percent = (answeredCount / TOTAL_QUESTIONS) * 100;
-
-    // İstatistik kutusu
-    document.getElementById('progressText').textContent   = answeredCount + '/' + TOTAL_QUESTIONS;
-    document.getElementById('scoreDisplay').textContent   = score;
-
-    // İlerleme çubuğu
-    document.getElementById('progressBar').style.width    = percent + '%';
-    document.getElementById('progressTextBar').textContent= answeredCount + '/' + TOTAL_QUESTIONS;
-    document.getElementById('scoreDisplayBar').textContent= score;
-
-    if (answeredCount === TOTAL_QUESTIONS) {
-        setTimeout(finishGame, 800);
-    }
-}
-
-function finishGame() {
-    for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
-        if (!answered[i]) {
-            const input    = document.getElementById('input' + i);
-            const feedback = document.getElementById('fb' + i);
-            answered[i]    = true;
-            answeredCount++;
-            revealLetters(i, ANSWERS[i], 'revealed');
-            feedback.className = 'answer-feedback show wrong-fb';
-            feedback.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;">cancel</span> Cevap: <strong>' + ANSWERS[i] + '</strong>';
-            input.disabled = true;
-        }
-    }
-
-    document.getElementById('finalScore').textContent = score;
-
-    const percent = (score / 100) * 100;
-    let emoji = '😔', msg = 'Daha iyi yapabilirsin!';
-    if (percent === 100) { emoji = '🏆'; msg = 'Mükemmel! Hepsini doğru yaptın!'; }
-    else if (percent >= 70) { emoji = '🎉'; msg = 'Harika! Çok iyi bir skor!'; }
-    else if (percent >= 40) { emoji = '👍'; msg = 'İyi iş! Biraz daha çalışabilirsin.'; }
-
-    document.querySelector('.result-emoji').textContent = emoji;
-    document.querySelector('.result-card p').textContent = msg;
-    document.getElementById('resultOverlay').classList.add('show');
-
-    const saveStatus = document.getElementById('saveStatus');
-    saveScore(1, score, 100, function (data) {
-        if (data && data.success) {
-            saveStatus.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
-        } else if (data && data.login_required) {
-            saveStatus.innerHTML = '<a href="/genclik-rehberim/girisyap.php" style="color:var(--primary);font-weight:700">Puanı kaydetmek için giriş yap</a>';
-        }
-    });
-}
-
-function restartGame() {
-    window.location.reload();
-}
-</script>
+<script>window.GAME_CONFIG = {};</script>
+<script src="/genclik-rehberim/assets/js/bulmaca.js"></script>
 
 <?php include '../includes/footer.php'; ?>

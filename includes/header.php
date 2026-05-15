@@ -12,7 +12,7 @@ require_once __DIR__ . '/functions.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gençlik Rehberim | Akran Zorbalığı Farkındalığı</title>
+    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8').' | ' : '' ?>Gençlik Rehberim</title>
 
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,8 +22,13 @@ require_once __DIR__ . '/functions.php';
     <!-- Material Symbols Outlined -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
+    <!-- Temel yardımcı sınıflar -->
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/base.css">
     <!-- Ana stil dosyası -->
     <link rel="stylesheet" href="/genclik-rehberim/assets/css/style.css">
+    <?php if (strpos($_SERVER['PHP_SELF'], '/admin/') !== false): ?>
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/admin.css">
+    <?php endif; ?>
 </head>
 <body>
 

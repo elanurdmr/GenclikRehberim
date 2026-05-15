@@ -6,6 +6,8 @@
 
 require_once __DIR__ . '/includes/auth.php';
 
+$pageTitle = 'Giriş Yap';
+
 if (isLoggedIn()) {
     header('Location: /genclik-rehberim/' . (isAdmin() ? 'admin/index.php' : 'ogrencipanel.php'));
     exit;

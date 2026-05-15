@@ -6,8 +6,15 @@
 
 require_once '../includes/auth.php';
 require_once '../includes/functions.php';
+require_once '../includes/csrf.php';
+
+$pageTitle = 'Kullanıcı Yönetimi';
 
 requireAdmin();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_verify();
+}
 
 $db      = getDB();
 $message = '';
@@ -74,13 +81,13 @@ $users = getAllUsers();
                         <span class="material-symbols-outlined">bar_chart</span> Skorlar
                     </a>
                 </li>
-                <li style="margin-top:1.5rem">
+                <li class="admin-sidebar__nav-item--spaced">
                     <a href="/genclik-rehberim/index.php">
                         <span class="material-symbols-outlined">home</span> Ana Sayfa
                     </a>
                 </li>
                 <li>
-                    <a href="/genclik-rehberim/logout.php" style="color:var(--error)!important">
+                    <a href="/genclik-rehberim/logout.php" class="admin-sidebar__link--danger">
                         <span class="material-symbols-outlined">logout</span> Çıkış
                     </a>
                 </li>
@@ -92,21 +99,21 @@ $users = getAllUsers();
     <section class="admin-content">
 
         <h1 class="admin-page-title">
-            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">groups</span>
+            <span class="material-symbols-outlined icon-fill">groups</span>
             Kullanıcı Yönetimi
         </h1>
 
         <!-- Başarı / Hata mesajları -->
         <?php if ($message): ?>
             <div class="alert alert-success">
-                <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">check_circle</span>
+                <span class="material-symbols-outlined icon-fill icon-sm">check_circle</span>
                 <?= e($message) ?>
             </div>
         <?php endif; ?>
 
         <?php if ($error): ?>
             <div class="alert alert-danger">
-                <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">error</span>
+                <span class="material-symbols-outlined icon-fill icon-sm">error</span>
                 <?= e($error) ?>
             </div>
         <?php endif; ?>
@@ -115,7 +122,7 @@ $users = getAllUsers();
         <div class="card">
             <div class="card-header">
                 <h2>
-                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">format_list_bulleted</span>
+                    <span class="material-symbols-outlined icon-fill">format_list_bulleted</span>
                     Tüm Kullanıcılar
                 </h2>
                 <span class="badge badge-active"><?= count($users) ?> kullanıcı</span>
@@ -144,14 +151,14 @@ $users = getAllUsers();
                     <tbody>
                         <?php foreach ($users as $user): ?>
                         <tr>
-                            <td style="color:var(--on-surface-variant);font-size:0.85rem">#<?= $user['id'] ?></td>
+                            <td class="admin-table__meta--small">#<?= $user['id'] ?></td>
                             <td>
                                 <strong><?= e($user['username']) ?></strong>
                                 <?php if ($user['id'] == $_SESSION['user_id']): ?>
-                                    <span style="color:var(--primary);font-size:0.72rem;font-weight:700;margin-left:4px">(Sen)</span>
+                                    <span class="admin-table__badge--self">(Sen)</span>
                                 <?php endif; ?>
                             </td>
-                            <td style="color:var(--on-surface-variant)"><?= e($user['email']) ?></td>
+                            <td class="admin-table__subtle"><?= e($user['email']) ?></td>
                             <td>
                                 <?php if ($user['role'] === 'admin'): ?>
                                     <span class="badge badge-bulmaca">👑 Admin</span>
@@ -159,21 +166,22 @@ $users = getAllUsers();
                                     <span class="badge badge-success">🎓 Öğrenci</span>
                                 <?php endif; ?>
                             </td>
-                            <td style="font-weight:800;color:var(--primary)"><?= (int)$user['total_score'] ?></td>
+                            <td class="admin-table__value--primary"><?= (int)$user['total_score'] ?></td>
                             <td><?= (int)$user['games_played'] ?></td>
-                            <td style="color:var(--on-surface-variant);font-size:0.85rem">
+                            <td class="admin-table__meta--small">
                                 <?= date('d.m.Y', strtotime($user['created_at'])) ?>
                             </td>
                             <td>
-                                <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
+                                <div class="admin-table__actions">
                                     <?php if ($user['id'] != $_SESSION['user_id']): ?>
 
                                         <!-- Rol değiştirme -->
                                         <form method="POST" style="display:inline">
+                                            <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                                             <input type="hidden" name="action" value="toggle_role">
                                             <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">
                                             <button type="submit" class="btn btn-outline btn-sm" title="Rolü Değiştir">
-                                                <span class="material-symbols-outlined" style="font-size:14px">manage_accounts</span>
+                                                <span class="material-symbols-outlined icon-sm">manage_accounts</span>
                                                 <?= $user['role'] === 'admin' ? 'Öğrenci Yap' : 'Admin Yap' ?>
                                             </button>
                                         </form>
@@ -181,15 +189,16 @@ $users = getAllUsers();
                                         <!-- Silme -->
                                         <form method="POST" style="display:inline"
                                               onsubmit="return confirm('<?= e($user['username']) ?> kullanıcısını silmek istediğinizden emin misiniz?')">
+                                            <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                                             <input type="hidden" name="action" value="delete">
                                             <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">
                                             <button type="submit" class="btn btn-danger btn-sm" title="Kullanıcıyı Sil">
-                                                <span class="material-symbols-outlined" style="font-size:14px">delete</span>
+                                                <span class="material-symbols-outlined icon-sm">delete</span>
                                             </button>
                                         </form>
 
                                     <?php else: ?>
-                                        <span style="color:var(--on-surface-variant);font-size:0.85rem">—</span>
+                                        <span class="admin-table__meta--small">—</span>
                                     <?php endif; ?>
                                 </div>
                             </td>
