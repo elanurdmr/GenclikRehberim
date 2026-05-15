@@ -6,8 +6,15 @@
 
 require_once '../includes/auth.php';
 require_once '../includes/functions.php';
+require_once '../includes/csrf.php';
+
+$pageTitle = 'Skor İzleme';
 
 requireAdmin();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_verify();
+}
 
 $db = getDB();
 
@@ -72,13 +79,13 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                         <span class="material-symbols-outlined">bar_chart</span> Skorlar
                     </a>
                 </li>
-                <li style="margin-top:1.5rem">
+                <li class="admin-sidebar__nav-item--spaced">
                     <a href="/genclik-rehberim/index.php">
                         <span class="material-symbols-outlined">home</span> Ana Sayfa
                     </a>
                 </li>
                 <li>
-                    <a href="/genclik-rehberim/logout.php" style="color:var(--error)!important">
+                    <a href="/genclik-rehberim/logout.php" class="admin-sidebar__link--danger">
                         <span class="material-symbols-outlined">logout</span> Çıkış
                     </a>
                 </li>
@@ -90,7 +97,7 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
     <section class="admin-content">
 
         <h1 class="admin-page-title">
-            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">bar_chart</span>
+            <span class="material-symbols-outlined icon-fill">bar_chart</span>
             Skor İzleme
         </h1>
 
@@ -102,13 +109,13 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                     Filtrele
                 </h2>
             </div>
-            <div style="padding:1.25rem">
-                <form method="GET" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
+            <div class="admin-filter__body">
+                <form method="GET" class="admin-filter__form">
 
                     <!-- Etkinlik türü filtresi -->
-                    <div style="flex:1;min-width:180px">
+                    <div class="admin-filter__field">
                         <label class="form-label">Etkinlik Türü</label>
-                        <select name="type" class="form-control" style="border-radius:10px;cursor:pointer">
+                        <select name="type" class="form-control admin-filter__select">
                             <option value="all"        <?= $filterType==='all'        ?'selected':'' ?>>Tümü</option>
                             <option value="bulmaca"    <?= $filterType==='bulmaca'    ?'selected':'' ?>>Bulmaca</option>
                             <option value="eslestirme" <?= $filterType==='eslestirme' ?'selected':'' ?>>Eşleştirme</option>
@@ -118,13 +125,13 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                     </div>
 
                     <!-- Kullanıcı adı filtresi -->
-                    <div style="flex:1;min-width:180px">
+                    <div class="admin-filter__field">
                         <label class="form-label">Kullanıcı Ara</label>
                         <input type="text" name="user" class="form-control"
                                placeholder="Kullanıcı adı..." value="<?= e($filterUser) ?>">
                     </div>
 
-                    <div style="display:flex;gap:0.5rem;align-items:flex-end">
+                    <div class="admin-filter__actions">
                         <button type="submit" class="btn btn-primary">
                             <span class="material-symbols-outlined">search</span> Filtrele
                         </button>
@@ -138,7 +145,7 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
         </div>
 
         <!-- Mini istatistikler -->
-        <div class="admin-stats-grid" style="margin-bottom:2rem">
+        <div class="admin-stats-grid admin-stats-grid--bottom-spaced">
             <div class="stat-card">
                 <div class="stat-icon purple">
                     <span class="material-symbols-outlined">format_list_numbered</span>
@@ -175,7 +182,7 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                     <span class="material-symbols-outlined">table_view</span>
                     Skor Listesi
                 </h2>
-                <span style="color:var(--on-surface-variant);font-size:0.82rem">(En fazla 200 kayıt)</span>
+                <span class="admin-table__meta">(En fazla 200 kayıt)</span>
             </div>
 
             <?php if (empty($scores)): ?>
@@ -202,15 +209,15 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                         <?php $percent = $row['max_score'] > 0
                             ? round(($row['score'] / $row['max_score']) * 100) : 0; ?>
                         <tr>
-                            <td style="color:var(--on-surface-variant);font-size:0.82rem"><?= $i + 1 ?></td>
+                            <td class="admin-table__meta"><?= $i + 1 ?></td>
                             <td><strong><?= e($row['username']) ?></strong></td>
-                            <td style="color:var(--on-surface-variant)"><?= e($row['activity_name']) ?></td>
+                            <td class="admin-table__subtle"><?= e($row['activity_name']) ?></td>
                             <td>
                                 <span class="badge badge-<?= e($row['type']) ?>">
                                     <?= e($row['type']) ?>
                                 </span>
                             </td>
-                            <td style="font-weight:800;color:var(--primary)">
+                            <td class="admin-table__value--primary">
                                 <?= (int)$row['score'] ?>/<?= (int)$row['max_score'] ?>
                             </td>
                             <td>
@@ -218,12 +225,12 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                                     <div class="progress-track">
                                         <div class="progress-fill" style="width:<?= $percent ?>%"></div>
                                     </div>
-                                    <span style="font-size:0.78rem;font-weight:700;color:var(--on-surface-variant);min-width:34px">
+                                    <span class="admin-table__percent--wide">
                                         <?= $percent ?>%
                                     </span>
                                 </div>
                             </td>
-                            <td style="color:var(--on-surface-variant);font-size:0.82rem">
+                            <td class="admin-table__meta">
                                 <?= date('d.m.Y H:i', strtotime($row['played_at'])) ?>
                             </td>
                         </tr>

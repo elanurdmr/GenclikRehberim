@@ -7,6 +7,8 @@
 require_once 'includes/auth.php';
 require_once 'includes/functions.php';
 
+$pageTitle = 'Ana Sayfa';
+
 // Liderlik tablosunu al (ana sayfa için top 3)
 $leaderboard = getLeaderboard(3);
 ?>
@@ -57,7 +59,7 @@ $leaderboard = getLeaderboard(3);
             <div class="hero-visual" aria-hidden="true">
                 <div class="hero-visual-bg"></div>
                 <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1a12dl0OwJg5B0SZ14DTQlbC8OVnIJn50bWvOZ0H3IBz42j1Ge_qLViey_Fk2XYwRtYQmf7s2nvq4947nod0aO32JM9cS4oIYuUJHcWDYEydT4vcHoeTIJT68CkDGlPE0OZ-0EBGnWxQQ-aTrV6woCV8z2agpWj-VNBymzar-Y2rOyUMsADer6igK8Y8DLON2DWepkBtmyDsLu3MXikvAwgnW0TA-j7jCK25s3Rd7YuaddIn6S5wxVvbb-URo5gnorEwpk4LI3imN"
+                    src="./docs/photos/akranzorbaligi.png"
                     alt="Pozitif enerji dolu öğrenciler"
                     class="hero-image"
                     loading="lazy">

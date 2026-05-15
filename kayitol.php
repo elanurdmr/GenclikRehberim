@@ -6,6 +6,8 @@
 
 require_once __DIR__ . '/includes/auth.php';
 
+$pageTitle = 'Kayıt Ol';
+
 if (isLoggedIn()) {
     header('Location: /genclik-rehberim/ogrencipanel.php');
     exit;

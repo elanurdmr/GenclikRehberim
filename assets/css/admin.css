@@ -1,0 +1,226 @@
+/* =============================================================
+   ADMIN PANELİ — CSS Class'ları
+   Inline style'lardan çıkarılmış BEM benzeri sınıflar
+   ============================================================= */
+
+/* --- Sidebar --- */
+.admin-sidebar__nav-item--spaced {
+    margin-top: 1.5rem;
+}
+
+.admin-sidebar__link--danger {
+    color: var(--error) !important;
+}
+
+/* --- Content header bölgesi --- */
+.admin-content__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.admin-content__header-title {
+    margin-bottom: 0.35rem;
+}
+
+.admin-content__subtitle {
+    color: var(--on-surface-variant);
+    margin: 0;
+    max-width: 440px;
+    font-size: 0.95rem;
+}
+
+.admin-content__actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.admin-content__section--spaced {
+    margin-top: 1.5rem;
+}
+
+/* --- Stat card başlık alanı --- */
+.admin-stat-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* --- Tablo hücreleri --- */
+.admin-table__value {
+    font-weight: 800;
+}
+
+.admin-table__value--primary {
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.admin-table__meta {
+    color: var(--on-surface-variant);
+    font-size: 0.82rem;
+}
+
+.admin-table__meta--small {
+    color: var(--on-surface-variant);
+    font-size: 0.85rem;
+}
+
+.admin-table__subtle {
+    color: var(--on-surface-variant);
+}
+
+.admin-table__percent {
+    font-size: 0.75rem;
+    color: var(--on-surface-variant);
+    font-weight: 700;
+}
+
+.admin-table__percent--wide {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--on-surface-variant);
+    min-width: 34px;
+}
+
+.admin-table__actions {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.admin-table__badge--self {
+    color: var(--primary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-left: 4px;
+}
+
+/* --- Filtre formu --- */
+.admin-filter__body {
+    padding: 1.25rem;
+}
+
+.admin-filter__form {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.admin-filter__field {
+    flex: 1;
+    min-width: 180px;
+}
+
+.admin-filter__select {
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.admin-filter__actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+}
+
+/* --- İstatistik grid içi not --- */
+.admin-stats-grid--bottom-spaced {
+    margin-bottom: 2rem;
+}
+
+/* --- Oyun modülleri --- */
+.admin-modules__grid {
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.admin-modules__card {
+    border: 1px solid var(--outline-variant);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.admin-modules__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: var(--primary-fixed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.admin-modules__icon--secondary {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: var(--secondary-fixed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.admin-modules__icon--tertiary {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: var(--tertiary-fixed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.admin-modules__icon-symbol {
+    font-variation-settings: 'FILL' 1;
+    color: var(--primary);
+    font-size: 26px;
+}
+
+.admin-modules__icon-symbol--secondary {
+    font-variation-settings: 'FILL' 1;
+    color: var(--secondary);
+    font-size: 26px;
+}
+
+.admin-modules__icon-symbol--tertiary {
+    font-variation-settings: 'FILL' 1;
+    color: var(--tertiary);
+    font-size: 26px;
+}
+
+.admin-modules__info {
+    flex: 1;
+}
+
+.admin-modules__name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--on-surface);
+}
+
+.admin-modules__detail {
+    font-size: 0.78rem;
+    color: var(--on-surface-variant);
+}
+
+/* --- İkon yardımcı sınıfı --- */
+.icon-fill {
+    font-variation-settings: 'FILL' 1;
+}
+
+.icon-sm {
+    font-size: 14px;
+}

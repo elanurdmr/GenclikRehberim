@@ -32,8 +32,16 @@ $data = json_decode($body, true);
 
 // Girdi doğrulama
 $activityId = isset($data['activity_id']) ? (int)$data['activity_id'] : 0;
-$score      = isset($data['score'])       ? (int)$data['score']       : 0;
-$maxScore   = isset($data['max_score'])   ? (int)$data['max_score']   : 100;
+
+$rateKey = 'last_save_' . $activityId;
+if (isset($_SESSION[$rateKey]) && time() - $_SESSION[$rateKey] < 3) {
+    http_response_code(429);
+    echo json_encode(['success' => false, 'message' => 'Çok hızlı istek.']);
+    exit;
+}
+$_SESSION[$rateKey] = time();
+
+$score = isset($data['score']) ? (int)$data['score'] : 0;
 
 // Değerlerin geçerli aralıkta olduğunu kontrol et
 if ($activityId < 1 || $activityId > 4) {
@@ -41,7 +49,19 @@ if ($activityId < 1 || $activityId > 4) {
     exit;
 }
 
-if ($score < 0 || $maxScore < 1 || $score > $maxScore || $maxScore > 500) {
+// max_score veritabanından okunur (client verisi kullanılmaz)
+$db = getDB();
+$actStmt = $db->prepare('SELECT max_score FROM activities WHERE id = ?');
+$actStmt->execute([$activityId]);
+$activity = $actStmt->fetch();
+
+if (!$activity) {
+    echo json_encode(['success' => false, 'message' => 'Etkinlik bulunamadı.']);
+    exit;
+}
+$maxScore = (int)$activity['max_score'];
+
+if ($score < 0 || $score > $maxScore) {
     echo json_encode(['success' => false, 'message' => 'Geçersiz puan değeri.']);
     exit;
 }

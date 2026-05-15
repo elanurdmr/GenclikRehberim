@@ -7,6 +7,8 @@
 require_once '../includes/auth.php';
 require_once '../includes/functions.php';
 
+$pageTitle = 'Yönetim Paneli';
+
 // Yalnızca adminler erişebilir
 requireAdmin();
 
@@ -44,13 +46,13 @@ $recentScores = array_slice($recentScores, 0, 5);
                         <span class="material-symbols-outlined">bar_chart</span> Skorlar
                     </a>
                 </li>
-                <li style="margin-top:1.5rem">
+                <li class="admin-sidebar__nav-item--spaced">
                     <a href="/genclik-rehberim/index.php">
                         <span class="material-symbols-outlined">home</span> Ana Sayfa
                     </a>
                 </li>
                 <li>
-                    <a href="/genclik-rehberim/logout.php" style="color:var(--error)!important">
+                    <a href="/genclik-rehberim/logout.php" class="admin-sidebar__link--danger">
                         <span class="material-symbols-outlined">logout</span> Çıkış
                     </a>
                 </li>
@@ -62,17 +64,17 @@ $recentScores = array_slice($recentScores, 0, 5);
     <section class="admin-content">
 
         <!-- Sayfa başlığı + eylem butonları -->
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem">
+        <div class="admin-content__header">
             <div>
-                <h1 class="admin-page-title" style="margin-bottom:0.35rem">
-                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">dashboard</span>
+                <h1 class="admin-page-title admin-content__header-title">
+                    <span class="material-symbols-outlined icon-fill">dashboard</span>
                     Yönetim Paneli
                 </h1>
-                <p class="text-body-base" style="color:var(--on-surface-variant);margin:0;max-width:440px;font-size:0.95rem">
+                <p class="text-body-base admin-content__subtitle">
                     Öğrenci etkinlikleri, skorlar ve kullanıcıların genel görünümü. Veriler <strong>PDO / MariaDB</strong> ile güncellenir.
                 </p>
             </div>
-            <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+            <div class="admin-content__actions">
                 <a href="/genclik-rehberim/admin/scores.php" class="btn btn-surface btn-sm">
                     <span class="material-symbols-outlined">download</span> Tüm Skorlar
                 </a>
@@ -86,7 +88,7 @@ $recentScores = array_slice($recentScores, 0, 5);
         <div class="admin-stats-grid">
 
             <div class="stat-card">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="admin-stat-card__header">
                     <div class="stat-icon purple">
                         <span class="material-symbols-outlined">groups</span>
                     </div>
@@ -101,7 +103,7 @@ $recentScores = array_slice($recentScores, 0, 5);
             </div>
 
             <div class="stat-card">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="admin-stat-card__header">
                     <div class="stat-icon pink">
                         <span class="material-symbols-outlined">sports_esports</span>
                     </div>
@@ -116,7 +118,7 @@ $recentScores = array_slice($recentScores, 0, 5);
             </div>
 
             <div class="stat-card">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="admin-stat-card__header">
                     <div class="stat-icon green">
                         <span class="material-symbols-outlined">leaderboard</span>
                     </div>
@@ -131,7 +133,7 @@ $recentScores = array_slice($recentScores, 0, 5);
             </div>
 
             <div class="stat-card">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                <div class="admin-stat-card__header">
                     <div class="stat-icon yellow">
                         <span class="material-symbols-outlined">extension</span>
                     </div>
@@ -154,7 +156,7 @@ $recentScores = array_slice($recentScores, 0, 5);
             <div class="card">
                 <div class="card-header">
                     <h2>
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">leaderboard</span>
+                        <span class="material-symbols-outlined icon-fill">leaderboard</span>
                         Liderlik Tablosu
                     </h2>
                     <a href="/genclik-rehberim/admin/scores.php" class="btn btn-outline btn-sm">Tümünü Gör</a>
@@ -185,7 +187,7 @@ $recentScores = array_slice($recentScores, 0, 5);
                                 </td>
                                 <td><strong><?= e($leader['username']) ?></strong></td>
                                 <td>
-                                    <span style="color:var(--primary);font-weight:800"><?= (int)$leader['total_score'] ?></span>
+                                    <span class="admin-table__value--primary"><?= (int)$leader['total_score'] ?></span>
                                 </td>
                                 <td><?= (int)$leader['games_played'] ?></td>
                             </tr>
@@ -200,7 +202,7 @@ $recentScores = array_slice($recentScores, 0, 5);
             <div class="card">
                 <div class="card-header">
                     <h2>
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">history</span>
+                        <span class="material-symbols-outlined icon-fill">history</span>
                         Son Aktiviteler
                     </h2>
                     <a href="/genclik-rehberim/admin/scores.php" class="btn btn-outline btn-sm">Tümünü Gör</a>
@@ -230,7 +232,7 @@ $recentScores = array_slice($recentScores, 0, 5);
                                         <?= e($row['activity_name']) ?>
                                     </span>
                                 </td>
-                                <td style="font-weight:800">
+                                <td class="admin-table__value">
                                     <?= (int)$row['score'] ?>/<?= (int)$row['max_score'] ?>
                                 </td>
                                 <td>
@@ -241,7 +243,7 @@ $recentScores = array_slice($recentScores, 0, 5);
                                         <div class="progress-track">
                                             <div class="progress-fill" style="width:<?= min(100,(int)$pct) ?>%"></div>
                                         </div>
-                                        <span style="font-size:0.75rem;color:var(--on-surface-variant);font-weight:700"><?= (int)$pct ?>%</span>
+                                        <span class="admin-table__percent"><?= (int)$pct ?>%</span>
                                     </div>
                                 </td>
                             </tr>
@@ -254,46 +256,46 @@ $recentScores = array_slice($recentScores, 0, 5);
 
         </div>
 
-        <!-- Oyun Modülleri (Tasarımdan ilham alınmış) -->
-        <div class="card" style="margin-top:1.5rem">
+        <!-- Oyun Modülleri -->
+        <div class="card admin-content__section--spaced">
             <div class="card-header">
                 <h2>
-                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">sports_esports</span>
+                    <span class="material-symbols-outlined icon-fill">sports_esports</span>
                     Oyun Modülleri
                 </h2>
                 <span class="badge badge-success">3 Aktif</span>
             </div>
-            <div style="padding:1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem">
+            <div class="admin-modules__grid">
                 <!-- Bulmaca -->
-                <div style="border:1px solid var(--outline-variant);border-radius:12px;padding:1rem;display:flex;gap:1rem;align-items:center">
-                    <div style="width:52px;height:52px;border-radius:12px;background:var(--primary-fixed);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:var(--primary);font-size:26px">extension</span>
+                <div class="admin-modules__card">
+                    <div class="admin-modules__icon">
+                        <span class="material-symbols-outlined admin-modules__icon-symbol">extension</span>
                     </div>
-                    <div style="flex:1">
-                        <div style="font-weight:700;font-size:0.9rem;color:var(--on-surface)">Bulmaca</div>
-                        <div style="font-size:0.78rem;color:var(--on-surface-variant)">10 Soru · 100 Puan</div>
+                    <div class="admin-modules__info">
+                        <div class="admin-modules__name">Bulmaca</div>
+                        <div class="admin-modules__detail">10 Soru · 100 Puan</div>
                     </div>
                     <span class="badge badge-success">Aktif</span>
                 </div>
                 <!-- Eşleştirme -->
-                <div style="border:1px solid var(--outline-variant);border-radius:12px;padding:1rem;display:flex;gap:1rem;align-items:center">
-                    <div style="width:52px;height:52px;border-radius:12px;background:var(--secondary-fixed);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:var(--secondary);font-size:26px">join_inner</span>
+                <div class="admin-modules__card">
+                    <div class="admin-modules__icon--secondary">
+                        <span class="material-symbols-outlined admin-modules__icon-symbol--secondary">join_inner</span>
                     </div>
-                    <div style="flex:1">
-                        <div style="font-weight:700;font-size:0.9rem;color:var(--on-surface)">Eşleştirme</div>
-                        <div style="font-size:0.78rem;color:var(--on-surface-variant)">14 Kart · 140 Puan</div>
+                    <div class="admin-modules__info">
+                        <div class="admin-modules__name">Eşleştirme</div>
+                        <div class="admin-modules__detail">14 Kart · 140 Puan</div>
                     </div>
                     <span class="badge badge-success">Aktif</span>
                 </div>
                 <!-- Kategori -->
-                <div style="border:1px solid var(--outline-variant);border-radius:12px;padding:1rem;display:flex;gap:1rem;align-items:center">
-                    <div style="width:52px;height:52px;border-radius:12px;background:var(--tertiary-fixed);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:var(--tertiary);font-size:26px">category</span>
+                <div class="admin-modules__card">
+                    <div class="admin-modules__icon--tertiary">
+                        <span class="material-symbols-outlined admin-modules__icon-symbol--tertiary">category</span>
                     </div>
-                    <div style="flex:1">
-                        <div style="font-weight:700;font-size:0.9rem;color:var(--on-surface)">Kategori</div>
-                        <div style="font-size:0.78rem;color:var(--on-surface-variant)">17 Kelime · 170 Puan</div>
+                    <div class="admin-modules__info">
+                        <div class="admin-modules__name">Kategori</div>
+                        <div class="admin-modules__detail">17 Kelime · 170 Puan</div>
                     </div>
                     <span class="badge badge-success">Aktif</span>
                 </div>
