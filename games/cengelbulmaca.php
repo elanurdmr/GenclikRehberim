@@ -88,7 +88,7 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
                 </div>
                 <h1 class="cengel-title text-display-lg">Kare Bulmaca</h1>
                 <p class="cengel-lead text-body-base">
-                    Hücreye tıkla ve yaz. <kbd class="crossword-kbd">Boşluk</kbd> tuşu veya düğme ile yönü değiştir.
+                    Hücreye tıkla, yön otomatik seçilir. Aynı hücreye tekrar tıkla veya <kbd class="crossword-kbd">Boşluk</kbd> ile yönü değiştir.
                     <?php if ($secretWord !== ''): ?>
                     <strong style="color:var(--tertiary)">🌟 Gizli kelimeyi bul!</strong>
                     <?php endif; ?>

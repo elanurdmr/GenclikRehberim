@@ -55,6 +55,7 @@ require_once __DIR__ . '/functions.php';
 <body>
 
 <!-- ===== ANA HEADER / NAVİGASYON ===== -->
+<?php $hideNav = $hideNav ?? false; if (!$hideNav): ?>
 <header class="site-header">
     <nav class="navbar" aria-label="Ana navigasyon">
 
@@ -132,3 +133,4 @@ require_once __DIR__ . '/functions.php';
     </nav>
 </header>
 <!-- ===== HEADER SONU ===== -->
+<?php endif; /* !$hideNav */
