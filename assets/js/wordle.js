@@ -9,11 +9,16 @@
     const WORDS = [
         'DURUM', 'CESUR', 'SAYGI', 'OLMAK', 'GEREK', 'FARKI', 'BIRAK', 'İÇSEL', 'ORTAK', 'GÜVEN',
         'KORUN', 'DENGE', 'DOĞRU', 'YALAN', 'SINIR', 'ÖZGÜR', 'SAVUN', 'ÇÖZÜM', 'KONUŞ',
-        'DİNLE', 'HELAL', 'NAMUS', 'HAKLI', 'BARIŞ', 'ÖRNEK', 'GÜÇLÜ', 'MERAK', 'ÖZGÜN', 'İLETİ', 'UYGUN'
+        'DİNLE', 'HELAL', 'NAMUS', 'HAKLI', 'BARIŞ', 'ÖRNEK', 'GÜÇLÜ', 'MERAK', 'ÖZGÜN', 'İLETİ', 'UYGUN',
+        'DUYGU', 'SABIR', 'SEVGİ', 'HAYIR', 'KURAL', 'DÜZEN', 'AHLAK', 'HUZUR', 'DEĞER', 'TEMİZ',
+        'BÜYÜK', 'KÜÇÜK', 'ZAMAN', 'KİTAP', 'İNSAN', 'KOMŞU', 'NEDEN', 'KİMSE', 'SANAT', 'MÜZİK',
+        'SEVEN', 'GÜLER', 'SÖYLE', 'DÜŞÜN', 'KOLAY', 'GÜZEL', 'KALEM', 'HAYAL', 'HEDEF', 'KAZAN',
+        'YETKİ', 'FİKİR', 'CANLI', 'HAYAT', 'YAŞAM', 'NEFES', 'TEPKİ', 'DERİN', 'DALGA', 'SORUN',
+        'MORAL', 'MUTLU', 'ÜZGÜN', 'SEVİN', 'YÜREK', 'ÇEVRE', 'TAKİP', 'ZARAR', 'KORKU', 'MESAJ',
+        'ŞÜKÜR', 'DOĞAL', 'TATLI', 'ŞARKI', 'ÇİÇEK', 'SOĞUK', 'SICAK', 'BÜTÜN', 'PAYDA', 'UZMAN'
     ];
 
-    const WORD_SET = new Set(WORDS);
-    const ROWS = 6;
+    const ROWS = 8;
     const COLS = 5;
 
     function hashDay(str) {
@@ -157,10 +162,6 @@
         let guess = '';
         for (let c = 0; c < COLS; c++) {
             guess += board[row][c].textContent;
-        }
-        if (!WORD_SET.has(guess)) {
-            setMessage('Liste dışı kelime. Farklı bir kelime dene.');
-            return;
         }
         setMessage('');
 

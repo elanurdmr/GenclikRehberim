@@ -308,7 +308,6 @@ $cengelMode = !empty($GLOBALS['genclik_cengel_bulmaca']);
     </div>
 </div>
 
-<script>window.GAME_CONFIG = {};</script>
 <script src="/genclik-rehberim/assets/js/bulmaca.js"></script>
 
 <?php include '../includes/footer.php'; ?>

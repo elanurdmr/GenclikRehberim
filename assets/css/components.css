@@ -1,0 +1,243 @@
+/* ============================================================
+   components.css — Gençlik Rehberim | UI Bileşenleri
+   Butonlar, Kartlar, Tablolar, Badge, Alert, Progress
+   ============================================================ */
+
+/* ============================================================
+   5. BUTONLAR
+   ============================================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-family: var(--font);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--on-primary);
+    border-bottom: 3px solid var(--on-primary-fixed-variant);
+}
+.btn-primary:hover { background: #004d8f; }
+.btn-primary:active { border-bottom-width: 0; transform: translateY(3px); }
+
+.btn-secondary {
+    background: var(--secondary);
+    color: var(--on-secondary);
+    border-bottom: 3px solid var(--on-secondary-fixed-variant);
+}
+.btn-secondary:hover { background: #2d5300; }
+.btn-secondary:active { border-bottom-width: 0; transform: translateY(3px); }
+
+.btn-success {
+    background: var(--secondary);
+    color: var(--on-secondary);
+    border-bottom: 3px solid var(--on-secondary-fixed-variant);
+}
+.btn-success:hover { background: #2d5300; }
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--outline-variant);
+}
+.btn-outline:hover {
+    background: var(--surface-container-low);
+    border-color: var(--primary);
+}
+
+.btn-surface {
+    background: var(--surface-container);
+    color: var(--on-surface);
+    border-bottom: 3px solid var(--surface-variant);
+}
+.btn-surface:hover { background: var(--surface-container-high); }
+
+.btn-danger {
+    background: var(--error);
+    color: var(--on-error);
+    border-bottom: 3px solid var(--on-error-container);
+}
+.btn-danger:hover { background: #9b1515; }
+.btn-danger:active { border-bottom-width: 0; transform: translateY(3px); }
+
+.btn-sm  { padding: 0.45rem 1rem; font-size: 0.85rem; }
+.btn-lg  { padding: 1rem 2.25rem; font-size: 1.1rem; }
+
+/* Nav butonları */
+.btn-nav-login {
+    color: var(--primary) !important;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+.btn-nav-login:hover { background: var(--surface-container-low); }
+
+.btn-nav-register {
+    background: var(--primary);
+    color: var(--on-primary) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--on-primary-fixed-variant);
+    transition: var(--transition);
+}
+.btn-nav-register:hover { background: #004d8f; }
+
+.btn-nav-logout {
+    background: var(--error-container);
+    color: var(--on-error-container) !important;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: var(--transition);
+}
+.btn-nav-logout:hover { background: #ffc2be; }
+
+.btn-block { width: 100%; justify-content: center; }
+
+/* ============================================================
+   8. KART BİLEŞENİ
+   ============================================================ */
+.card {
+    background: var(--surface-container-lowest);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(193,199,211,0.35);
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--surface-variant);
+    background: var(--surface-bright);
+}
+.card-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+.card-header h2 .material-symbols-outlined {
+    font-size: 20px;
+    font-variation-settings: 'FILL' 1;
+    color: var(--primary);
+}
+
+/* ============================================================
+   ALERT
+   ============================================================ */
+.alert {
+    padding: 0.9rem 1.1rem;
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.alert-danger  { background: var(--error-container); color: var(--on-error-container); border: 1px solid #ffb4ab; }
+.alert-success { background: #d1f5d0; color: #1a4d00; border: 1px solid #a1fa49; }
+
+/* ============================================================
+   15. TABLOLAR
+   ============================================================ */
+.table-wrap { overflow-x: auto; }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+thead tr {
+    background: var(--surface-container-low);
+    border-bottom: 1px solid var(--surface-variant);
+}
+thead th {
+    padding: 0.9rem 1.1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--on-surface-variant);
+}
+tbody tr {
+    border-bottom: 1px solid var(--surface-variant);
+    transition: var(--transition);
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface-container-low); }
+tbody td {
+    padding: 0.9rem 1.1rem;
+    font-size: 0.9rem;
+    color: var(--on-surface);
+}
+
+/* Badge */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+.badge-bulmaca   { background: var(--primary-fixed); color: var(--on-primary-fixed); }
+.badge-eslestirme{ background: var(--secondary-fixed); color: var(--on-secondary-fixed); }
+.badge-kategori  { background: var(--tertiary-fixed); color: var(--on-tertiary-fixed); }
+.badge-success   { background: var(--secondary-fixed); color: var(--on-secondary-fixed); }
+.badge-warning   { background: var(--tertiary-fixed); color: var(--on-tertiary-fixed); }
+.badge-danger    { background: var(--error-container); color: var(--on-error-container); }
+.badge-active    { background: var(--secondary-fixed); color: var(--on-secondary-fixed); }
+
+/* Progress bar (tablo içi) */
+.progress-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.progress-track {
+    width: 96px;
+    height: 6px;
+    background: var(--surface-variant);
+    border-radius: 9999px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    background: var(--secondary);
+    transition: width 0.6s ease;
+}
+
+/* Boş durum */
+.empty-state {
+    padding: 3rem;
+    text-align: center;
+    color: var(--on-surface-variant);
+}
+.empty-state .material-symbols-outlined {
+    font-size: 48px;
+    display: block;
+    margin: 0 auto 0.75rem;
+    opacity: 0.4;
+}
+.empty-state p { font-size: 0.95rem; }

@@ -36,7 +36,7 @@ function crossword_fetch_bank(): array
     $out = [];
     foreach ($rows as $r) {
         $len = mb_strlen(crossword_normalize_answer((string)$r['answer']), 'UTF-8');
-        if ($len < 3 || $len > 16) {
+        if ($len < 3 || $len > 8) {
             continue;
         }
         $out[] = [
@@ -78,8 +78,8 @@ function crossword_seeded_shuffle(array $items, string $seed): array
 function crossword_attempt_generate(array $bank, array $clueByAnswer, string $shuffleKey): ?array
 {
     $shuffled = crossword_seeded_shuffle($bank, $shuffleKey);
-    foreach ([12, 10, 9, 8, 7, 6] as $maxW) {
-        $gen = crossword_generate($shuffled, 19, 19, $maxW);
+    foreach ([8, 7, 6, 5] as $maxW) {
+        $gen = crossword_generate($shuffled, 12, 12, $maxW);
         if ($gen === null) {
             continue;
         }
@@ -111,6 +111,7 @@ function crossword_attempt_generate(array $bank, array $clueByAnswer, string $sh
             'width' => $trimPack['cols'],
             'placed' => $gen['placed'],
             'pointsPerWord' => $pointsPer,
+            'maxScore' => $totalClues * $pointsPer,
         ];
     }
 
@@ -123,12 +124,36 @@ function crossword_attempt_generate(array $bank, array $clueByAnswer, string $sh
 function crossword_embedded_fallback_bank(): array
 {
     return [
-        ['id' => 1, 'clue' => 'Zorbalık olunca ne istemeliyiz?', 'answer' => 'YARDIM'],
-        ['id' => 2, 'clue' => 'Zorba karşısında nasıl durmalıyız?', 'answer' => 'DİK'],
-        ['id' => 3, 'clue' => 'Yardım bulamazsak ne yapmaya devam etmeliyiz?', 'answer' => 'ARAMAK'],
-        ['id' => 4, 'clue' => 'Korkunca sakinleşmek için ne alıp veririz?', 'answer' => 'NEFES'],
-        ['id' => 5, 'clue' => 'Kendini karşıdakinin yerine koymak.', 'answer' => 'EMPATİ'],
-        ['id' => 6, 'clue' => 'Yaşadığımız olayı kime anlatırız?', 'answer' => 'YETİŞKİN'],
+        ['id' =>  1, 'clue' => 'Zorbalık olunca ne istemeliyiz?',                              'answer' => 'YARDIM'],
+        ['id' =>  2, 'clue' => 'Zorba karşısında nasıl durmalıyız?',                           'answer' => 'DİK'],
+        ['id' =>  3, 'clue' => 'Yardım bulamazsak ne yapmaya devam etmeliyiz?',               'answer' => 'ARAMAK'],
+        ['id' =>  4, 'clue' => 'Korkunca sakinleşmek için ne alıp veririz?',                  'answer' => 'NEFES'],
+        ['id' =>  5, 'clue' => 'Kendini karşıdakinin yerine koymak.',                          'answer' => 'EMPATİ'],
+        ['id' =>  6, 'clue' => 'Yaşadığımız olayı kime anlatırız?',                           'answer' => 'YETİŞKİN'],
+        ['id' =>  7, 'clue' => 'Zorluklara göğüs gerebilen, korkusuz.',                       'answer' => 'CESUR'],
+        ['id' =>  8, 'clue' => 'Birine inanma ve kendini güvende hissetme duygusu.',          'answer' => 'GÜVEN'],
+        ['id' =>  9, 'clue' => 'Arkadaşına yardım edip yanında durma.',                       'answer' => 'DESTEK'],
+        ['id' => 10, 'clue' => 'Birini değerli görme, itibar etme.',                          'answer' => 'SAYGI'],
+        ['id' => 11, 'clue' => 'Birine karşı duyulan sıcak ve güçlü his.',                   'answer' => 'SEVGİ'],
+        ['id' => 12, 'clue' => 'Huzurlu ve neşeli olmak.',                                    'answer' => 'MUTLU'],
+        ['id' => 13, 'clue' => 'Güzel şeylerin olacağına inanmak.',                           'answer' => 'UMUT'],
+        ['id' => 14, 'clue' => 'Herkese hakkını vererek eşit davranmak.',                     'answer' => 'ADALET'],
+        ['id' => 15, 'clue' => 'İki kişi arasındaki özel ve güçlü bağ.',                     'answer' => 'DOSTLUK'],
+        ['id' => 16, 'clue' => 'Sahip olduklarını başkasıyla bölmek.',                        'answer' => 'PAYLAŞ'],
+        ['id' => 17, 'clue' => 'Birini tehlikeden saklamak veya kollamak.',                   'answer' => 'KORUMA'],
+        ['id' => 18, 'clue' => 'Başkalarına değer veren, nezaket gösteren.',                  'answer' => 'SAYGILI'],
+        ['id' => 19, 'clue' => 'Yalan söylemeyen, açık sözlü davranan.',                      'answer' => 'DÜRÜST'],
+        ['id' => 20, 'clue' => 'Zorlukların üstesinden gelebilen.',                           'answer' => 'GÜÇLÜ'],
+        ['id' => 21, 'clue' => 'Öğrenimin yapıldığı kurum.',                                  'answer' => 'OKUL'],
+        ['id' => 22, 'clue' => 'Uyulması gereken davranış ilkesi.',                           'answer' => 'KURAL'],
+        ['id' => 23, 'clue' => 'Kimsesi olmadan tek başına kalan.',                           'answer' => 'YALNIZ'],
+        ['id' => 24, 'clue' => 'Birlikte vakit geçirilen, güvenilen yakın kişi.',             'answer' => 'ARKADAŞ'],
+        ['id' => 25, 'clue' => 'Sınıfta ders anlatan yetişkin.',                              'answer' => 'ÖĞRETMEN'],
+        ['id' => 26, 'clue' => 'Bir grubun içinde bulunmak, ait hissetmek.',                 'answer' => 'KATILIM'],
+        ['id' => 27, 'clue' => 'Zorbalığı büyüklere haber vermek.',                           'answer' => 'BİLDİRME'],
+        ['id' => 28, 'clue' => '"Başarabilirim" gibi pozitif iç ses.',                        'answer' => 'ÖZGÜVEN'],
+        ['id' => 29, 'clue' => 'Birinin haklarını çiğnemek, zarar vermek.',                   'answer' => 'ZORBALIK'],
+        ['id' => 30, 'clue' => 'Bir sorunu birlikte çözmek için işbirliği yapmak.',           'answer' => 'DAYANIŞMA'],
     ];
 }
 
@@ -160,9 +185,15 @@ function crossword_build_puzzle(string $dateSeed): ?array
     foreach ([$dateSeed, $dateSeed . '_b', $dateSeed . '_c'] as $trySeed) {
         $r = crossword_attempt_generate($bank, $clueByAnswer, $trySeed);
         if ($r !== null) {
+            $allClues = array_merge($r['acrossList'], $r['downList']);
+            usort($allClues, static fn ($a, $b) => mb_strlen($b['word'], 'UTF-8') <=> mb_strlen($a['word'], 'UTF-8'));
+            $secretEntry = $allClues[0] ?? null;
+
             return array_merge($r, [
                 'seed' => $dateSeed,
                 'shuffleKey' => $trySeed,
+                'secretWord' => $secretEntry ? $secretEntry['word'] : '',
+                'secretClue' => $secretEntry ? $secretEntry['clue'] : '',
             ]);
         }
     }
