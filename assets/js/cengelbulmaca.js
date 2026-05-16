@@ -9,10 +9,11 @@
     var acrossByN = CFG.across;
     var downByN   = CFG.down;
 
-    var activeAcross   = true;
-    var earned         = 0;
-    var scoreSaved     = false;
-    var completedWords = {};
+    var activeAcross    = true;
+    var earned          = 0;
+    var scoreSaved      = false;
+    var completedWords  = {};
+    var lastClickedKey  = null; /* son tıklanan hücre 'r_c' */
 
     /* Gizli kelime: hangi clue? */
     var secretN   = null;
@@ -323,6 +324,33 @@
     /* -------- Olay dinleyicileri -------- */
 
     document.querySelectorAll('.crossword-cell-input').forEach(function (inp) {
+        /* Otomatik yön tespiti: tıklandığında mevcut hücrenin
+           hangi yönlerde ipucu içerdiğine bakarak yönü belirler.
+           Aynı hücreye ikinci kez tıklanırsa yön değişir. */
+        inp.addEventListener('mousedown', function () {
+            var r   = parseInt(inp.getAttribute('data-r'), 10);
+            var c   = parseInt(inp.getAttribute('data-c'), 10);
+            var key = r + '_' + c;
+
+            var acrossN = clueNumAt(r, c, true);
+            var downN   = clueNumAt(r, c, false);
+            var hasA    = acrossN && acrossByN[String(acrossN)];
+            var hasD    = downN   && downByN[String(downN)];
+
+            if (hasA && !hasD) {
+                activeAcross = true;
+            } else if (!hasA && hasD) {
+                activeAcross = false;
+            } else if (hasA && hasD) {
+                if (lastClickedKey === key) {
+                    activeAcross = !activeAcross;
+                }
+            }
+
+            lastClickedKey = key;
+            updateDirLabel();
+        });
+
         inp.addEventListener('focus', function () {
             focusMeta(
                 parseInt(inp.getAttribute('data-r'), 10),

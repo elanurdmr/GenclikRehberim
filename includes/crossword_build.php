@@ -78,8 +78,8 @@ function crossword_seeded_shuffle(array $items, string $seed): array
 function crossword_attempt_generate(array $bank, array $clueByAnswer, string $shuffleKey): ?array
 {
     $shuffled = crossword_seeded_shuffle($bank, $shuffleKey);
-    foreach ([8, 7, 6, 5] as $maxW) {
-        $gen = crossword_generate($shuffled, 12, 12, $maxW);
+    foreach ([12, 10, 9, 8, 7, 6, 5] as $maxW) {
+        $gen = crossword_generate($shuffled, 15, 15, $maxW);
         if ($gen === null) {
             continue;
         }
@@ -153,7 +153,7 @@ function crossword_embedded_fallback_bank(): array
         ['id' => 27, 'clue' => 'Zorbalığı büyüklere haber vermek.',                           'answer' => 'BİLDİRME'],
         ['id' => 28, 'clue' => '"Başarabilirim" gibi pozitif iç ses.',                        'answer' => 'ÖZGÜVEN'],
         ['id' => 29, 'clue' => 'Birinin haklarını çiğnemek, zarar vermek.',                   'answer' => 'ZORBALIK'],
-        ['id' => 30, 'clue' => 'Bir sorunu birlikte çözmek için işbirliği yapmak.',           'answer' => 'DAYANIŞMA'],
+        ['id' => 30, 'clue' => 'Kavga etmeden, uyum içinde yaşayan.',                         'answer' => 'BARIŞÇIL'],
     ];
 }
 
