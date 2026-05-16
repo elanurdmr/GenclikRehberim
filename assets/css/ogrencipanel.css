@@ -1,0 +1,167 @@
+/* ============================================================
+   ogrencipanel.css — Öğrenci Paneli Stilleri
+   ogrencipanel.php sayfası için
+   ============================================================ */
+
+/* ============================================================
+   ÖĞRENCİ PANELİ BENTO
+   ============================================================ */
+.student-dashboard { padding: 1.5rem 1rem 6rem; max-width: 1200px; margin: 0 auto; }
+.student-dash-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+@media (min-width: 768px) {
+    .student-dash-header { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+}
+.student-xp-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface-container);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: var(--shadow-card);
+}
+.student-bento {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+@media (min-width: 768px) {
+    .student-bento { grid-template-columns: 2fr 1fr; }
+}
+.student-card-bento {
+    background: var(--surface-container-lowest);
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(7,95,171,0.08);
+}
+.student-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+}
+.student-badge-item {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 0.85rem;
+    text-align: center;
+    border: 1px solid var(--outline-variant);
+    transition: var(--transition);
+}
+.student-badge-item:hover { box-shadow: var(--shadow-card); }
+.student-badge-item.locked { opacity: 0.55; }
+.student-badge-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.5rem;
+}
+.student-jump-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+@media (min-width: 768px) {
+    .student-jump-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.student-jump-card {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition: var(--transition);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+.student-jump-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-ambient-hover); }
+.student-jump-visual {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.student-jump-visual .material-symbols-outlined { font-size: 48px; color: rgba(255,255,255,0.92); }
+.student-jump-body {
+    background: var(--surface-container-lowest);
+    padding: 1rem;
+    border: 1px solid var(--outline-variant);
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+}
+.student-jump-body h3 { font-size: 0.95rem; font-weight: 800; margin-bottom: 0.35rem; }
+.student-jump-bar { height: 6px; background: var(--surface-variant); border-radius: 99px; overflow: hidden; margin-top: 0.5rem; }
+.student-jump-bar > div { height: 100%; border-radius: 99px; }
+
+/* ============================================================
+   DASHBOARD — Özet İstatistik Kartları
+   ============================================================ */
+.dashboard-page { padding: 2rem 1.5rem; max-width: 1280px; margin: 0 auto; }
+.dashboard-header { margin-bottom: 2rem; }
+.dashboard-header h1 { font-size: 1.75rem; font-weight: 800; }
+.dashboard-header p { color: var(--on-surface-variant); margin-top: 0.25rem; }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+.stat-card-new {
+    background: var(--surface-container-lowest);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(193,199,211,0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.stat-card-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--on-surface-variant);
+}
+.stat-card-value {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--on-surface);
+    line-height: 1;
+}
+.stat-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.stat-card-icon .material-symbols-outlined {
+    font-size: 22px;
+    font-variation-settings: 'FILL' 1;
+}
+.icon-blue   { background: var(--primary-fixed);   color: var(--primary); }
+.icon-green  { background: var(--secondary-fixed);  color: var(--secondary); }
+.icon-yellow { background: var(--tertiary-fixed);   color: var(--tertiary); }
+.icon-red    { background: var(--error-container);  color: var(--error); }
+
+/* ============================================================
+   RESPONSİVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+}

@@ -277,25 +277,14 @@ $recentScores = array_slice($recentScores, 0, 5);
                     </div>
                     <span class="badge badge-success">Aktif</span>
                 </div>
-                <!-- Eşleştirme -->
+                <!-- Eşleştirme & Kategori (birleşik) -->
                 <div class="admin-modules__card">
                     <div class="admin-modules__icon--secondary">
                         <span class="material-symbols-outlined admin-modules__icon-symbol--secondary">join_inner</span>
                     </div>
                     <div class="admin-modules__info">
-                        <div class="admin-modules__name">Eşleştirme</div>
-                        <div class="admin-modules__detail">14 Kart · 140 Puan</div>
-                    </div>
-                    <span class="badge badge-success">Aktif</span>
-                </div>
-                <!-- Kategori -->
-                <div class="admin-modules__card">
-                    <div class="admin-modules__icon--tertiary">
-                        <span class="material-symbols-outlined admin-modules__icon-symbol--tertiary">category</span>
-                    </div>
-                    <div class="admin-modules__info">
-                        <div class="admin-modules__name">Kategori</div>
-                        <div class="admin-modules__detail">17 Kelime · 170 Puan</div>
+                        <div class="admin-modules__name">Eşleştirme & Kategori</div>
+                        <div class="admin-modules__detail">2 Bölüm · 310 Puan</div>
                     </div>
                     <span class="badge badge-success">Aktif</span>
                 </div>

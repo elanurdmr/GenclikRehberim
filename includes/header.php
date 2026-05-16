@@ -22,11 +22,33 @@ require_once __DIR__ . '/functions.php';
     <!-- Material Symbols Outlined -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
+    <!-- Tasarım token'ları -->
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/tokens.css">
     <!-- Temel yardımcı sınıflar -->
     <link rel="stylesheet" href="/genclik-rehberim/assets/css/base.css">
+    <!-- Navigasyon + Footer -->
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/layout.css">
+    <!-- UI Bileşenleri (butonlar, kartlar, tablolar) -->
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/components.css">
     <!-- Ana stil dosyası -->
     <link rel="stylesheet" href="/genclik-rehberim/assets/css/style.css">
-    <?php if (strpos($_SERVER['PHP_SELF'], '/admin/') !== false): ?>
+    <?php
+    $__pb = basename($_SERVER['PHP_SELF']);
+    $__path = $_SERVER['PHP_SELF'];
+    ?>
+    <?php if ($__pb === 'index.php' && strpos($__path, '/admin/') === false): ?>
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/home.css">
+    <?php endif; ?>
+    <?php if ($__pb === 'girisyap.php' || $__pb === 'kayitol.php'): ?>
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/auth.css">
+    <?php endif; ?>
+    <?php if ($__pb === 'ogrencipanel.php'): ?>
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/ogrencipanel.css">
+    <?php endif; ?>
+    <?php if (strpos($__path, '/games/') !== false): ?>
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/games.css">
+    <?php endif; ?>
+    <?php if (strpos($__path, '/admin/') !== false): ?>
     <link rel="stylesheet" href="/genclik-rehberim/assets/css/admin.css">
     <?php endif; ?>
 </head>
@@ -74,12 +96,6 @@ require_once __DIR__ . '/functions.php';
                     <span class="material-symbols-outlined">join_inner</span> Eşleştirme
                 </a>
             </li>
-            <li>
-                <a href="/genclik-rehberim/games/kategori.php">
-                    <span class="material-symbols-outlined">category</span> Kategori
-                </a>
-            </li>
-
             <?php if (isLoggedIn()): ?>
                 <li>
                     <a href="/genclik-rehberim/ogrencipanel.php">

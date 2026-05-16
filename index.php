@@ -164,7 +164,7 @@ $leaderboard = getLeaderboard(3);
                 </a>
             </article>
 
-            <!-- Eşleştirme Kartı -->
+            <!-- Eşleştirme + Kategori (İki Bölümlü) -->
             <article class="game-card card-eslestirme">
                 <div class="game-card-top">
                     <div class="game-card-icon">
@@ -175,11 +175,11 @@ $leaderboard = getLeaderboard(3);
                     </span>
                 </div>
                 <div>
-                    <h3>Doğru mu, Yanlış mı?</h3>
-                    <p>Davranışları sürükle-bırak ile doğru ve yanlış kutularına yerleştir. 14 kart eşleştirme!</p>
+                    <h3>Eşleştirme & Kategori</h3>
+                    <p>İki bölümlü oyun: kartları sürükle-bırak ile eşleştir, ardından kelimeleri doğru kategoriye yerleştir!</p>
                 </div>
                 <div class="score-badge">
-                    <span class="material-symbols-outlined">star</span> Max 140 Puan
+                    <span class="material-symbols-outlined">star</span> Max 310 Puan
                 </div>
                 <div class="game-card-preview">
                     <img
@@ -189,34 +189,6 @@ $leaderboard = getLeaderboard(3);
                 </div>
                 <a href="/genclik-rehberim/games/eslestirme.php" class="btn btn-secondary">
                     <span class="material-symbols-outlined">play_arrow</span> Başla
-                </a>
-            </article>
-
-            <!-- Kategori Kartı -->
-            <article class="game-card card-kategori">
-                <div class="game-card-top">
-                    <div class="game-card-icon">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">category</span>
-                    </div>
-                    <span class="game-card-arrow">
-                        <span class="material-symbols-outlined">arrow_outward</span>
-                    </span>
-                </div>
-                <div>
-                    <h3>Zorbalık mı, Değil mi?</h3>
-                    <p>17 kelimeyi "Zorbalık" ve "Zorbalık Değil" kutularına yerleştir. Farkındalığını artır!</p>
-                </div>
-                <div class="score-badge">
-                    <span class="material-symbols-outlined">star</span> Max 170 Puan
-                </div>
-                <div class="game-card-preview">
-                    <img
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI3xG9eRCTmh3biwFdqp_mfXC1v40DWsxGWBXFl6s-4EorAWwifYOMsBYHdJjoc2C9lUrVJ5KMs6jowW1ZBrQFUr-LFlHv58-ubjSR4MloUPOfLU-u5pAE9iSbgtJZISx_zKXyqmtSk6WN-gnNb0ErZRXum_Zc6zDS1_WAHaE1I5ADKFF3Xc7D-OX4NRDvX6IXO0CswqffEFkaUann6x_bkEOuyK7se7lWQjRfetsRnyujNTU0N--BE6fwTM-zXE7o3H7afws0flx8"
-                        alt="Kategori Önizleme"
-                        loading="lazy">
-                </div>
-                <a href="/genclik-rehberim/games/kategori.php" class="btn btn-success">
-                    <span class="material-symbols-outlined">play_arrow</span> Sırala
                 </a>
             </article>
 
