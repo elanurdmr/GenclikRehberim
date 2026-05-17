@@ -447,16 +447,6 @@
     color: #b91c1c;
 }
 
-/* Gizli kelime highlight */
-.crossword-cell-letter.secret-cell {
-    border: 2px solid #f59e0b;
-    box-shadow: 0 0 0 1px rgba(245,158,11,0.4);
-}
-.crossword-cell-letter.secret-cell.crossword-word-solved {
-    border-color: #f59e0b;
-    background: rgba(245,158,11,0.15);
-}
-
 /* ============================================================
    WORDLE
    ============================================================ */
@@ -984,6 +974,28 @@
     color: var(--on-error-container);
     border-bottom-color: #93000a;
 }
+.drag-item--current {
+    font-size: 1rem;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 8px 24px -6px rgba(74,144,226,0.18);
+    border-color: var(--primary);
+    width: 100%;
+    cursor: grab;
+}
+.drag-item--mini {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.6rem;
+    line-height: 1.35;
+    border-bottom-width: 2px;
+    cursor: default;
+}
+.card-counter {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--on-surface-variant);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.03em;
+}
 
 /* Bırakma alanları */
 .drop-zones {
@@ -1324,34 +1336,6 @@
     color: var(--primary);
 }
 
-/* Gizli kelime modal */
-.secret-word-modal {
-    background: var(--surface-container-lowest);
-    border-radius: 20px;
-    padding: 1.5rem;
-    margin-top: 1rem;
-    border: 2px solid var(--tertiary-fixed);
-    text-align: center;
-}
-.secret-word-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    border: 2px solid var(--outline-variant);
-    font-family: var(--font);
-    font-size: 1rem;
-    font-weight: 700;
-    text-align: center;
-    text-transform: uppercase;
-    margin: 1rem 0 0.75rem;
-    outline: none;
-    transition: var(--transition);
-}
-.secret-word-input:focus {
-    border-color: var(--tertiary);
-    box-shadow: 0 0 0 3px rgba(104,96,0,0.1);
-}
-
 /* ============================================================
    23. ANİMASYONLAR
    ============================================================ */
@@ -1362,17 +1346,224 @@
 .fade-in { animation: fadeIn 0.4s ease forwards; }
 
 /* ============================================================
+   24. FLASHCARD (EŞLEŞTİRME BÖLÜM 1)
+   ============================================================ */
+.flashcard-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 180px;
+    margin: 2rem 0;
+}
+.flashcard-wrap {
+    width: 100%;
+    max-width: 600px;
+    perspective: 1000px;
+}
+.flashcard {
+    background: var(--surface-container-lowest);
+    border: 2px solid var(--outline-variant);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--on-surface);
+    text-align: center;
+    line-height: 1.6;
+    cursor: grab;
+    box-shadow: var(--shadow-ambient);
+    border-bottom: 5px solid var(--primary);
+    transition: transform 0.2s, box-shadow 0.2s;
+    user-select: none;
+}
+.flashcard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px -8px rgba(0, 93, 167, 0.2);
+}
+.flashcard.dragging {
+    opacity: 0.6;
+    transform: rotate(2deg) scale(1.03);
+    cursor: grabbing;
+}
+.flashcard-enter {
+    animation: cardEnter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes cardEnter {
+    from { opacity: 0; transform: translateY(30px) scale(0.92); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.flashcard-exit-left  { animation: cardExitLeft  0.3s ease forwards; }
+.flashcard-exit-right { animation: cardExitRight 0.3s ease forwards; }
+@keyframes cardExitLeft  { to { opacity: 0; transform: translateX(-120%) rotate(-15deg); } }
+@keyframes cardExitRight { to { opacity: 0; transform: translateX(120%)  rotate(15deg);  } }
+
+.flashcard-zones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+.flashcard-zone {
+    border: 3px dashed;
+    border-radius: 24px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    min-height: 160px;
+    position: relative;
+}
+.flashcard-zone.zone-dogru  { background: rgba(58, 106, 0, 0.06);  border-color: var(--secondary); }
+.flashcard-zone.zone-yanlis { background: rgba(186, 26, 26, 0.06); border-color: var(--error); }
+.flashcard-zone.zone-dogru:hover,
+.flashcard-zone.zone-dogru.drag-over  {
+    background: rgba(58, 106, 0, 0.15);
+    transform: scale(1.02);
+    box-shadow: var(--shadow-ambient);
+}
+.flashcard-zone.zone-yanlis:hover,
+.flashcard-zone.zone-yanlis.drag-over {
+    background: rgba(186, 26, 26, 0.13);
+    transform: scale(1.02);
+    box-shadow: var(--shadow-ambient);
+}
+.zone-icon { font-size: 2.5rem; }
+.flashcard-zone.zone-dogru  .zone-icon  { color: var(--secondary); }
+.flashcard-zone.zone-yanlis .zone-icon  { color: var(--error); }
+.zone-label { font-weight: 800; font-size: 1rem; letter-spacing: 0.01em; }
+.flashcard-zone.zone-dogru  .zone-label { color: var(--on-secondary-fixed-variant); }
+.flashcard-zone.zone-yanlis .zone-label { color: var(--on-error-container); }
+.zone-count { font-size: 1.75rem; font-weight: 900; line-height: 1; }
+.flashcard-zone.zone-dogru  .zone-count { color: var(--secondary); }
+.flashcard-zone.zone-yanlis .zone-count { color: var(--error); }
+
+/* ============================================================
+   25. BOŞLUK DOLDURMA (EŞLEŞTİRME BÖLÜM 2)
+   ============================================================ */
+.fill-question-card {
+    background: var(--surface-container-lowest);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--outline-variant);
+    border-top: 5px solid var(--tertiary-fixed);
+    margin: 0 auto 1.5rem;
+    max-width: 720px;
+    animation: cardEnter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.fill-sentence-display {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--on-surface);
+    line-height: 2;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+}
+.fill-blank-slot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    height: 40px;
+    border-radius: 10px;
+    border: 2px dashed var(--outline);
+    background: var(--surface-container-low);
+    color: var(--on-surface-variant);
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0 1rem;
+    transition: var(--transition);
+    vertical-align: middle;
+}
+.fill-blank-slot.has-value {
+    border-style: solid;
+    border-color: var(--primary);
+    background: var(--primary-fixed);
+    color: var(--on-primary-fixed);
+}
+.fill-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    max-width: 720px;
+}
+.fill-option-chip {
+    padding: 0.65rem 1.35rem;
+    border-radius: 9999px;
+    background: var(--surface-container);
+    border: 2px solid var(--outline-variant);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--on-surface);
+    user-select: none;
+}
+.fill-option-chip:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: var(--primary-fixed);
+    color: var(--on-primary-fixed);
+    transform: translateY(-2px);
+}
+.fill-option-chip.selected {
+    background: var(--primary);
+    color: var(--on-primary);
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 93, 167, 0.3);
+}
+.fill-option-chip.correct {
+    background: var(--secondary-fixed);
+    color: var(--on-secondary-fixed);
+    border-color: var(--secondary);
+    pointer-events: none;
+}
+.fill-option-chip.wrong {
+    background: var(--error-container);
+    color: var(--on-error-container);
+    border-color: var(--error);
+    pointer-events: none;
+}
+.fill-option-chip:disabled { opacity: 0.6; cursor: not-allowed; pointer-events: none; }
+.fill-feedback {
+    text-align: center;
+    min-height: 2rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    max-width: 720px;
+    margin: 0 auto 1rem;
+}
+.fill-feedback.correct-fb { color: var(--secondary); }
+.fill-feedback.wrong-fb   { color: var(--error); }
+
+/* ============================================================
    RESPONSİVE
    ============================================================ */
 @media (max-width: 768px) {
     .drop-zones     { grid-template-columns: 1fr; }
     .category-zones { grid-template-columns: 1fr; }
+    .flashcard-zones { grid-template-columns: 1fr; gap: 1rem; }
     .game-header-row {
         flex-direction: column;
         align-items: flex-start;
     }
     .game-stats-box { align-self: stretch; justify-content: space-around; }
     .result-card    { padding: 2rem 1.5rem; }
+}
+@media (max-width: 600px) {
+    .flashcard-zone { min-height: 100px; padding: 1.25rem 1rem; }
+    .flashcard { padding: 1.5rem 1.25rem; }
+    .fill-question-card { padding: 1.5rem 1.25rem; }
 }
 @media (max-width: 480px) {
     .game-stats-box { flex-direction: column; gap: 0.25rem; }

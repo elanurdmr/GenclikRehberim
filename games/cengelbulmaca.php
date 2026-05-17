@@ -28,33 +28,6 @@ $grid       = $puzzle['grid'];
 $nums       = $puzzle['numbers'];
 $tabAcross  = $puzzle['acrossList'];
 $tabDown    = $puzzle['downList'];
-$secretWord = $puzzle['secretWord'] ?? '';
-
-/* Gizli kelime hücrelerini bul */
-$secretCells = [];
-if ($secretWord !== '') {
-    foreach ($tabAcross as $cl) {
-        if ($cl['word'] === $secretWord) {
-            $len = mb_strlen($cl['word'], 'UTF-8');
-            for ($i = 0; $i < $len; $i++) {
-                $secretCells[$cl['r'] . '_' . ($cl['c'] + $i)] = true;
-            }
-            break;
-        }
-    }
-    if ($secretCells === []) {
-        foreach ($tabDown as $cl) {
-            if ($cl['word'] === $secretWord) {
-                $len = mb_strlen($cl['word'], 'UTF-8');
-                for ($i = 0; $i < $len; $i++) {
-                    $secretCells[($cl['r'] + $i) . '_' . $cl['c']] = true;
-                }
-                break;
-            }
-        }
-    }
-}
-
 $payload = [
     'h'            => $h,
     'w'            => $w,
@@ -68,8 +41,6 @@ $payload = [
     'seed'         => $puzzle['seed'],
     'pointsPerWord'=> $puzzle['pointsPerWord'],
     'maxScore'     => $puzzle['maxScore'],
-    'secretWord'   => $secretWord,
-    'secretClue'   => $puzzle['secretClue'] ?? '',
 ];
 $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
 ?>
@@ -88,10 +59,7 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
                 </div>
                 <h1 class="cengel-title text-display-lg">Kare Bulmaca</h1>
                 <p class="cengel-lead text-body-base">
-                    Hücreye tıkla, yön otomatik seçilir. Aynı hücreye tekrar tıkla veya <kbd class="crossword-kbd">Boşluk</kbd> ile yönü değiştir.
-                    <?php if ($secretWord !== ''): ?>
-                    <strong style="color:var(--tertiary)">🌟 Gizli kelimeyi bul!</strong>
-                    <?php endif; ?>
+                    Hücreye tıkla, yön otomatik seçilir. Aynı hücreye tekrar tıkla yönü değiştir.
                 </p>
             </div>
             <aside class="cengel-hud" aria-label="Oyun sayaçları">
@@ -110,27 +78,10 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
             </aside>
         </header>
 
-        <?php if ($secretWord !== '' && ($puzzle['secretClue'] ?? '') !== ''): ?>
-        <!-- Gizli kelime ipucu kartı -->
-        <div class="secret-word-modal">
-            <span class="material-symbols-outlined" style="color:var(--tertiary);vertical-align:middle;margin-right:0.4rem;font-variation-settings:'FILL' 1">star</span>
-            <strong style="color:var(--tertiary)">Gizli Kelime İpucu:</strong>
-            <?= htmlspecialchars($puzzle['secretClue'] ?? '', ENT_QUOTES, 'UTF-8') ?>
-            <span style="display:inline-block;margin-left:0.5rem;background:rgba(245,158,11,0.15);border:1.5px solid #f59e0b;border-radius:6px;padding:0.15rem 0.5rem;font-size:0.82rem;color:#b45309;font-weight:700">
-                <?= mb_strlen($secretWord, 'UTF-8') ?> harf
-            </span>
-        </div>
-        <?php endif; ?>
-
         <div class="cengel-bento">
 
             <!-- Izgara -->
             <article class="cengel-grid-wrap ambient-shadow" aria-label="Bulmaca ızgarası">
-                <div class="cengel-grid-header crossword-dir-bar">
-                    <span class="material-symbols-outlined">swap_horiz</span>
-                    <span class="js-cw-dir-label">Yön: soldan sağa</span>
-                    <button type="button" class="btn btn-outline btn-sm js-cw-toggle-dir">Yönü değiştir</button>
-                </div>
                 <div
                     class="crossword-board js-cw-board"
                     style="--crossword-cols: <?= (int)$w ?>; --crossword-rows: <?= (int)$h ?>;"
@@ -143,10 +94,9 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
                                 echo '<div class="crossword-cell crossword-cell-block" aria-hidden="true"></div>';
                                 continue;
                             }
-                            $nm       = (int)($nums[$r][$c] ?? 0);
-                            $isSecret = isset($secretCells[$r . '_' . $c]) ? ' secret-cell' : '';
+                            $nm = (int)($nums[$r][$c] ?? 0);
                             ?>
-                    <div class="crossword-cell crossword-cell-letter<?= $isSecret ?>" data-r="<?= $r ?>" data-c="<?= $c ?>">
+                    <div class="crossword-cell crossword-cell-letter" data-r="<?= $r ?>" data-c="<?= $c ?>">
                         <?php if ($nm > 0): ?>
                             <span class="cengel-cell-num"><?= $nm ?></span>
                         <?php endif; ?>
@@ -180,6 +130,10 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
                         <span class="js-cw-active-num"></span>
                     </div>
                     <p class="cengel-active-text js-cw-active-text">Bir hücreye tıkla.</p>
+                    <button type="button" class="btn btn-outline btn-sm js-cw-hint js-cw-hint-btn" style="display:none;margin-top:0.5rem;font-size:0.82rem;">
+                        <span class="material-symbols-outlined" style="font-size:16px">lightbulb</span>
+                        Harf Al <span class="js-cw-hint-cost" style="opacity:0.75;font-size:0.78rem">(−5 puan)</span>
+                    </button>
                 </section>
 
                 <!-- İpucu listesi sekmeleri -->
@@ -191,12 +145,9 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
                     <div class="cengel-clue-panel is-visible js-cw-panel-across">
                         <ul class="cengel-clue-list">
                             <?php foreach ($tabAcross as $cl): ?>
-                            <li class="cengel-clue-item js-cw-clue<?= $cl['word'] === $secretWord ? ' secret-clue' : '' ?>"
+                            <li class="cengel-clue-item js-cw-clue"
                                 data-dir="across" data-num="<?= (int)$cl['n'] ?>">
                                 <span class="cengel-clue-no"><?= (int)$cl['n'] ?></span>
-                                <?php if ($cl['word'] === $secretWord): ?>
-                                    <span class="material-symbols-outlined" style="font-size:14px;color:var(--tertiary);vertical-align:middle;font-variation-settings:'FILL' 1">star</span>
-                                <?php endif; ?>
                                 <span class="cengel-clue-txt"><?= htmlspecialchars($cl['clue'], ENT_QUOTES, 'UTF-8') ?></span>
                                 <span class="material-symbols-outlined cengel-clue-done js-cw-done-across-<?= (int)$cl['n'] ?>" hidden>check_circle</span>
                             </li>
@@ -206,12 +157,9 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
                     <div class="cengel-clue-panel js-cw-panel-down">
                         <ul class="cengel-clue-list">
                             <?php foreach ($tabDown as $cl): ?>
-                            <li class="cengel-clue-item js-cw-clue<?= $cl['word'] === $secretWord ? ' secret-clue' : '' ?>"
+                            <li class="cengel-clue-item js-cw-clue"
                                 data-dir="down" data-num="<?= (int)$cl['n'] ?>">
                                 <span class="cengel-clue-no"><?= (int)$cl['n'] ?></span>
-                                <?php if ($cl['word'] === $secretWord): ?>
-                                    <span class="material-symbols-outlined" style="font-size:14px;color:var(--tertiary);vertical-align:middle;font-variation-settings:'FILL' 1">star</span>
-                                <?php endif; ?>
                                 <span class="cengel-clue-txt"><?= htmlspecialchars($cl['clue'], ENT_QUOTES, 'UTF-8') ?></span>
                                 <span class="material-symbols-outlined cengel-clue-done js-cw-done-down-<?= (int)$cl['n'] ?>" hidden>check_circle</span>
                             </li>
@@ -234,26 +182,6 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
         </div>
     </section>
 </main>
-
-<!-- ===== GİZLİ KELİME BULUNDU MODALİ ===== -->
-<div class="result-overlay" id="secretWordOverlay" role="dialog" aria-modal="true" aria-label="Gizli kelime bulundu">
-    <div class="result-card">
-        <div class="result-emoji">🌟</div>
-        <h2>Gizli Kelimeyi Buldun!</h2>
-        <p id="secretWordReveal" style="font-size:1.3rem;font-weight:800;color:var(--tertiary);letter-spacing:0.1em"></p>
-        <div class="result-score-big js-cw-final-score">0</div>
-        <div class="result-score-label">/ <span class="js-cw-max-score">0</span> puan</div>
-        <div id="secretSaveStatus" style="margin-bottom:1rem;font-size:0.85rem;color:var(--on-surface-variant)"></div>
-        <div class="result-buttons">
-            <button class="btn btn-primary" id="continueAfterSecretBtn">
-                <span class="material-symbols-outlined">arrow_forward</span> Devam Et
-            </button>
-            <a href="/genclik-rehberim/ogrencipanel.php" class="btn btn-outline">
-                <span class="material-symbols-outlined">bar_chart</span> Panele Git
-            </a>
-        </div>
-    </div>
-</div>
 
 <!-- ===== OYUN BİTİŞ MODALİ ===== -->
 <div class="result-overlay" id="resultOverlay" role="dialog" aria-modal="true" aria-label="Oyun sonucu">

@@ -32,6 +32,17 @@ if ($totalScore >= 400) {
 } elseif ($gamesPlayed > 0 && $weeklyPct < 15) {
     $weeklyPct = min(100, $gamesPlayed * 15);
 }
+
+$badges = [
+    ['icon' => 'local_fire_department', 'bg' => 'var(--tertiary-fixed)',          'color' => 'var(--tertiary)',           'name' => 'Aktif Öğrenci',  'unlocked' => $gamesPlayed >= 1],
+    ['icon' => 'waving_hand',           'bg' => 'var(--primary-fixed)',            'color' => 'var(--primary)',            'name' => 'Destekçi',       'unlocked' => $totalScore >= 50],
+    ['icon' => 'psychology',            'bg' => 'var(--secondary-fixed)',           'color' => 'var(--secondary)',          'name' => 'Farkındalık',    'unlocked' => $gamesPlayed >= 2],
+    ['icon' => 'emoji_events',          'bg' => 'rgba(255,190,11,0.15)',            'color' => '#9a6700',                  'name' => 'Şampiyon',       'unlocked' => $totalScore >= 200],
+    ['icon' => 'favorite',              'bg' => 'rgba(186,26,26,0.12)',             'color' => 'var(--error)',              'name' => 'Kalp Dolu',      'unlocked' => $gamesPlayed >= 3],
+    ['icon' => 'shield',                'bg' => 'rgba(58,106,0,0.12)',              'color' => 'var(--secondary)',          'name' => 'Koruyucu',       'unlocked' => $totalScore >= 100],
+    ['icon' => 'group',                 'bg' => 'var(--surface-container-high)',    'color' => 'var(--on-surface-variant)', 'name' => 'Takım Oyuncusu', 'unlocked' => $gamesPlayed >= 4],
+    ['icon' => 'star',                  'bg' => 'rgba(212,164,0,0.15)',             'color' => '#9a6700',                  'name' => 'Yıldız',         'unlocked' => $totalScore >= 300],
+];
 ?>
 <?php include __DIR__ . '/includes/header.php'; ?>
 
@@ -93,31 +104,18 @@ if ($totalScore >= 400) {
                     <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span>
                 </a>
             </div>
-            <div class="student-badges-grid">
-                <div class="student-badge-item">
-                    <div class="student-badge-icon-wrap" style="background:var(--tertiary-fixed);color:var(--tertiary)">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">local_fire_department</span>
+            <div class="student-badges-grid" style="grid-template-columns:repeat(4,1fr)">
+                <?php foreach ($badges as $badge): ?>
+                <div class="student-badge-item<?= $badge['unlocked'] ? '' : ' locked' ?>">
+                    <div class="student-badge-icon-wrap"
+                         style="background:<?= htmlspecialchars($badge['bg'], ENT_QUOTES, 'UTF-8') ?>;color:<?= htmlspecialchars($badge['color'], ENT_QUOTES, 'UTF-8') ?>">
+                        <span class="material-symbols-outlined"<?= $badge['unlocked'] ? ' style="font-variation-settings:\'FILL\' 1"' : '' ?>>
+                            <?= $badge['unlocked'] ? htmlspecialchars($badge['icon'], ENT_QUOTES, 'UTF-8') : 'lock' ?>
+                        </span>
                     </div>
-                    <span style="font-size:0.78rem;font-weight:700">Aktif öğrenci</span>
+                    <span style="font-size:0.78rem;font-weight:700"><?= htmlspecialchars($badge['name'], ENT_QUOTES, 'UTF-8') ?></span>
                 </div>
-                <div class="student-badge-item">
-                    <div class="student-badge-icon-wrap" style="background:var(--primary-fixed);color:var(--primary)">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">waving_hand</span>
-                    </div>
-                    <span style="font-size:0.78rem;font-weight:700">Destekçi</span>
-                </div>
-                <div class="student-badge-item">
-                    <div class="student-badge-icon-wrap" style="background:var(--secondary-fixed);color:var(--secondary)">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">psychology</span>
-                    </div>
-                    <span style="font-size:0.78rem;font-weight:700">Farkındalık</span>
-                </div>
-                <div class="student-badge-item locked">
-                    <div class="student-badge-icon-wrap" style="background:var(--surface-variant);color:var(--outline)">
-                        <span class="material-symbols-outlined">lock</span>
-                    </div>
-                    <span style="font-size:0.78rem;font-weight:700">Kilitli</span>
-                </div>
+                <?php endforeach; ?>
             </div>
         </section>
     </div>
@@ -162,15 +160,6 @@ if ($totalScore >= 400) {
                 <div class="student-jump-body">
                     <h3>Eşleştirme</h3>
                     <div class="student-jump-bar"><div style="width:<?= $highEslestirme > 0 ? min(100, (int)round($highEslestirme * 100 / 140)) : 15 ?>%;background:var(--secondary)"></div></div>
-                </div>
-            </a>
-            <a class="student-jump-card" href="/genclik-rehberim/games/kategori.php">
-                <div class="student-jump-visual" style="background:linear-gradient(135deg,var(--tertiary-fixed),var(--tertiary))">
-                    <span class="material-symbols-outlined">category</span>
-                </div>
-                <div class="student-jump-body">
-                    <h3>Kategori</h3>
-                    <div class="student-jump-bar"><div style="width:<?= $highKategori > 0 ? min(100, (int)round($highKategori * 100 / 170)) : 15 ?>%;background:var(--tertiary)"></div></div>
                 </div>
             </a>
         </div>

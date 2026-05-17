@@ -30,3 +30,7 @@ npm-debug.log
 # OS files
 Thumbs.db
 .DS_Store
+
+# Debug araçları — üretimde olmamalı
+tools/
+*.sql.bak

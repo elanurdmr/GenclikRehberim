@@ -1,12 +1,13 @@
 <?php
 /**
- * eslestirme.php — İki Bölümlü Eşleştirme + Kategori Oyunu
+ * eslestirme.php — Üç Bölümlü Eşleştirme Oyunu
  * Bölüm 1: Doğru/Yanlış Davranış Eşleştirme (140 puan)
- * Bölüm 2: Zorbalık mı, Değil mi? Kategori (170 puan)
- * Toplam: 310 puan
+ * Bölüm 2: Boşluk Doldurma (80 puan)
+ * Bölüm 3: Zorbalık mı, Değil mi? Kategori (170 puan)
+ * Toplam: 390 puan
  */
 
-$pageTitle = 'Eşleştirme & Kategori';
+$pageTitle = 'Eşleştirme';
 require_once '../includes/header.php';
 ?>
 
@@ -26,30 +27,35 @@ require_once '../includes/header.php';
             </div>
             <div class="sep"></div>
             <div class="step" id="stepIndicator2">
+                <span class="material-symbols-outlined">edit_note</span>
+                Bölüm 2 — Boşluk Doldur
+            </div>
+            <div class="sep"></div>
+            <div class="step" id="stepIndicator3">
                 <span class="material-symbols-outlined">category</span>
-                Bölüm 2 — Kategori
+                Bölüm 3 — Kategori
             </div>
         </div>
 
         <!-- ================================================================
-             BÖLÜM 1: EŞLEŞTİRME (sürükle-bırak)
+             BÖLÜM 1: EŞLEŞTİRME (flashcard tek kart akışı)
              ================================================================ -->
         <div class="game-section" id="section1">
 
             <header class="game-header-area">
                 <div class="game-page-label">
-                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_fire_department</span>
-                    Zorbalık Farkındalığı · Bölüm 1 / 2
+                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">local_fire_department</span>
+                    Zorbalık Farkındalığı · Bölüm 1 / 3
                 </div>
                 <div class="game-header-row">
                     <div class="game-header-text">
                         <h1>Doğru mu, Yanlış mı?</h1>
-                        <p>Kartları sürükle ve doğru sütuna bırak. Her doğru yerleştirme <strong>10 puan</strong>!</p>
+                        <p>Kartı doğru kutuya sürükle veya kutuya tıkla.</p>
                     </div>
-                    <div class="game-stats-box" aria-label="Oyun istatistikleri">
+                    <div class="game-stats-box">
                         <div class="game-stat-item">
-                            <span class="game-stat-label">Yerleştirilen</span>
-                            <span class="game-stat-value text-primary"><span id="placedCount">0</span>/14</span>
+                            <span class="game-stat-label">Kart</span>
+                            <span class="game-stat-value text-primary" id="cardCounter">1/14</span>
                         </div>
                         <div class="game-stat-item">
                             <span class="game-stat-label">Puan</span>
@@ -63,73 +69,117 @@ require_once '../includes/header.php';
                 </div>
             </header>
 
-            <div class="game-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                <span class="progress-info">Yerleştirilen: <span id="placedCountBar">0</span>/14</span>
-                <div class="progress-bar-outer">
-                    <div class="progress-bar-inner" id="progressBar" style="width:0%"></div>
-                </div>
-                <span class="progress-score">Puan: <span id="scoreDisplayBar">0</span>/140</span>
-            </div>
-
-            <div class="matching-items-column" aria-label="Sürüklenebilir kartlar">
-                <h3>
-                    <span class="material-symbols-outlined">touch_app</span>
-                    Kartları Sürükle
-                </h3>
-                <div id="itemsPool" class="items-pool-wrap"></div>
-            </div>
-
-            <div class="drop-zones">
-                <div class="drop-zone zone-dogru" id="zoneDogru"
-                     ondragover="allowDrop(event)" ondrop="drop(event,'dogru')"
-                     role="region" aria-label="Doğru Davranışlar bölgesi">
-                    <div class="drop-zone-bg-icon" aria-hidden="true">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">verified</span>
-                    </div>
-                    <div class="drop-zone-header">
-                        <h3>
-                            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">check_circle</span>
-                            Doğru Davranışlar
-                        </h3>
-                        <small>8 kart</small>
-                    </div>
-                    <div id="droppedDogru" class="drop-zone-content" style="min-height:60px"></div>
-                </div>
-
-                <div class="drop-zone zone-yanlis" id="zoneYanlis"
-                     ondragover="allowDrop(event)" ondrop="drop(event,'yanlis')"
-                     role="region" aria-label="Yanlış Davranışlar bölgesi">
-                    <div class="drop-zone-bg-icon" aria-hidden="true">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">sentiment_very_dissatisfied</span>
-                    </div>
-                    <div class="drop-zone-header">
-                        <h3>
-                            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">cancel</span>
-                            Yanlış Davranışlar
-                        </h3>
-                        <small>6 kart</small>
-                    </div>
-                    <div id="droppedYanlis" class="drop-zone-content" style="min-height:60px"></div>
+            <!-- Aktif kart alanı -->
+            <div class="flashcard-stage" id="flashcardStage">
+                <div class="flashcard-wrap" id="flashcardWrap">
+                    <!-- JS tarafından doldurulur -->
                 </div>
             </div>
 
-            <div class="text-center mt-4" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap">
-                <button class="btn btn-secondary btn-lg" onclick="checkAll()">
-                    <span class="material-symbols-outlined">spellcheck</span> Kontrol Et
+            <!-- Drop zone'lar (büyük, tıklanabilir) -->
+            <div class="flashcard-zones">
+                <div class="flashcard-zone zone-dogru"
+                     id="zoneDogru"
+                     onclick="placeCard('dogru')"
+                     ondragover="allowDrop(event)"
+                     ondrop="drop(event,'dogru')"
+                     role="button" tabindex="0"
+                     aria-label="Doğru Davranış">
+                    <span class="material-symbols-outlined zone-icon"
+                          style="font-variation-settings:'FILL' 1">check_circle</span>
+                    <span class="zone-label">Doğru Davranış</span>
+                    <span class="zone-count" id="dogru-count">0</span>
+                </div>
+                <div class="flashcard-zone zone-yanlis"
+                     id="zoneYanlis"
+                     onclick="placeCard('yanlis')"
+                     ondragover="allowDrop(event)"
+                     ondrop="drop(event,'yanlis')"
+                     role="button" tabindex="0"
+                     aria-label="Yanlış Davranış">
+                    <span class="material-symbols-outlined zone-icon"
+                          style="font-variation-settings:'FILL' 1">cancel</span>
+                    <span class="zone-label">Yanlış Davranış</span>
+                    <span class="zone-count" id="yanlis-count">0</span>
+                </div>
+            </div>
+
+            <!-- Sonuç butonu (başta gizli) -->
+            <div id="section1Done" style="display:none;text-align:center;margin-top:2rem">
+                <p style="font-size:1.1rem;font-weight:700;color:var(--on-surface-variant);margin-bottom:1rem">
+                    Tüm kartları yerleştirdin!
+                </p>
+                <button class="btn btn-secondary btn-lg" onclick="checkAllEsles()">
+                    <span class="material-symbols-outlined">spellcheck</span> Sonuçları Gör
                 </button>
             </div>
 
         </div><!-- /section1 -->
 
         <!-- ================================================================
-             BÖLÜM 2: KATEGORİ (başlangıçta gizli)
+             BÖLÜM 2: BOŞLUK DOLDURMA (başlangıçta gizli)
              ================================================================ -->
         <div class="game-section" id="section2" style="display:none">
 
             <header class="game-header-area">
                 <div class="game-page-label">
                     <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_fire_department</span>
-                    Zorbalık Farkındalığı · Bölüm 2 / 2
+                    Zorbalık Farkındalığı · Bölüm 2 / 3
+                </div>
+                <div class="game-header-row">
+                    <div class="game-header-text">
+                        <h1>Boşlukları Doldur</h1>
+                        <p>Cümlede boş bırakılan yere doğru seçeneği tıkla. Her doğru cevap <strong>10 puan</strong>!</p>
+                    </div>
+                    <div class="game-stats-box" aria-label="Oyun istatistikleri">
+                        <div class="game-stat-item">
+                            <span class="game-stat-label">Soru</span>
+                            <span class="game-stat-value text-primary" id="fillQuestionCounter">1/8</span>
+                        </div>
+                        <div class="game-stat-item">
+                            <span class="game-stat-label">Puan</span>
+                            <span class="game-stat-value text-secondary" id="fillScoreDisplay">0</span>
+                        </div>
+                        <div class="game-stat-item">
+                            <span class="game-stat-label">Max</span>
+                            <span class="game-stat-value text-tertiary">80</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="game-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <span class="progress-info">Tamamlanan: <span id="fillProgressText">0</span>/8</span>
+                <div class="progress-bar-outer">
+                    <div class="progress-bar-inner" id="fillProgressBar" style="width:0%"></div>
+                </div>
+                <span class="progress-score">Puan: <span id="fillScoreBar">0</span>/80</span>
+            </div>
+
+            <div id="fillQuestionCard" class="fill-question-card"></div>
+            <div class="fill-options" id="fillOptions"></div>
+            <div class="fill-feedback" id="fillFeedback"></div>
+
+            <div class="text-center mt-4" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap">
+                <button class="btn btn-outline btn-sm" id="fillHintBtn">
+                    <span class="material-symbols-outlined">lightbulb</span> İpucu
+                </button>
+                <button class="btn btn-secondary btn-lg" id="checkFillBtn">
+                    <span class="material-symbols-outlined">spellcheck</span> Kontrol Et
+                </button>
+            </div>
+
+        </div><!-- /section2 -->
+
+        <!-- ================================================================
+             BÖLÜM 3: KATEGORİ (başlangıçta gizli)
+             ================================================================ -->
+        <div class="game-section" id="section3" style="display:none">
+
+            <header class="game-header-area">
+                <div class="game-page-label">
+                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">local_fire_department</span>
+                    Zorbalık Farkındalığı · Bölüm 3 / 3
                 </div>
                 <div class="game-header-row">
                     <div class="game-header-text">
@@ -203,7 +253,7 @@ require_once '../includes/header.php';
                 </button>
             </div>
 
-        </div><!-- /section2 -->
+        </div><!-- /section3 -->
 
     </div>
 </main>
@@ -225,12 +275,29 @@ require_once '../includes/header.php';
     </div>
 </div>
 
+<!-- ===== BÖLÜM 2 TAMAMLAMA MODALİ ===== -->
+<div class="result-overlay" id="fillDoneOverlay" role="dialog" aria-modal="true" aria-label="Bölüm 2 sonucu">
+    <div class="result-card">
+        <div class="result-emoji" id="fillDoneEmoji">✏️</div>
+        <h2>Bölüm 2 Tamamlandı!</h2>
+        <p id="fillDoneMsg">İşte ikinci bölüm sonucun:</p>
+        <div class="result-score-big" id="fillDoneScore">0</div>
+        <div class="result-score-label">/ 80 puan</div>
+        <div id="fillSaveStatus" style="margin-bottom:1rem;font-size:0.85rem;color:var(--on-surface-variant)"></div>
+        <div class="result-buttons">
+            <button class="btn btn-primary btn-lg" id="goToSection3Btn">
+                <span class="material-symbols-outlined">arrow_forward</span> Bölüm 3'e Geç
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- ===== SON SONUÇ MODALİ ===== -->
 <div class="result-overlay" id="resultOverlay" role="dialog" aria-modal="true" aria-label="Oyun sonucu">
     <div class="result-card">
         <div class="result-emoji" id="resultFinalEmoji">🏆</div>
         <h2>Oyun Tamamlandı!</h2>
-        <p id="resultFinalMsg">İki bölüm tamamlandı, işte toplam sonucun:</p>
+        <p id="resultFinalMsg">Üç bölüm tamamlandı, işte toplam sonucun:</p>
         <div class="result-section-scores">
             <div class="result-section-score">
                 <strong id="finalScore1">0</strong>
@@ -238,11 +305,15 @@ require_once '../includes/header.php';
             </div>
             <div class="result-section-score">
                 <strong id="finalScore2">0</strong>
-                Bölüm 2 / 170
+                Bölüm 2 / 80
+            </div>
+            <div class="result-section-score">
+                <strong id="finalScore3">0</strong>
+                Bölüm 3 / 170
             </div>
         </div>
         <div class="result-score-big" id="finalScoreTotal">0</div>
-        <div class="result-score-label">/ 310 puan</div>
+        <div class="result-score-label">/ 390 puan</div>
         <div id="saveStatus2" style="margin-bottom:1rem;font-size:0.85rem;color:var(--on-surface-variant)"></div>
         <div class="result-buttons">
             <button class="btn btn-primary" onclick="location.reload()">
