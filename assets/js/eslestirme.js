@@ -1,8 +1,9 @@
 /* ===========================================================
-   EŞLEŞTİRME + KATEGORİ — İki Bölümlü Oyun
+   EŞLEŞTİRME — Üç Bölümlü Oyun
    Bölüm 1: Sürükle-bırak eşleştirme  (activityId=2, max 140)
-   Bölüm 2: Kelime kategori             (activityId=3, max 170)
-   Toplam: 310 puan
+   Bölüm 2: Boşluk doldurma            (activityId=6, max 80)
+   Bölüm 3: Kelime kategori             (activityId=3, max 170)
+   Toplam: 390 puan
    =========================================================== */
 
 /* ---------- VERİ ---------- */
@@ -18,10 +19,29 @@ var CARDS = [
     { id: 8,  text: 'Okulda herkesin güvende olma hakkı olduğunu bilirim.',                    category: 'dogru'  },
     { id: 9,  text: 'Zorbalık olurken kendi güvenliğimi düşünmeden müdahale ederim.',          category: 'yanlis' },
     { id: 10, text: 'Zorbalık yapan kişiyi alkışlarım, gülerim ya da desteklerim.',            category: 'yanlis' },
-    { id: 11, text: 'Olanları öğretmene söylemem çünkü ispiyonculuk sanırım.',                category: 'yanlis' },
+    { id: 11, text: 'Olanları öğretmene söylemem çünkü ispiyonculuk sanırım.',                 category: 'yanlis' },
     { id: 12, text: 'Zorbalığa uğrayan kişiyi görmezden gelirim.',                            category: 'yanlis' },
     { id: 13, text: 'Zorbalık yapan kişiyi uyarmaktan korkarım ve hiçbir şey yapmam.',        category: 'yanlis' },
     { id: 14, text: 'Zorbalık sırasında olay yerinde kalıp izlerim.',                         category: 'yanlis' },
+];
+
+var FILL_SENTENCES = [
+    { id: 1, template: 'Zorbalığa uğradığımda bir ___ yetişkinden yardım isterim.',
+      blank: 'güvendiğim', options: ['güvendiğim', 'korktuğum', 'tanımadığım', 'gördüğüm'] },
+    { id: 2, template: 'Arkadaşım zorbalığa uğrarsa ona ___ olurum.',
+      blank: 'destek', options: ['destek', 'engel', 'rakip', 'yabancı'] },
+    { id: 3, template: 'Zorbalık yapmak başkasına ___ zarar verir.',
+      blank: 'büyük', options: ['büyük', 'küçük', 'geçici', 'önemsiz'] },
+    { id: 4, template: 'Farklılıkları ___ ile karşılamalıyız.',
+      blank: 'saygı', options: ['saygı', 'öfke', 'korku', 'nefret'] },
+    { id: 5, template: 'Birinin duygularını anlamaya çalışmak ___ olarak adlandırılır.',
+      blank: 'empati', options: ['empati', 'zorbalık', 'sempati', 'kibir'] },
+    { id: 6, template: 'Zorbalığa sessiz kalmak onu ___ etmek demektir.',
+      blank: 'desteklemek', options: ['desteklemek', 'durdurmak', 'azaltmak', 'görmezden gelmek'] },
+    { id: 7, template: 'Güvenli bir ortam için herkes ___ göstermelidir.',
+      blank: 'sorumluluk', options: ['sorumluluk', 'direnç', 'cesaret', 'yetenek'] },
+    { id: 8, template: 'Zorba davranışı durdurmanın en etkili yolu onu ___ bildirmektir.',
+      blank: 'yetkililere', options: ['yetkililere', 'kimseye', 'arkadaşa', 'aileye'] },
 ];
 
 var KAT_WORDS = [
@@ -46,15 +66,26 @@ var KAT_WORDS = [
 
 /* ---------- DURUM ---------- */
 
-var score1        = 0;
-var score2        = 0;
+var score1         = 0;
+var score3         = 0;
+var fillScore      = 0;
 var currentSection = 1;
 
 // Bölüm 1
-var placedCards  = {};
-var draggedEl    = null;
+var placedCards    = {};
+var draggedEl      = null;
+var cardQueue      = [];
+var currentCardIdx = 0;
+var activeCard     = null;
+var dogruCount     = 0;
+var yanlisCount    = 0;
 
 // Bölüm 2
+var fillCurrentIdx     = 0;
+var fillSelectedOption = null;
+var fillAnsweredCount  = 0;
+
+// Bölüm 3
 var selectedWord = null;
 var placedWords  = {};
 
@@ -84,34 +115,79 @@ function goToSection(n) {
         currentSection = n;
 
         document.getElementById('stepIndicator1').className = 'step' + (n > 1 ? ' done' : ' active');
-        document.getElementById('stepIndicator2').className = 'step' + (n === 2 ? ' active' : '');
+        document.getElementById('stepIndicator2').className = 'step' + (n === 2 ? ' active' : (n > 2 ? ' done' : ''));
+        document.getElementById('stepIndicator3').className = 'step' + (n === 3 ? ' active' : '');
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, 350);
 }
 
 /* ============================================================
-   BÖLÜM 1 — EŞLEŞTİRME (sürükle-bırak)
+   BÖLÜM 1 — EŞLEŞTİRME (flashcard tek kart akışı)
    ============================================================ */
 
 function buildCards() {
-    var pool = document.getElementById('itemsPool');
-    pool.innerHTML = '';
-    var shuffled = CARDS.slice().sort(function () { return Math.random() - 0.5; });
-    shuffled.forEach(function (card) {
-        var el = document.createElement('div');
-        el.className   = 'drag-item';
-        el.id          = 'card_' + card.id;
-        el.draggable   = true;
-        el.dataset.id  = card.id;
-        el.dataset.cat = card.category;
-        el.textContent = card.text;
-        el.addEventListener('dragstart', dragStart);
-        el.addEventListener('dragend',   dragEnd);
-        el.addEventListener('touchstart', touchStart, { passive: true });
-        el.addEventListener('touchend',   touchEnd,   { passive: false });
-        pool.appendChild(el);
-    });
+    cardQueue = CARDS.slice().sort(function () { return Math.random() - 0.5; });
+    currentCardIdx = 0;
+    placedCards    = {};
+    dogruCount     = 0;
+    yanlisCount    = 0;
+    document.getElementById('dogru-count').textContent  = 0;
+    document.getElementById('yanlis-count').textContent = 0;
+    document.getElementById('section1Done').style.display = 'none';
+    showNextCard();
+}
+
+function showNextCard() {
+    var wrap = document.getElementById('flashcardWrap');
+    wrap.innerHTML = '';
+
+    if (currentCardIdx >= cardQueue.length) {
+        document.getElementById('cardCounter').textContent = cardQueue.length + '/' + cardQueue.length;
+        document.getElementById('section1Done').style.display = 'block';
+        activeCard = null;
+        return;
+    }
+
+    document.getElementById('cardCounter').textContent = (currentCardIdx + 1) + '/' + cardQueue.length;
+
+    var card = cardQueue[currentCardIdx];
+    var el = document.createElement('div');
+    el.className   = 'flashcard flashcard-enter';
+    el.id          = 'card_' + card.id;
+    el.draggable   = true;
+    el.dataset.id  = String(card.id);
+    el.dataset.cat = card.category;
+    el.textContent = card.text;
+    el.addEventListener('dragstart', dragStart);
+    el.addEventListener('dragend',   dragEnd);
+    el.addEventListener('touchstart', touchStart, { passive: true });
+    el.addEventListener('touchend',   touchEnd,   { passive: false });
+    wrap.appendChild(el);
+    activeCard = el;
+}
+
+function placeCard(targetCat) {
+    if (!activeCard) return;
+    var cardId = parseInt(activeCard.dataset.id);
+    if (placedCards[cardId]) return;
+
+    var exitClass = targetCat === 'dogru' ? 'flashcard-exit-right' : 'flashcard-exit-left';
+    activeCard.classList.remove('flashcard-enter');
+    activeCard.classList.add(exitClass);
+
+    placedCards[cardId] = targetCat;
+    if (targetCat === 'dogru') {
+        dogruCount++;
+        document.getElementById('dogru-count').textContent = dogruCount;
+    } else {
+        yanlisCount++;
+        document.getElementById('yanlis-count').textContent = yanlisCount;
+    }
+    document.getElementById('scoreDisplay').textContent = Object.keys(placedCards).length * 5;
+
+    currentCardIdx++;
+    setTimeout(showNextCard, 320);
 }
 
 function dragStart(e) {
@@ -134,14 +210,7 @@ function allowDrop(e) {
 function drop(e, targetCat) {
     e.preventDefault();
     e.currentTarget.classList.remove('drag-over');
-    var cardId = parseInt(e.dataTransfer.getData('text/plain').replace('card_', ''));
-    var cardEl = document.getElementById('card_' + cardId);
-    if (!cardEl) return;
-    var targetContainer = document.getElementById(targetCat === 'dogru' ? 'droppedDogru' : 'droppedYanlis');
-    if (placedCards[cardId] === targetCat) return;
-    targetContainer.appendChild(cardEl);
-    placedCards[cardId] = targetCat;
-    updatePlacedCount();
+    placeCard(targetCat);
 }
 
 /* --- Touch sürükle-bırak --- */
@@ -182,12 +251,7 @@ function onTouchEndGlobal(e) {
         if (el.classList.contains('zone-dogru'))  targetZone = 'dogru';
         if (el.classList.contains('zone-yanlis')) targetZone = 'yanlis';
     });
-    if (targetZone) {
-        var cardId = parseInt(touchCard.id.replace('card_', ''));
-        document.getElementById(targetZone === 'dogru' ? 'droppedDogru' : 'droppedYanlis').appendChild(touchCard);
-        placedCards[cardId] = targetZone;
-        updatePlacedCount();
-    }
+    if (targetZone) placeCard(targetZone);
     touchClone.remove();
     touchClone = null;
     touchCard  = null;
@@ -195,44 +259,21 @@ function onTouchEndGlobal(e) {
     document.removeEventListener('touchend',  onTouchEndGlobal);
 }
 
-function updatePlacedCount() {
-    var count = Object.keys(placedCards).length;
-    document.getElementById('placedCount').textContent    = count;
-    document.getElementById('placedCountBar').textContent = count;
-    document.getElementById('progressBar').style.width    = (count / 14 * 100) + '%';
-}
+function updatePlacedCount() {} // no-op — counts updated inside placeCard
 
 function checkAllEsles() {
     score1 = 0;
-    var allPlaced = true;
-
     CARDS.forEach(function (card) {
-        var cardEl = document.getElementById('card_' + card.id);
-        if (!cardEl) return;
-        if (!placedCards[card.id]) { allPlaced = false; return; }
-        if (placedCards[card.id] === card.category) {
-            score1 += 10;
-            cardEl.classList.remove('wrong-placed');
-            cardEl.classList.add('correct-placed');
-        } else {
-            cardEl.classList.remove('correct-placed');
-            cardEl.classList.add('wrong-placed');
-        }
+        if (placedCards[card.id] === card.category) score1 += 10;
     });
 
-    document.getElementById('scoreDisplay').textContent    = score1;
-    document.getElementById('scoreDisplayBar').textContent = score1;
-
-    if (!allPlaced) {
-        alert('Lütfen tüm kartları bir kutuya sürükleyin!');
-        return;
-    }
+    document.getElementById('scoreDisplay').textContent = score1;
 
     var pct = score1 / 140 * 100;
     var emoji = '😔', msg = 'Daha iyi yapabilirsin!';
-    if (pct === 100)   { emoji = '🏆'; msg = 'Mükemmel! Hepsini doğru yaptın!'; }
-    else if (pct >= 70){ emoji = '🎉'; msg = 'Harika! Çok iyi bir skor!'; }
-    else if (pct >= 40){ emoji = '👍'; msg = 'İyi iş! Biraz daha çalışabilirsin.'; }
+    if (pct === 100)    { emoji = '🏆'; msg = 'Mükemmel! Hepsini doğru yaptın!'; }
+    else if (pct >= 70) { emoji = '🎉'; msg = 'Harika! Çok iyi bir skor!'; }
+    else if (pct >= 40) { emoji = '👍'; msg = 'İyi iş! Biraz daha çalışabilirsin.'; }
 
     document.getElementById('sectionDoneEmoji').textContent = emoji;
     document.getElementById('sectionDoneMsg').textContent   = msg;
@@ -253,7 +294,151 @@ function checkAllEsles() {
 }
 
 /* ============================================================
-   BÖLÜM 2 — KATEGORİ (tıkla-yerleştir)
+   BÖLÜM 2 — BOŞLUK DOLDURMA (tek soru akışı, seçenek chipli)
+   ============================================================ */
+
+function buildFillGame() {
+    fillCurrentIdx     = 0;
+    fillScore          = 0;
+    fillSelectedOption = null;
+    fillAnsweredCount  = 0;
+    document.getElementById('fillScoreDisplay').textContent    = 0;
+    document.getElementById('fillQuestionCounter').textContent = '1/' + FILL_SENTENCES.length;
+    document.getElementById('fillProgressText').textContent    = 0;
+    document.getElementById('fillProgressBar').style.width     = '0%';
+    document.getElementById('fillScoreBar').textContent        = 0;
+    var fb = document.getElementById('fillFeedback');
+    fb.textContent = '';
+    fb.className   = 'fill-feedback';
+    showFillQuestion();
+}
+
+function showFillQuestion() {
+    var q = FILL_SENTENCES[fillCurrentIdx];
+    document.getElementById('fillQuestionCounter').textContent = (fillCurrentIdx + 1) + '/' + FILL_SENTENCES.length;
+
+    var parts = q.template.split('___');
+    var card = document.getElementById('fillQuestionCard');
+    card.innerHTML =
+        '<div class="question-number">Soru ' + (fillCurrentIdx + 1) + ' / ' + FILL_SENTENCES.length + '</div>' +
+        '<div class="fill-sentence-display">' +
+        '<span class="fill-text-part">' + parts[0] + '</span>' +
+        '<span class="fill-blank-slot" id="fillBlankSlot">___</span>' +
+        (parts[1] ? '<span class="fill-text-part">' + parts[1] + '</span>' : '') +
+        '</div>';
+    card.className = 'fill-question-card';
+
+    var optContainer = document.getElementById('fillOptions');
+    optContainer.innerHTML = '';
+    var opts = q.options.slice().sort(function () { return Math.random() - 0.5; });
+    opts.forEach(function (opt) {
+        var chip = document.createElement('button');
+        chip.className   = 'fill-option-chip';
+        chip.textContent = opt;
+        chip.addEventListener('click', function () { selectFillOption(opt, chip); });
+        optContainer.appendChild(chip);
+    });
+
+    var fb = document.getElementById('fillFeedback');
+    fb.textContent = '';
+    fb.className   = 'fill-feedback';
+    fillSelectedOption = null;
+}
+
+function selectFillOption(opt, chipEl) {
+    document.querySelectorAll('.fill-option-chip').forEach(function (c) {
+        c.classList.remove('selected');
+    });
+    chipEl.classList.add('selected');
+    fillSelectedOption = opt;
+    var slot = document.getElementById('fillBlankSlot');
+    slot.textContent = opt;
+    slot.classList.add('has-value');
+}
+
+function checkFillAnswer() {
+    if (!fillSelectedOption) {
+        var fb = document.getElementById('fillFeedback');
+        fb.textContent = 'Önce bir seçenek seç!';
+        fb.className   = 'fill-feedback wrong-fb';
+        return;
+    }
+    var q = FILL_SENTENCES[fillCurrentIdx];
+    var fb = document.getElementById('fillFeedback');
+    document.querySelectorAll('.fill-option-chip').forEach(function (c) { c.disabled = true; });
+
+    if (fillSelectedOption === q.blank) {
+        fillScore += 10;
+        document.querySelectorAll('.fill-option-chip').forEach(function (c) {
+            if (c.textContent === q.blank) c.classList.add('correct');
+        });
+        fb.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;vertical-align:middle">check_circle</span> Doğru! +10 puan';
+        fb.className = 'fill-feedback correct-fb';
+    } else {
+        document.querySelectorAll('.fill-option-chip').forEach(function (c) {
+            if (c.textContent === fillSelectedOption) c.classList.add('wrong');
+            if (c.textContent === q.blank) c.classList.add('correct');
+        });
+        fb.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;vertical-align:middle">cancel</span> Yanlış! Doğru cevap: <strong>' + q.blank + '</strong>';
+        fb.className = 'fill-feedback wrong-fb';
+    }
+
+    fillAnsweredCount++;
+    document.getElementById('fillScoreDisplay').textContent    = fillScore;
+    document.getElementById('fillProgressText').textContent    = fillAnsweredCount;
+    document.getElementById('fillProgressBar').style.width     = (fillAnsweredCount / FILL_SENTENCES.length * 100) + '%';
+    document.getElementById('fillScoreBar').textContent        = fillScore;
+
+    setTimeout(function () {
+        fillCurrentIdx++;
+        fillSelectedOption = null;
+        if (fillCurrentIdx >= FILL_SENTENCES.length) {
+            finishFillGame();
+        } else {
+            showFillQuestion();
+        }
+    }, 1400);
+}
+
+function checkFillGame() { checkFillAnswer(); } // HTML onclick alias
+
+function fillHint() {
+    var q = FILL_SENTENCES[fillCurrentIdx];
+    document.querySelectorAll('.fill-option-chip').forEach(function (c) {
+        if (c.textContent === q.blank && !c.disabled) {
+            c.style.boxShadow   = '0 0 0 3px var(--tertiary)';
+            c.style.borderColor = 'var(--tertiary)';
+        }
+    });
+}
+
+function finishFillGame() {
+    var pct = fillScore / 80 * 100;
+    var emoji = '😔', msg = 'Daha iyi yapabilirsin!';
+    if (pct === 100)    { emoji = '🏆'; msg = 'Mükemmel! Hepsini doğru yaptın!'; }
+    else if (pct >= 70) { emoji = '🎉'; msg = 'Harika! Çok iyi bir skor!'; }
+    else if (pct >= 40) { emoji = '👍'; msg = 'İyi iş! Biraz daha çalışabilirsin.'; }
+
+    document.getElementById('fillDoneEmoji').textContent = emoji;
+    document.getElementById('fillDoneMsg').textContent   = msg;
+    document.getElementById('fillDoneScore').textContent = fillScore;
+    document.getElementById('fillDoneOverlay').classList.add('show');
+
+    var ss = document.getElementById('fillSaveStatus');
+    ss.textContent = '';
+    if (typeof saveScore === 'function') {
+        saveScore(6, fillScore, 80, function (data) {
+            if (data && data.success) {
+                ss.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
+            } else if (data && data.login_required) {
+                ss.innerHTML = '<a href="/genclik-rehberim/girisyap.php" style="color:var(--primary);font-weight:700">Puanı kaydetmek için giriş yap</a>';
+            }
+        });
+    }
+}
+
+/* ============================================================
+   BÖLÜM 3 — KATEGORİ (tıkla-yerleştir)
    ============================================================ */
 
 function buildWordChips() {
@@ -339,12 +524,12 @@ function checkAllKategori() {
             '<span class="material-symbols-outlined">warning</span>Lütfen tüm kelimeleri yerleştir! (' + placed + '/17)</div>';
         return;
     }
-    score2 = 0;
+    score3 = 0;
     KAT_WORDS.forEach(function (word) {
         var placedChip = document.getElementById('placed_' + word.id);
         if (!placedChip) return;
         if (placedWords[word.id] === word.category) {
-            score2 += 10;
+            score3 += 10;
             placedChip.style.background  = 'rgba(58,106,0,0.15)';
             placedChip.style.borderColor = 'var(--secondary)';
             placedChip.style.color       = 'var(--on-secondary-fixed-variant)';
@@ -357,19 +542,20 @@ function checkAllKategori() {
         }
     });
 
-    document.getElementById('scoreDisplayK').textContent    = score2;
-    document.getElementById('scoreDisplayBarK').textContent = score2;
+    document.getElementById('scoreDisplayK').textContent    = score3;
+    document.getElementById('scoreDisplayBarK').textContent = score3;
 
-    var total = score1 + score2;
+    var total = score1 + fillScore + score3;
     document.getElementById('finalScore1').textContent     = score1;
-    document.getElementById('finalScore2').textContent     = score2;
+    document.getElementById('finalScore2').textContent     = fillScore;
+    document.getElementById('finalScore3').textContent     = score3;
     document.getElementById('finalScoreTotal').textContent = total;
 
-    var pct = total / 310 * 100;
+    var pct = total / 390 * 100;
     var emoji = '😔', msg = 'Daha iyi yapabilirsin!';
-    if (pct === 100)   { emoji = '🏆'; msg = 'Mükemmel! Her iki bölümü de doğru tamamladın!'; }
-    else if (pct >= 70){ emoji = '🎉'; msg = 'Harika! Çok iyi bir toplam skor!'; }
-    else if (pct >= 40){ emoji = '👍'; msg = 'İyi iş! Biraz daha çalışabilirsin.'; }
+    if (pct === 100)    { emoji = '🏆'; msg = 'Mükemmel! Her üç bölümü de doğru tamamladın!'; }
+    else if (pct >= 70) { emoji = '🎉'; msg = 'Harika! Çok iyi bir toplam skor!'; }
+    else if (pct >= 40) { emoji = '👍'; msg = 'İyi iş! Biraz daha çalışabilirsin.'; }
 
     document.getElementById('resultFinalEmoji').textContent = emoji;
     document.getElementById('resultFinalMsg').textContent   = msg;
@@ -378,7 +564,7 @@ function checkAllKategori() {
     var ss2 = document.getElementById('saveStatus2');
     ss2.textContent = '';
     if (typeof saveScore === 'function') {
-        saveScore(3, score2, 170, function (data) {
+        saveScore(3, score3, 170, function (data) {
             if (data && data.success) {
                 ss2.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
             } else if (data && data.login_required) {
@@ -394,7 +580,8 @@ function checkAllKategori() {
 
 function checkAll() {
     if (currentSection === 1) checkAllEsles();
-    else if (currentSection === 2) checkAllKategori();
+    else if (currentSection === 2) checkFillAnswer();
+    else if (currentSection === 3) checkAllKategori();
 }
 
 /* ============================================================
@@ -405,7 +592,7 @@ document.addEventListener('DOMContentLoaded', function () {
     buildCards();
     buildWordChips();
 
-    document.querySelectorAll('#section1 .drop-zone').forEach(function (zone) {
+    document.querySelectorAll('#section1 .flashcard-zone').forEach(function (zone) {
         zone.addEventListener('dragleave', function () {
             this.classList.remove('drag-over');
         });
@@ -418,8 +605,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.key === 'Enter' || e.key === ' ') placeSelected('not');
     });
 
+    document.getElementById('checkFillBtn').addEventListener('click', checkFillAnswer);
+    document.getElementById('fillHintBtn').addEventListener('click', fillHint);
+
     document.getElementById('goToSection2Btn').addEventListener('click', function () {
         document.getElementById('sectionDoneOverlay').classList.remove('show');
+        buildFillGame();
         goToSection(2);
+    });
+
+    document.getElementById('goToSection3Btn').addEventListener('click', function () {
+        document.getElementById('fillDoneOverlay').classList.remove('show');
+        goToSection(3);
     });
 });

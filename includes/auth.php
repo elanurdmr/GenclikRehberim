@@ -87,6 +87,7 @@ function loginUser(string $username, string $password): array {
     }
 
     // Oturum değişkenlerini ayarla
+    session_regenerate_id(true);
     $_SESSION['user_id']  = $user['id'];
     $_SESSION['username'] = $user['username'];
     $_SESSION['role']     = $user['role'];

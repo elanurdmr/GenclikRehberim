@@ -16,6 +16,7 @@ requireAdmin();
 $stats        = getAdminStats();
 $leaderboard  = getLeaderboard(10);
 $recentScores = getAllScores();
+$activityCount = (int)getDB()->query('SELECT COUNT(*) FROM activities')->fetchColumn();
 
 // Son 5 skoru al
 $recentScores = array_slice($recentScores, 0, 5);
@@ -143,7 +144,7 @@ $recentScores = array_slice($recentScores, 0, 5);
                 </div>
                 <div class="stat-info">
                     <p>Etkinlik Sayısı</p>
-                    <h3>4</h3>
+                    <h3><?= $activityCount ?></h3>
                 </div>
             </div>
 
@@ -277,14 +278,14 @@ $recentScores = array_slice($recentScores, 0, 5);
                     </div>
                     <span class="badge badge-success">Aktif</span>
                 </div>
-                <!-- Eşleştirme & Kategori (birleşik) -->
+                <!-- Eşleştirme -->
                 <div class="admin-modules__card">
                     <div class="admin-modules__icon--secondary">
                         <span class="material-symbols-outlined admin-modules__icon-symbol--secondary">join_inner</span>
                     </div>
                     <div class="admin-modules__info">
-                        <div class="admin-modules__name">Eşleştirme & Kategori</div>
-                        <div class="admin-modules__detail">2 Bölüm · 310 Puan</div>
+                        <div class="admin-modules__name">Eşleştirme</div>
+                        <div class="admin-modules__detail">3 Bölüm · 390 Puan</div>
                     </div>
                     <span class="badge badge-success">Aktif</span>
                 </div>

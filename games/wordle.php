@@ -24,7 +24,7 @@ $wordleDateSeed = gmdate('Y-m-d'); // Günlük kelime (UTC; tutarlı seed)
             <div class="game-header-row">
                 <div class="game-header-text">
                     <h1>5 Harfli Kelime</h1>
-                    <p>Günde bir kelime, <strong>6 deneme</strong>. Doğru harf yerinde yeşil, yanlış yerde sarı, yoksa gri.</p>
+                    <p>Günde bir kelime, <strong>8 deneme</strong>. Doğru harf yerinde yeşil, yanlış yerde sarı, yoksa gri.</p>
                 </div>
                 <div class="game-stats-box" aria-label="Oyun istatistikleri">
                     <div class="game-stat-item">

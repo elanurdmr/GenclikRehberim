@@ -21,6 +21,13 @@ if (!isLoggedIn()) {
 }
 
 $raw = file_get_contents('php://input');
+$cwRateKey = 'last_cw_' . substr(md5($raw ?? ''), 0, 8);
+if (isset($_SESSION[$cwRateKey]) && time() - $_SESSION[$cwRateKey] < 2) {
+    http_response_code(429);
+    echo json_encode(['success' => false, 'message' => 'Çok hızlı istek.']);
+    exit;
+}
+$_SESSION[$cwRateKey] = time();
 $data = json_decode($raw, true);
 if (!is_array($data)) {
     echo json_encode(['success' => false, 'message' => 'Geçersiz JSON.']);

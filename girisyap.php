@@ -5,6 +5,7 @@
  */
 
 require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/csrf.php';
 
 $pageTitle = 'Giriş Yap';
 
@@ -16,6 +17,7 @@ if (isLoggedIn()) {
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_verify();
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
@@ -44,9 +46,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/tokens.css">
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/base.css">
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/layout.css">
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/components.css">
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/auth.css">
     <link rel="stylesheet" href="/genclik-rehberim/assets/css/style.css">
 </head>
 <body>
+
+<nav style="padding:1rem 1.5rem;background:rgba(255,255,255,0.92);
+            border-bottom:1px solid var(--outline-variant);
+            display:flex;align-items:center;gap:0.75rem">
+    <a href="/genclik-rehberim/index.php"
+       style="display:flex;align-items:center;gap:0.5rem;
+              font-weight:900;color:var(--primary);font-size:1.1rem;
+              text-decoration:none">
+        <span class="material-symbols-outlined"
+              style="font-variation-settings:'FILL' 1">shield_person</span>
+        Gençlik Rehberim
+    </a>
+    <span style="margin-left:auto;color:var(--on-surface-variant);
+                 font-size:0.85rem">
+        <?php if (basename($_SERVER['PHP_SELF']) === 'girisyap.php'): ?>
+            Hesabın yok mu?
+            <a href="/genclik-rehberim/kayitol.php"
+               style="color:var(--primary);font-weight:700">Kayıt Ol</a>
+        <?php else: ?>
+            Hesabın var mı?
+            <a href="/genclik-rehberim/girisyap.php"
+               style="color:var(--primary);font-weight:700">Giriş Yap</a>
+        <?php endif; ?>
+    </span>
+</nav>
 
 <div class="auth-split-page">
     <div class="auth-split-inner">
@@ -81,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
 
                 <form method="POST" action="" novalidate>
+                    <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                     <label class="auth-field-label" for="username">Kullanıcı adı veya e-posta</label>
                     <div class="auth-input-wrap">
                         <span class="material-symbols-outlined input-icon">alternate_email</span>

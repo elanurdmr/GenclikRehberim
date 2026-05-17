@@ -44,7 +44,7 @@ $_SESSION[$rateKey] = time();
 $score = isset($data['score']) ? (int)$data['score'] : 0;
 
 // Değerlerin geçerli aralıkta olduğunu kontrol et
-if ($activityId < 1 || $activityId > 4) {
+if ($activityId < 1) {
     echo json_encode(['success' => false, 'message' => 'Geçersiz etkinlik ID.']);
     exit;
 }

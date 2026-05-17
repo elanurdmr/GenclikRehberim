@@ -175,11 +175,11 @@ $leaderboard = getLeaderboard(3);
                     </span>
                 </div>
                 <div>
-                    <h3>Eşleştirme & Kategori</h3>
+                    <h3>Eşleştirme</h3>
                     <p>İki bölümlü oyun: kartları sürükle-bırak ile eşleştir, ardından kelimeleri doğru kategoriye yerleştir!</p>
                 </div>
                 <div class="score-badge">
-                    <span class="material-symbols-outlined">star</span> Max 310 Puan
+                    <span class="material-symbols-outlined">star</span> Max 390 Puan
                 </div>
                 <div class="game-card-preview">
                     <img

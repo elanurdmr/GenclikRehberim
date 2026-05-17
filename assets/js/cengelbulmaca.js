@@ -1,6 +1,5 @@
 /* ===========================================================
    ÇENGEL BULMACA — JavaScript
-   12×12 ızgara · Otomatik yön · Gizli kelime mekaniği
    =========================================================== */
 
 (function () {
@@ -13,30 +12,14 @@
     var earned          = 0;
     var scoreSaved      = false;
     var completedWords  = {};
-    var lastClickedKey  = null; /* son tıklanan hücre 'r_c' */
+    var focusedR        = -1;
+    var focusedC        = -1;
 
-    /* Gizli kelime: hangi clue? */
-    var secretN   = null;
-    var secretDir = null;
-    (function findSecret() {
-        var sw = CFG.secretWord;
-        if (!sw) return;
-        var keys, i;
-        keys = Object.keys(acrossByN);
-        for (i = 0; i < keys.length; i++) {
-            if (acrossByN[keys[i]].word === sw) { secretN = keys[i]; secretDir = 'across'; return; }
-        }
-        keys = Object.keys(downByN);
-        for (i = 0; i < keys.length; i++) {
-            if (downByN[keys[i]].word === sw) { secretN = keys[i]; secretDir = 'down'; return; }
-        }
-    })();
-
-    var elEarned   = document.querySelector('.js-cw-earned');
-    var elDirLabel = document.querySelector('.js-cw-dir-label');
+    var elEarned    = document.querySelector('.js-cw-earned');
     var elActiveDir  = document.querySelector('.js-cw-active-dir');
     var elActiveNum  = document.querySelector('.js-cw-active-num');
     var elActiveText = document.querySelector('.js-cw-active-text');
+    var elHintBtn    = document.querySelector('.js-cw-hint-btn');
 
     /* Tüm .js-cw-final-score ve .js-cw-max-score elementlerini güncelle */
     function setFinalScoreEls(pts) {
@@ -71,10 +54,6 @@
 
     function solAt(r, c) {
         return CFG.sol[r][c];
-    }
-
-    function updateDirLabel() {
-        elDirLabel.textContent = activeAcross ? 'Yön: soldan sağa' : 'Yön: yukarıdan aşağıya';
     }
 
     function clueNumAt(r, c, across) {
@@ -113,17 +92,37 @@
     }
 
     function focusMeta(r, c) {
+        focusedR = r; focusedC = c;
         var meta = activeClueMeta(r, c);
         if (meta.cl) {
             elActiveDir.textContent  = activeAcross ? 'Soldan sağa' : 'Yukarıdan aşağıya';
             elActiveNum.textContent  = ' · ' + meta.n;
             elActiveText.textContent = meta.cl.clue;
             highlightClue(meta.n, activeAcross);
+            if (elHintBtn) elHintBtn.style.display = 'block';
         } else {
             elActiveDir.textContent  = 'İpucu';
             elActiveNum.textContent  = '';
             elActiveText.textContent = 'Geçerli hücre seç.';
+            if (elHintBtn) elHintBtn.style.display = 'none';
         }
+    }
+
+    /* Aktif hücrenin ipucusunu döndürür (hem yatay hem dikey dener) */
+    function getActiveClue() {
+        var el = document.activeElement;
+        if (!el || !el.classList.contains('crossword-cell-input')) return null;
+        var r = parseInt(el.getAttribute('data-r'), 10);
+        var c = parseInt(el.getAttribute('data-c'), 10);
+        var meta = activeClueMeta(r, c);
+        if (meta.cl) return { cl: meta.cl, across: activeAcross };
+        /* Karşı yönde dene */
+        var wasAcross = activeAcross;
+        activeAcross = !activeAcross;
+        meta = activeClueMeta(r, c);
+        activeAcross = wasAcross;
+        if (meta.cl) return { cl: meta.cl, across: !wasAcross };
+        return null;
     }
 
     /* -------- Kelime okuma -------- */
@@ -183,11 +182,6 @@
                         : '.js-cw-done-down-'   + clueNum
                 );
                 if (icon) icon.hidden = false;
-
-                /* Gizli kelime mi tamamlandı? */
-                if (String(clueNum) === String(secretN) && direction === secretDir) {
-                    setTimeout(showSecretWordFound, 300);
-                }
             } else {
                 delete completedWords[key];
                 var cl2 = direction === 'across' ? acrossByN[String(clueNum)] : downByN[String(clueNum)];
@@ -223,7 +217,12 @@
         while (nr >= 0 && nr < CFG.h && nc >= 0 && nc < CFG.w) {
             if (CFG.sol[nr][nc] !== '#') {
                 var t = cellInput(nr, nc);
-                if (t) { t.focus(); return; }
+                if (t) {
+                    if (t.value && trKey(t.value) === CFG.sol[nr][nc]) {
+                        nr += dr; nc += dc; continue;
+                    }
+                    t.focus(); return;
+                }
             }
             nr += dr; nc += dc;
         }
@@ -268,31 +267,6 @@
         }
     }
 
-    /* -------- Gizli kelime bulundu -------- */
-
-    function showSecretWordFound() {
-        if (scoreSaved) return;
-        scoreSaved = true;
-        clearInterval(timerInterval);
-
-        setFinalScoreEls(earned);
-        setMaxScoreEls();
-        document.getElementById('secretWordReveal').textContent = CFG.secretWord;
-
-        var ss = document.getElementById('secretSaveStatus');
-        ss.textContent = '';
-        if (typeof saveScore === 'function') {
-            saveScore(5, earned, CFG.maxScore, function (data) {
-                if (data && data.success) {
-                    ss.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
-                } else if (data && data.login_required) {
-                    ss.innerHTML = '<a href="/genclik-rehberim/girisyap.php" style="color:var(--primary);font-weight:700">Puanı kaydetmek için giriş yap</a>';
-                }
-            });
-        }
-        document.getElementById('secretWordOverlay').classList.add('show');
-    }
-
     /* -------- Oyunu Bitir -------- */
 
     function finishGame() {
@@ -328,27 +302,24 @@
            hangi yönlerde ipucu içerdiğine bakarak yönü belirler.
            Aynı hücreye ikinci kez tıklanırsa yön değişir. */
         inp.addEventListener('mousedown', function () {
-            var r   = parseInt(inp.getAttribute('data-r'), 10);
-            var c   = parseInt(inp.getAttribute('data-c'), 10);
+            var r = parseInt(inp.getAttribute('data-r'), 10);
+            var c = parseInt(inp.getAttribute('data-c'), 10);
             var key = r + '_' + c;
-
             var acrossN = clueNumAt(r, c, true);
             var downN   = clueNumAt(r, c, false);
-            var hasA    = acrossN && acrossByN[String(acrossN)];
-            var hasD    = downN   && downByN[String(downN)];
+            var hasA = acrossN && acrossByN[String(acrossN)];
+            var hasD = downN   && downByN[String(downN)];
 
             if (hasA && !hasD) {
                 activeAcross = true;
             } else if (!hasA && hasD) {
                 activeAcross = false;
             } else if (hasA && hasD) {
-                if (lastClickedKey === key) {
+                if (window._cwLastKey === key) {
                     activeAcross = !activeAcross;
                 }
             }
-
-            lastClickedKey = key;
-            updateDirLabel();
+            window._cwLastKey = key;
         });
 
         inp.addEventListener('focus', function () {
@@ -366,13 +337,6 @@
         var r = parseInt(el.getAttribute('data-r'), 10);
         var c = parseInt(el.getAttribute('data-c'), 10);
 
-        if (e.key === ' ') {
-            e.preventDefault();
-            activeAcross = !activeAcross;
-            updateDirLabel();
-            focusMeta(r, c);
-            return;
-        }
         if (e.key === 'Backspace' && el.value === '') {
             e.preventDefault();
             if (activeAcross) moveInReverse(r, c, 0, 1);
@@ -383,18 +347,6 @@
         else if (e.key === 'ArrowLeft')  { e.preventDefault(); moveInDirection(r, c, 0, -1); }
         else if (e.key === 'ArrowDown')  { e.preventDefault(); moveInDirection(r, c, 1,  0); }
         else if (e.key === 'ArrowUp')    { e.preventDefault(); moveInDirection(r, c, -1, 0); }
-    });
-
-    document.querySelector('.js-cw-toggle-dir').addEventListener('click', function () {
-        activeAcross = !activeAcross;
-        updateDirLabel();
-        var el = document.activeElement;
-        if (el && el.classList.contains('crossword-cell-input')) {
-            focusMeta(
-                parseInt(el.getAttribute('data-r'), 10),
-                parseInt(el.getAttribute('data-c'), 10)
-            );
-        }
     });
 
     document.querySelectorAll('.js-cw-tab').forEach(function (btn) {
@@ -413,7 +365,6 @@
             var dir = li.getAttribute('data-dir');
             var n   = parseInt(li.getAttribute('data-num'), 10);
             activeAcross = dir === 'across';
-            updateDirLabel();
             var cl = dir === 'across' ? acrossByN[String(n)] : downByN[String(n)];
             if (cl) {
                 var inp = cellInput(cl.r, cl.c);
@@ -438,13 +389,50 @@
 
     document.querySelector('.js-cw-finish').addEventListener('click', finishGame);
 
-    document.getElementById('continueAfterSecretBtn').addEventListener('click', function () {
-        document.getElementById('secretWordOverlay').classList.remove('show');
-    });
+    if (elHintBtn) {
+        elHintBtn.addEventListener('click', function () {
+            var active = getActiveClue();
+            if (!active) return;
+            var cl     = active.cl;
+            var across = active.across;
+
+            /* Boş veya yanlış hücreleri topla */
+            var candidates = [];
+            for (var i = 0; i < cl.word.length; i++) {
+                var hr  = across ? cl.r     : cl.r + i;
+                var hc  = across ? cl.c + i : cl.c;
+                var inp = cellInput(hr, hc);
+                if (!inp) continue;
+                var correct = CFG.sol[hr][hc];
+                if (!inp.value || trKey(inp.value) !== correct) {
+                    candidates.push({ r: hr, c: hc, inp: inp, correct: correct });
+                }
+            }
+            if (candidates.length === 0) return;
+
+            /* Rastgele bir hücre seç */
+            var pick = candidates[Math.floor(Math.random() * candidates.length)];
+            pick.inp.value = pick.correct;
+            var cell = pick.inp.closest('.crossword-cell');
+            cell.classList.remove('crossword-letter-wrong');
+
+            /* Altın flaş animasyonu */
+            cell.style.transition = 'background 0.15s';
+            cell.style.background = 'rgba(255,190,11,0.45)';
+            setTimeout(function () { cell.style.background = ''; }, 600);
+
+            earned = Math.max(0, earned - 5);
+            elEarned.textContent = String(earned);
+
+            var ca = acrossByN[String(clueNumAt(pick.r, pick.c, true))];
+            if (ca) checkClueCompletion(ca, true);
+            var cd = downByN[String(clueNumAt(pick.r, pick.c, false))];
+            if (cd) checkClueCompletion(cd, false);
+        });
+    }
 
     /* -------- init -------- */
 
-    updateDirLabel();
     setMaxScoreEls();
 
     Object.keys(acrossByN).forEach(function (k) {

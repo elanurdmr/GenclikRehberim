@@ -36,7 +36,7 @@ function crossword_fetch_bank(): array
     $out = [];
     foreach ($rows as $r) {
         $len = mb_strlen(crossword_normalize_answer((string)$r['answer']), 'UTF-8');
-        if ($len < 3 || $len > 8) {
+        if ($len < 3 || $len > 10) {
             continue;
         }
         $out[] = [
@@ -78,7 +78,7 @@ function crossword_seeded_shuffle(array $items, string $seed): array
 function crossword_attempt_generate(array $bank, array $clueByAnswer, string $shuffleKey): ?array
 {
     $shuffled = crossword_seeded_shuffle($bank, $shuffleKey);
-    foreach ([12, 10, 9, 8, 7, 6, 5] as $maxW) {
+    foreach ([14, 12, 11, 10, 9, 8, 7, 6] as $maxW) {
         $gen = crossword_generate($shuffled, 15, 15, $maxW);
         if ($gen === null) {
             continue;
@@ -154,6 +154,16 @@ function crossword_embedded_fallback_bank(): array
         ['id' => 28, 'clue' => '"Başarabilirim" gibi pozitif iç ses.',                        'answer' => 'ÖZGÜVEN'],
         ['id' => 29, 'clue' => 'Birinin haklarını çiğnemek, zarar vermek.',                   'answer' => 'ZORBALIK'],
         ['id' => 30, 'clue' => 'Kavga etmeden, uyum içinde yaşayan.',                         'answer' => 'BARIŞÇIL'],
+        ['id' => 31, 'clue' => 'İnsanları bir arada tutan toplumsal bağ.',                    'answer' => 'DAYANIŞMA'],
+        ['id' => 32, 'clue' => 'Farklılıklara hoşgörüyle bakma.',                             'answer' => 'HOŞGÖRÜ'],
+        ['id' => 33, 'clue' => 'Kendine olan inanç ve güven.',                                'answer' => 'ÖZGÜVEN'],
+        ['id' => 34, 'clue' => 'Zor anlarda yılmadan devam etmek.',                           'answer' => 'KARARLIL'],
+        ['id' => 35, 'clue' => 'Birinin acısını hissedip üzülme.',                            'answer' => 'MERHAMETLİ'],
+        ['id' => 36, 'clue' => 'Birden fazla kişinin birlikte çalışması.',                    'answer' => 'İŞBİRLİĞİ'],
+        ['id' => 37, 'clue' => 'Başkalarını etkileyen, yol gösteren kişi.',                   'answer' => 'LİDER'],
+        ['id' => 38, 'clue' => 'Yanlışı kabul edip özür dilemek.',                            'answer' => 'ÖZÜR'],
+        ['id' => 39, 'clue' => 'Herkesin eşit haklara sahip olması.',                         'answer' => 'EŞİTLİK'],
+        ['id' => 40, 'clue' => 'Başkasının başarısından sevinmek.',                           'answer' => 'TEBRİK'],
     ];
 }
 
@@ -185,15 +195,9 @@ function crossword_build_puzzle(string $dateSeed): ?array
     foreach ([$dateSeed, $dateSeed . '_b', $dateSeed . '_c'] as $trySeed) {
         $r = crossword_attempt_generate($bank, $clueByAnswer, $trySeed);
         if ($r !== null) {
-            $allClues = array_merge($r['acrossList'], $r['downList']);
-            usort($allClues, static fn ($a, $b) => mb_strlen($b['word'], 'UTF-8') <=> mb_strlen($a['word'], 'UTF-8'));
-            $secretEntry = $allClues[0] ?? null;
-
             return array_merge($r, [
-                'seed' => $dateSeed,
+                'seed'       => $dateSeed,
                 'shuffleKey' => $trySeed,
-                'secretWord' => $secretEntry ? $secretEntry['word'] : '',
-                'secretClue' => $secretEntry ? $secretEntry['clue'] : '',
             ]);
         }
     }
