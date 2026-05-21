@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php --version)",
+      "Bash(where php *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Code\\\\genclik-rehberim\" -Recurse -File -Filter \"*.php\")",
+      "Bash(Select-Object FullName)",
+      "PowerShell(head *)",
+      "Read(//c/xampp/php/**)",
+      "Read(//c/Program Files/**)",
+      "PowerShell(php --version; Write-Output \"----MYSQL----\"; php -r \"try { new PDO\\('mysql:host=localhost;dbname=db_genclik_rehberim;charset=utf8mb4','root',''\\); echo 'DB OK'; } catch \\(Exception \\\\$e\\) { echo 'DB FAIL: '.\\\\$e->getMessage\\(\\); }\")",
+      "PowerShell(php C:\\\\Code\\\\genclik-rehberim\\\\tools\\\\_dbcheck.php)",
+      "PowerShell(php -l C:\\\\Code\\\\genclik-rehberim\\\\includes\\\\env.php; php -l C:\\\\Code\\\\genclik-rehberim\\\\includes\\\\db.php)",
+      "PowerShell(php -l C:\\\\Code\\\\genclik-rehberim\\\\games\\\\bulmaca.php)",
+      "PowerShell(php -l C:\\\\Code\\\\genclik-rehberim\\\\includes\\\\functions.php; php -l C:\\\\Code\\\\genclik-rehberim\\\\games\\\\bulmaca.php; php -l C:\\\\Code\\\\genclik-rehberim\\\\games\\\\wordle.php; php -l C:\\\\Code\\\\genclik-rehberim\\\\games\\\\eslestirme.php; php -l C:\\\\Code\\\\genclik-rehberim\\\\games\\\\cengelbulmaca.php)",
+      "PowerShell(php -l C:\\\\Code\\\\genclik-rehberim\\\\games\\\\cengelbulmaca.php)",
+      "PowerShell(Get-Command *)",
+      "PowerShell($files = @\\('cengelbulmaca.js','bulmaca.js','wordle.js','eslestirme.js','main.js'\\); foreach \\($f in $files\\) { node --check \"C:\\\\Code\\\\genclik-rehberim\\\\assets\\\\js\\\\$f\"; if \\($?\\) { Write-Output \"OK: $f\" } })",
+      "PowerShell(php C:\\\\Code\\\\genclik-rehberim\\\\tools\\\\_verify_crossword.php)",
+      "PowerShell(php C:\\\\Code\\\\genclik-rehberim\\\\tools\\\\_verify_db.php)",
+      "PowerShell(php C:\\\\Code\\\\genclik-rehberim\\\\tools\\\\_list_db.php)",
+      "PowerShell(php C:\\\\Code\\\\genclik-rehberim\\\\tools\\\\_import_schema.php)",
+      "Bash(node *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Code\\\\genclik-rehberim\" -File -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object Name)",
+      "PowerShell(cmd /c mklink /J C:\\\\xampp\\\\htdocs\\\\genclik-rehberim C:\\\\Code\\\\genclik-rehberim)"
+    ]
+  }
+}
