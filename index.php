@@ -103,12 +103,6 @@ $leaderboard = getLeaderboard(3);
                 <div class="score-badge">
                     <span class="material-symbols-outlined">star</span> Max 100 Puan
                 </div>
-                <div class="game-card-preview">
-                    <img
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPUGP5lIwsHR4-QzBI2banxpDuTGwWw994X_j9N1zZ4QFygnL05FRcrxItPRFsRzyduQ5T6ciJK-NklP5OPQeSi18Cv_BjDohO-eWdJ7DiSUuj6Wk-wB-FcLPqJ1ZA8RcFEMhUsIE04yxputL_dnwYwZ6OmCHXioPCPpJWP6RZqrCuopUQxgoTWCyvEv86YvASGCl6plNhQqzy37RpREBe2pfsF6qSp2GtMQtA9hcY6wyV1E9kQlpUtrDW0EC6hWnVvcnERhI9A_Px"
-                        alt="Bulmaca Önizleme"
-                        loading="lazy">
-                </div>
                 <a href="/genclik-rehberim/games/bulmaca.php" class="btn btn-primary">
                     <span class="material-symbols-outlined">play_arrow</span> Oyna
                 </a>
@@ -130,9 +124,6 @@ $leaderboard = getLeaderboard(3);
                 </div>
                 <div class="score-badge">
                     <span class="material-symbols-outlined">star</span> Max 100 Puan
-                </div>
-                <div class="game-card-preview" style="background:linear-gradient(135deg,var(--secondary-container),var(--secondary));min-height:140px;display:flex;align-items:center;justify-content:center">
-                    <span class="material-symbols-outlined" style="font-size:64px;color:var(--on-secondary);font-variation-settings:'FILL' 1">grid_on</span>
                 </div>
                 <a href="/genclik-rehberim/games/cengelbulmaca.php" class="btn btn-secondary">
                     <span class="material-symbols-outlined">play_arrow</span> Oyna
@@ -156,9 +147,6 @@ $leaderboard = getLeaderboard(3);
                 <div class="score-badge">
                     <span class="material-symbols-outlined">star</span> Max 100 Puan
                 </div>
-                <div class="game-card-preview" style="background:linear-gradient(180deg,#0d47a1,#1565c0);min-height:140px;display:flex;align-items:center;justify-content:center">
-                    <span class="material-symbols-outlined" style="font-size:64px;color:#fff;font-variation-settings:'FILL' 1">abc</span>
-                </div>
                 <a href="/genclik-rehberim/games/wordle.php" class="btn btn-primary">
                     <span class="material-symbols-outlined">play_arrow</span> Oyna
                 </a>
@@ -180,12 +168,6 @@ $leaderboard = getLeaderboard(3);
                 </div>
                 <div class="score-badge">
                     <span class="material-symbols-outlined">star</span> Max 390 Puan
-                </div>
-                <div class="game-card-preview">
-                    <img
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTd_WKaslyxrGXH234c6wW3-u3HsjdJ4ptAcUMyGYC3BAppDPOtGXioPCPpJWP6RZqrCuopUQxgoTWCyvEv86YvASGCl6plNhQqzy37RpREBe2pfsF6qSp2GtMQtA9hcY6wyV1E9kQlpUtrDW0EC6hWnVvcnERhI9A_Px"
-                        alt="Eşleştirme Önizleme"
-                        loading="lazy">
                 </div>
                 <a href="/genclik-rehberim/games/eslestirme.php" class="btn btn-secondary">
                     <span class="material-symbols-outlined">play_arrow</span> Başla

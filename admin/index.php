@@ -75,8 +75,8 @@ $recentScores = array_slice($recentScores, 0, 5);
                 </p>
             </div>
             <div class="admin-content__actions">
-                <a href="/genclik-rehberim/admin/scores.php" class="btn btn-surface btn-sm">
-                    <span class="material-symbols-outlined">download</span> Tüm Skorlar
+                <a href="/genclik-rehberim/admin/export_csv.php" class="btn btn-surface btn-sm">
+                    <span class="material-symbols-outlined">download</span> CSV İndir
                 </a>
                 <a href="/genclik-rehberim/admin/users.php" class="btn btn-primary btn-sm">
                     <span class="material-symbols-outlined">groups</span> Kullanıcılar
@@ -283,7 +283,7 @@ $recentScores = array_slice($recentScores, 0, 5);
                     <span class="material-symbols-outlined icon-fill">sports_esports</span>
                     Oyun Modülleri
                 </h2>
-                <span class="badge badge-success">4 Aktif</span>
+                <span class="badge badge-success"><?= (int)$stats['total_activities'] ?> Aktif</span>
             </div>
             <div class="admin-modules__grid">
                 <!-- Bulmaca -->

@@ -8,7 +8,8 @@
     /* Etkinlik ID'si PHP'den gelir; sabit kodlanmaz. */
     const ACTIVITY_ID = window.GAME_CONFIG.activityId || 4;
 
-    const WORDS = [
+    /* Günlük hedef kelimeleri — bunlardan biri çözüm olarak seçilir. */
+    const TARGET_WORDS = [
         'DURUM', 'CESUR', 'SAYGI', 'OLMAK', 'GEREK', 'FARKI', 'BIRAK', 'İÇSEL', 'ORTAK', 'GÜVEN',
         'KORUN', 'DENGE', 'DOĞRU', 'YALAN', 'SINIR', 'ÖZGÜR', 'SAVUN', 'ÇÖZÜM', 'KONUŞ',
         'DİNLE', 'HELAL', 'NAMUS', 'HAKLI', 'BARIŞ', 'ÖRNEK', 'GÜÇLÜ', 'MERAK', 'ÖZGÜN', 'İLETİ', 'UYGUN',
@@ -20,9 +21,44 @@
         'ŞÜKÜR', 'DOĞAL', 'TATLI', 'ŞARKI', 'ÇİÇEK', 'SOĞUK', 'SICAK', 'BÜTÜN', 'PAYDA', 'UZMAN'
     ];
 
+    /* Geçerli tahmin kelimeler — hedef listesi + ek Türkçe sözlük.
+       Burada olmayan bir kelime girildiğinde satır harcanmadan uyarı verilir. */
+    const VALID_WORDS = new Set([
+        ...TARGET_WORDS,
+        'AÇMAK', 'ALTIN', 'ALMAK', 'ARABA', 'ARAZI', 'ARMUT', 'ASKER', 'ASLAN',
+        'BADEM', 'BALIK', 'BANKA', 'BEBEK', 'BEKLE', 'BEYAZ', 'BÖREK', 'BOZMA', 'BÜTÇE', 'BÜYÜT',
+        'ÇANTA', 'ÇARŞI', 'ÇOCUK',
+        'DENİZ', 'DEVAM', 'DOĞUM', 'DUVAR',
+        'ELMAS', 'EMSAL',
+        'FİYAT', 'FORUM',
+        'GÜMÜŞ',
+        'HABER', 'HALKA', 'HAMLE', 'HAMSİ', 'HOROZ',
+        'İDEAL', 'İZLEM',
+        'KADAR', 'KADIN', 'KABLO', 'KANCA', 'KAPAK', 'KARMA', 'KAVUN', 'KENAR', 'KEMER', 'KESME',
+        'KİLİM', 'KİRAZ', 'KIRIK', 'KONUT', 'KÖFTE', 'KÖPEK', 'KUBBE', 'KURUL', 'KUŞAK', 'KÜMES',
+        'LIMAN',
+        'MEKAN', 'MEYVE', 'MİZAH', 'MÜDÜR',
+        'NAMAZ', 'NEHİR', 'NÜFUS',
+        'OKUMA', 'ÖNLEM',
+        'PAKET', 'PASTA', 'PAZAR', 'PEMBE', 'PERDE',
+        'RESİM',
+        'SAHTE', 'SALON', 'SARAY', 'SEFER', 'SINAV', 'SOKAK', 'SOYUT', 'SÜPER',
+        'ŞAHİN', 'ŞARAP', 'ŞEKER',
+        'TABLO', 'TAHTA', 'TAMAM', 'TARAF', 'TAVAN', 'TEKNE', 'TEMEL', 'TEORİ', 'TOPLU', 'TURNA', 'TUTAR', 'TÜNEL', 'TUZAK',
+        'ÜZERE',
+        'VAGON', 'VATAN', 'VURMA',
+        'YARGI', 'YASAL', 'YASAK', 'YATAK', 'YATAY', 'YAZAR', 'YEŞİL', 'YEMEK', 'YİRMİ', 'YOLCU',
+        'ZARIF', 'ZİHİN'
+    ]);
+
     const ROWS = 8;
     const COLS = 5;
 
+    /**
+     * Verilen string için deterministik bir tam sayı hash üretir.
+     * @param {string} str - Hash'lenecek string (tarih seed'i)
+     * @returns {number} Negatif olmayan tam sayı hash değeri
+     */
     function hashDay(str) {
         let h = 0;
         for (let i = 0; i < str.length; i++) {
@@ -32,19 +68,42 @@
         return Math.abs(h);
     }
 
+    /**
+     * Günlük seed'e göre hedef kelimeyi seçer.
+     * @returns {string} Büyük harfli 5 karakterli Türkçe kelime
+     */
     function pickSolution() {
-        const i = hashDay(DATE_SEED) % WORDS.length;
-        return WORDS[i];
+        const i = hashDay(DATE_SEED) % TARGET_WORDS.length;
+        return TARGET_WORDS[i];
     }
 
+    /**
+     * Türkçe karakterleri hesaba katarak büyük harfe çevirir.
+     * @param {string} s - Dönüştürülecek string
+     * @returns {string} Büyük harfli string (i→İ, ı→I düzeltmeleriyle)
+     */
     function trUpper(s) {
-        return String(s).toLocaleUpperCase('tr-TR');
+        return String(s || '')
+            .split('i').join('İ')   /* i U+0069 → İ U+0130 */
+            .split('ı').join('I')   /* ı U+0131 → I U+0049 */
+            .toUpperCase();
     }
 
+    /**
+     * Kaç denemede bulunduğuna göre puan hesaplar.
+     * @param {number} rowZero - Sıfır tabanlı deneme indeksi
+     * @returns {number} 50–100 arasında puan
+     */
     function scoreForRow(rowZero) {
         return Math.max(50, 100 - rowZero * 10);
     }
 
+    /**
+     * Tahmini çözümle karşılaştırarak her hücrenin durumunu döndürür.
+     * @param {string} solution - Doğru kelime
+     * @param {string} guess    - Kullanıcı tahmini
+     * @returns {Array<'correct'|'present'|'absent'>} Her hücre için durum dizisi
+     */
     function evaluateGuess(solution, guess) {
         const sol = [...solution];
         const g = [...guess];
@@ -92,10 +151,15 @@
     const kbEl = document.getElementById('wordleKeyboard');
     const attemptEl = document.getElementById('wordleAttempt');
 
+    /**
+     * Oyun mesajını günceller veya temizler.
+     * @param {string} [t] - Gösterilecek mesaj; boş bırakılırsa temizler
+     */
     function setMessage(t) {
         msgEl.textContent = t || '';
     }
 
+    /** Oyun tahtasını (8×5 hücre) DOM'da oluşturur. */
     function buildBoard() {
         boardEl.innerHTML = '';
         board = [];
@@ -116,6 +180,7 @@
         }
     }
 
+    /** Türkçe sanal klavyeyi DOM'da oluşturur. */
     function buildKeyboard() {
         kbEl.innerHTML = '';
         KEYBOARD_ROWS.forEach(function (keys) {
@@ -134,10 +199,16 @@
         });
     }
 
+    /** Deneme sayacı metnini (ör. "3/8") günceller. */
     function updateAttemptDisplay() {
         attemptEl.textContent = row + '/' + ROWS;
     }
 
+    /**
+     * Klavye tuşlarının rengini tahmin sonuçlarına göre günceller.
+     * @param {string[]} guess - Harf dizisi
+     * @param {string[]} state - Her harfin durumu ('correct' | 'present' | 'absent')
+     */
     function updateKeyState(guess, state) {
         for (let i = 0; i < COLS; i++) {
             const k = guess[i];
@@ -155,6 +226,10 @@
         }
     }
 
+    /**
+     * Geçersiz tahmin için belirtilen satırı sallama animasyonuyla işaretler.
+     * @param {number} r - Sıfır tabanlı satır indeksi
+     */
     function shakeRow(r) {
         for (let c = 0; c < COLS; c++) {
             board[r][c].classList.add('shake');
@@ -162,6 +237,10 @@
         }
     }
 
+    /**
+     * Mevcut satırdaki tahmini değerlendirir; geçersiz veya kısa kelimede uyarır.
+     * Doğru tahmin ya da deneme bitmesinde finish() çağrılır.
+     */
     function submitRow() {
         if (locked) return;
         if (col < COLS) {
@@ -173,8 +252,8 @@
             guess += board[row][c].textContent;
         }
 
-        if (!WORDS.includes(guess)) {
-            setMessage('Bu kelime listede yok! Farklı bir kelime dene.');
+        if (!VALID_WORDS.has(guess)) {
+            setMessage('Geçersiz kelime! Farklı bir kelime dene.');
             shakeRow(row);
             return;
         }
@@ -204,6 +283,11 @@
         }
     }
 
+    /**
+     * Oyunu sonlandırır: sonuç modalını gösterir ve puanı sunucuya kaydeder.
+     * @param {boolean} won         - Kullanıcı kelimeyi tahmin etti mi?
+     * @param {number}  lastRowZero - Sıfır tabanlı son deneme satırı indeksi
+     */
     function finish(won, lastRowZero) {
         locked = true;
         const pts = won ? scoreForRow(lastRowZero) : 0;
@@ -244,6 +328,10 @@
         }
     }
 
+    /**
+     * Bir tuşa basıldığında oyun mantığını işler.
+     * @param {string} k - 'ENTER', 'BACK' veya tek harf
+     */
     function onKey(k) {
         if (locked) return;
         if (k === 'ENTER') {
@@ -266,6 +354,7 @@
         col++;
     }
 
+    /** Sanal klavye tıklaması ve fiziksel klavye olaylarını bağlar. */
     function bindKeys() {
         kbEl.addEventListener('click', function (e) {
             const b = e.target.closest('.wordle-key');
@@ -298,6 +387,7 @@
         });
     }
 
+    /** Oyunu sıfırlar: yeni kelime seçer, tahtayı ve klavyeyi yeniden oluşturur. */
     function init() {
         solution = pickSolution();
         row = 0;
@@ -312,9 +402,8 @@
 
     document.getElementById('wordleRestartBtn').addEventListener('click', function () {
         document.getElementById('wordleResultOverlay').classList.remove('show');
-        const letters = WORDS.slice();
-        const idx = Math.floor(Math.random() * letters.length);
-        solution = letters[idx];
+        const idx = Math.floor(Math.random() * TARGET_WORDS.length);
+        solution = TARGET_WORDS[idx];
         row = 0;
         col = 0;
         locked = false;

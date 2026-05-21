@@ -372,8 +372,8 @@
     max-width: min(92vw, 640px);
     margin: 0 auto;
     aspect-ratio: var(--crossword-cols, 15) / var(--crossword-rows, 15);
-    user-select: none;
     -webkit-user-select: none;
+    user-select: none;
 }
 .crossword-cell {
     position: relative;
@@ -800,6 +800,7 @@
     color: var(--on-surface);
     text-transform: uppercase;
     transition: var(--transition);
+    -webkit-user-select: none;
     user-select: none;
 }
 .letter-box.revealed {
@@ -943,6 +944,7 @@
     transition: var(--transition);
     border-bottom: 4px solid var(--primary-fixed);
     line-height: 1.5;
+    -webkit-user-select: none;
     user-select: none;
     max-width: 100%;
 }
@@ -1122,6 +1124,7 @@
     cursor: pointer;
     transition: var(--transition);
     color: var(--on-surface);
+    -webkit-user-select: none;
     user-select: none;
 }
 .word-chip:hover {
@@ -1395,6 +1398,7 @@
     box-shadow: var(--shadow-ambient);
     border-bottom: 5px solid var(--primary);
     transition: transform 0.2s, box-shadow 0.2s;
+    -webkit-user-select: none;
     user-select: none;
 }
 .flashcard:hover {
@@ -1528,6 +1532,7 @@
     cursor: pointer;
     transition: var(--transition);
     color: var(--on-surface);
+    -webkit-user-select: none;
     user-select: none;
 }
 .fill-option-chip:hover:not(:disabled) {

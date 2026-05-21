@@ -20,11 +20,11 @@ $username       = $_SESSION['username'];
 $totalScore     = getUserTotalScore($userId);
 $history        = getUserHistory($userId, 15);
 $leaderboard    = getLeaderboard(5);
-$highBulmaca    = getUserHighScore($userId, 1);
-$highEslestirme = getUserHighScore($userId, 2);
-$highKategori   = getUserHighScore($userId, 3);
-$highWordle     = getUserHighScore($userId, 4);
-$highCengel     = getUserHighScore($userId, 5);
+$highBulmaca        = getUserHighScore($userId, getActivityId('bulmaca'));
+$highEslestirme     = getUserHighScore($userId, getActivityId('eslestirme'));
+$highWordle         = getUserHighScore($userId, getActivityId('wordle'));
+$highCengel         = getUserHighScore($userId, getActivityId('cengel'));
+$eslestirmeMaxScore = getActivityMaxScore(getActivityId('eslestirme'));
 $gamesPlayed    = count($history);
 
 $weeklyPct = min(100, $totalScore > 0 ? (int)round(($totalScore % 400) / 4) : 0);
@@ -171,7 +171,7 @@ foreach ($badges as $badge) {
                 </div>
                 <div class="student-jump-body">
                     <h3>Eşleştirme</h3>
-                    <div class="student-jump-bar"><div style="width:<?= min(100, (int)round($highEslestirme * 100 / 140)) ?>%;background:var(--secondary)"></div></div>
+                    <div class="student-jump-bar"><div style="width:<?= min(100, (int)round($highEslestirme * 100 / max(1, $eslestirmeMaxScore))) ?>%;background:var(--secondary)"></div></div>
                 </div>
             </a>
         </div>

@@ -207,10 +207,6 @@
         })
         .then(function (r) { return r.json(); })
         .then(function (data) {
-            if (data.success && !data.already_awarded) {
-                earned += data.points || CFG.pointsPerWord;
-                elEarned.textContent = String(earned);
-            }
             if (data.success) {
                 var icon = document.querySelector(
                     direction === 'across'
@@ -219,6 +215,9 @@
                 );
                 if (icon) icon.hidden = false;
             } else {
+                /* Sunucu kelimeyi reddetti — optimistik puanı geri al */
+                earned = Math.max(0, earned - CFG.pointsPerWord);
+                elEarned.textContent = String(earned);
                 delete completedWords[key];
                 updateProgress();
                 var cl2 = direction === 'across' ? acrossByN[String(clueNum)] : downByN[String(clueNum)];
@@ -232,7 +231,13 @@
                 }
             }
         })
-        .catch(function () { delete completedWords[key]; updateProgress(); });
+        .catch(function () {
+            /* Ağ hatası — optimistik puanı geri al */
+            earned = Math.max(0, earned - CFG.pointsPerWord);
+            elEarned.textContent = String(earned);
+            delete completedWords[key];
+            updateProgress();
+        });
     }
 
     function checkClueCompletion(cl, across) {
@@ -243,6 +248,9 @@
         var full = across ? readWordAcross(cl) : readWordDown(cl);
         if (cmpKey(full) !== cmpKey(cl.word)) return;
         completedWords[key] = true;
+        /* Puanı anında göster — sunucu yanıtı beklenmez */
+        earned += CFG.pointsPerWord;
+        elEarned.textContent = String(earned);
         markCellsComplete(cl, across);
         updateProgress();
         saveWordToServer(dir, cl.n, full);
