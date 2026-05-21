@@ -37,7 +37,7 @@ if (!is_array($data)) {
 $shuffleKey = isset($data['shuffle_key']) ? (string)$data['shuffle_key'] : '';
 $direction = isset($data['direction']) ? (string)$data['direction'] : '';
 $clueNum = isset($data['clue_number']) ? (int)$data['clue_number'] : 0;
-$userWord = isset($data['word']) ? crossword_normalize_answer((string)$data['word']) : '';
+$userWord = isset($data['word']) ? crossword_compare_key((string)$data['word']) : '';
 
 if ($shuffleKey === '' || ($direction !== 'across' && $direction !== 'down') || $clueNum < 1 || $userWord === '') {
     echo json_encode(['success' => false, 'message' => 'Eksik parametre.']);
@@ -59,7 +59,7 @@ if ($clueEntry === null) {
     exit;
 }
 
-$expected = crossword_normalize_answer($clueEntry['word']);
+$expected = crossword_compare_key($clueEntry['word']);
 if ($userWord !== $expected) {
     echo json_encode(['success' => false, 'message' => 'Kelime eşleşmiyor.']);
     exit;

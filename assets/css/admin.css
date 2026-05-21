@@ -322,6 +322,11 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 1rem;
+    transition: var(--transition);
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-ambient);
 }
 .stat-card .stat-icon {
     width: 48px;
@@ -354,6 +359,18 @@
     color: var(--on-surface);
     line-height: 1;
 }
+.stat-card .stat-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--on-surface-variant);
+}
+.stat-card .stat-sub .material-symbols-outlined {
+    font-size: 15px;
+}
 
 /* Admin İki Sütun */
 .admin-two-col {
@@ -365,6 +382,7 @@
 /* KPI trend rozeti */
 .kpi-trend-up   { background: var(--secondary-fixed); color: var(--secondary); }
 .kpi-trend-down { background: var(--error-container); color: var(--error); }
+.kpi-trend-flat { background: var(--surface-container-high); color: var(--on-surface-variant); }
 .kpi-trend {
     display: inline-flex;
     align-items: center;
@@ -384,7 +402,8 @@
     .admin-stats-grid   { grid-template-columns: repeat(2, 1fr); }
     .admin-two-col      { grid-template-columns: 1fr; }
 }
-@media (max-width: 768px) {
+/* Sidebar dikey kolondan yatay menüye 600px'te geçer (önceden 768px). */
+@media (max-width: 600px) {
     .admin-wrapper { grid-template-columns: 1fr; }
     .admin-sidebar {
         position: relative;

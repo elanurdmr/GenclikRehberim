@@ -112,86 +112,103 @@ function crossword_generate(array $entries, int $rows, int $cols, int $maxWords 
         return $ng;
     };
 
-    $search = null;
-    $search = static function (array $grid, array $placed, int $idx) use (
-        &$search,
-        $words,
-        $rows,
-        $cols,
-        $canPlace,
-        $apply,
-        $empty
-    ): ?array {
-        if ($idx >= count($words)) {
-            return ['grid' => $grid, 'placed' => $placed];
-        }
+    /*
+     * Açgözlü (greedy) yerleştirme.
+     *
+     * Eski sürüm "ya hep ya hiç" geri izleme (backtracking) kullanıyordu:
+     * tek bir kelime bile yerleşemezse tüm arama ağacını tüketip null
+     * dönüyordu. 15x15 ızgarada 14 kelime için bu ağaç devasadır ve
+     * sayfayı kilitleyebilir. Üstelik her düğümde tüm ızgara kopyalanıyordu.
+     *
+     * Yeni sürüm: ilk kelimeyi ortaya yatay koyar, sonraki her kelimeyi
+     * yerleşmiş bir kelimeyle en çok kesişecek konuma yerleştirir.
+     * Yerleşemeyen kelime sessizce atlanır. Geri izleme yok → her zaman
+     * hızlı, sonlanır ve geçerli bir bulmaca döndürür. Deterministiktir:
+     * ayni girdi her zaman aynı bulmacayı verir (puan doğrulaması için şart).
+     */
+    $grid = $empty();
+    $placed = [];
 
-        $w = $words[$idx];
+    foreach ($words as $w) {
         $ans = $w['answer'];
+        $len = mb_strlen($ans, 'UTF-8');
 
-        if ($idx === 0) {
-            $len = mb_strlen($ans, 'UTF-8');
-            $sr = (int)floor($rows / 2);
-            $sc = (int)max(0, floor(($cols - $len) / 2));
+        // İlk kelime: ızgaranın ortasına yatay.
+        if ($placed === []) {
+            $sr = intdiv($rows, 2);
+            $sc = max(0, intdiv($cols - $len, 2));
             if (!$canPlace($grid, $ans, $sr, $sc, true)) {
-                return null;
+                continue;
             }
-            $ng = $apply($grid, $ans, $sr, $sc, true);
-            $np = $placed;
-            $np[] = ['id' => $w['id'], 'clue' => $w['clue'], 'answer' => $ans, 'r' => $sr, 'c' => $sc, 'across' => true];
-
-            return $search($ng, $np, $idx + 1);
+            $grid = $apply($grid, $ans, $sr, $sc, true);
+            $placed[] = ['id' => $w['id'], 'clue' => $w['clue'], 'answer' => $ans, 'r' => $sr, 'c' => $sc, 'across' => true];
+            continue;
         }
+
+        // Sonraki kelimeler: en çok kesişen geçerli konumu seç.
+        $best = null;
+        $bestScore = 0;
 
         foreach ($placed as $p) {
             $pw = $p['answer'];
-            $pr = $p['r'];
-            $pc = $p['c'];
-            $pac = $p['across'];
             $lenp = mb_strlen($pw, 'UTF-8');
-            $lenw = mb_strlen($ans, 'UTF-8');
 
             for ($i = 0; $i < $lenp; $i++) {
                 $chp = mb_substr($pw, $i, 1, 'UTF-8');
-                for ($j = 0; $j < $lenw; $j++) {
+                for ($j = 0; $j < $len; $j++) {
                     if (mb_substr($ans, $j, 1, 'UTF-8') !== $chp) {
                         continue;
                     }
 
-                    if ($pac) {
-                        $nr = $pr - $j;
-                        $nc = $pc + $i;
+                    if ($p['across']) {
+                        $nr = $p['r'] - $j;
+                        $nc = $p['c'] + $i;
                         $acrossNew = false;
                     } else {
-                        $nr = $pr + $i;
-                        $nc = $pc - $j;
+                        $nr = $p['r'] + $i;
+                        $nc = $p['c'] - $j;
                         $acrossNew = true;
                     }
 
                     if ($nr < 0 || $nc < 0) {
                         continue;
                     }
-                    if (! $canPlace($grid, $ans, $nr, $nc, $acrossNew)) {
+                    if (!$canPlace($grid, $ans, $nr, $nc, $acrossNew)) {
                         continue;
                     }
-                    $ng = $apply($grid, $ans, $nr, $nc, $acrossNew);
-                    $np = $placed;
-                    $np[] = ['id' => $w['id'], 'clue' => $w['clue'], 'answer' => $ans, 'r' => $nr, 'c' => $nc, 'across' => $acrossNew];
-                    $done = $search($ng, $np, $idx + 1);
-                    if ($done !== null) {
-                        return $done;
+
+                    // Kaç hücre mevcut bir harfin üzerine oturuyor (kesişim sayısı).
+                    $crossings = 0;
+                    for ($k = 0; $k < $len; $k++) {
+                        $rr = $acrossNew ? $nr : $nr + $k;
+                        $cc = $acrossNew ? $nc + $k : $nc;
+                        if ($grid[$rr][$cc] !== '#') {
+                            $crossings++;
+                        }
+                    }
+                    if ($crossings > $bestScore) {
+                        $bestScore = $crossings;
+                        $best = ['r' => $nr, 'c' => $nc, 'across' => $acrossNew];
                     }
                 }
             }
         }
 
+        if ($best !== null) {
+            $grid = $apply($grid, $ans, $best['r'], $best['c'], $best['across']);
+            $placed[] = [
+                'id' => $w['id'], 'clue' => $w['clue'], 'answer' => $ans,
+                'r' => $best['r'], 'c' => $best['c'], 'across' => $best['across'],
+            ];
+        }
+        // Hiçbir kesişim bulunamazsa kelime atlanır.
+    }
+
+    if ($placed === []) {
         return null;
-    };
+    }
 
-    $start = $empty();
-    $res = $search($start, [], 0);
-
-    return $res;
+    return ['grid' => $grid, 'placed' => $placed];
 }
 
 /**

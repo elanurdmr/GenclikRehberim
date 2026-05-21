@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 $pageTitle = 'Çengel Bulmaca';
 require_once __DIR__ . '/../includes/header.php';
+requireLogin();
 require_once __DIR__ . '/../includes/crossword_build.php';
 
 $dateSeed = preg_replace('/[^0-9\-]/', '', (string)($_GET['tarih'] ?? ''));
@@ -28,6 +29,7 @@ $grid       = $puzzle['grid'];
 $nums       = $puzzle['numbers'];
 $tabAcross  = $puzzle['acrossList'];
 $tabDown    = $puzzle['downList'];
+$totalWords = count($tabAcross) + count($tabDown);
 $payload = [
     'h'            => $h,
     'w'            => $w,
@@ -41,6 +43,7 @@ $payload = [
     'seed'         => $puzzle['seed'],
     'pointsPerWord'=> $puzzle['pointsPerWord'],
     'maxScore'     => $puzzle['maxScore'],
+    'activityId'   => getActivityId('cengel'),
 ];
 $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
 ?>
@@ -77,6 +80,19 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
                 </div>
             </aside>
         </header>
+
+        <!-- İlerleme çubuğu — çözülen kelime sayısı -->
+        <div class="cengel-progress js-cw-progress" role="progressbar"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Bulmaca ilerlemesi">
+            <div class="cengel-progress-info">
+                <span class="material-symbols-outlined">checklist</span>
+                <span class="cengel-progress-label text-label-caps">İlerleme</span>
+                <span class="cengel-progress-count js-cw-progress-count">0 / <?= (int)$totalWords ?> kelime</span>
+            </div>
+            <div class="cengel-progress-track">
+                <div class="cengel-progress-fill js-cw-progress-fill"></div>
+            </div>
+        </div>
 
         <div class="cengel-bento">
 
@@ -204,6 +220,6 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
 </div>
 
 <script>window.GAME_CONFIG = <?= $json ?>;</script>
-<script src="/genclik-rehberim/assets/js/cengelbulmaca.js"></script>
+<script src="/genclik-rehberim/assets/js/cengelbulmaca.js?v=<?= filemtime(__DIR__ . '/../assets/js/cengelbulmaca.js') ?>"></script>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

@@ -66,6 +66,12 @@ var KAT_WORDS = [
 
 /* ---------- DURUM ---------- */
 
+/* Etkinlik ID'leri PHP'den (window.GAME_CONFIG) gelir; sabit kodlanmaz. */
+var ESL_CFG      = window.GAME_CONFIG || {};
+var ACT_MATCH    = ESL_CFG.activityMatch    || 2;
+var ACT_FILL     = ESL_CFG.activityFill     || 6;
+var ACT_CATEGORY = ESL_CFG.activityCategory || 3;
+
 var score1         = 0;
 var score3         = 0;
 var fillScore      = 0;
@@ -283,7 +289,7 @@ function checkAllEsles() {
     var ss = document.getElementById('sectionSaveStatus');
     ss.textContent = '';
     if (typeof saveScore === 'function') {
-        saveScore(2, score1, 140, function (data) {
+        saveScore(ACT_MATCH, score1, 140, function (data) {
             if (data && data.success) {
                 ss.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
             } else if (data && data.login_required) {
@@ -427,7 +433,7 @@ function finishFillGame() {
     var ss = document.getElementById('fillSaveStatus');
     ss.textContent = '';
     if (typeof saveScore === 'function') {
-        saveScore(6, fillScore, 80, function (data) {
+        saveScore(ACT_FILL, fillScore, 80, function (data) {
             if (data && data.success) {
                 ss.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
             } else if (data && data.login_required) {
@@ -564,7 +570,7 @@ function checkAllKategori() {
     var ss2 = document.getElementById('saveStatus2');
     ss2.textContent = '';
     if (typeof saveScore === 'function') {
-        saveScore(3, score3, 170, function (data) {
+        saveScore(ACT_CATEGORY, score3, 170, function (data) {
             if (data && data.success) {
                 ss2.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
             } else if (data && data.login_required) {
