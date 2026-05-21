@@ -150,6 +150,17 @@ function getEarnedBadges(int $userId): array {
 }
 
 /**
+ * Bir etkinliğin veritabanındaki maksimum puanını döndürür.
+ * Bulunamazsa 100 döner (güvenli varsayılan).
+ */
+function getActivityMaxScore(int $activityId): int {
+    $db   = getDB();
+    $stmt = $db->prepare('SELECT max_score FROM activities WHERE id = ? LIMIT 1');
+    $stmt->execute([$activityId]);
+    return (int)($stmt->fetchColumn() ?: 100);
+}
+
+/**
  * Rozeti kullanıcıya kaydeder; zaten varsa sessizce atlar.
  * Yeni kazanıldıysa true, zaten vardıysa false döner.
  */
@@ -176,7 +187,10 @@ function getAdminStats(): array {
         'SELECT COUNT(*) FROM users WHERE role="student" AND created_at >= (NOW() - INTERVAL 7 DAY)'
     )->fetchColumn();
     $topScore   = $db->query('SELECT COALESCE(MAX(score),0) FROM scores')->fetchColumn();
-    $activities = $db->query('SELECT COUNT(*) FROM activities')->fetchColumn();
+    /* kategori ve bosluk, eslestirme oyununun iç puanlama tipleridir; bağımsız oyun sayılmaz. */
+    $activities = $db->query(
+        "SELECT COUNT(*) FROM activities WHERE type NOT IN ('kategori','bosluk')"
+    )->fetchColumn();
 
     return [
         'total_students'    => (int)$students,

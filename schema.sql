@@ -35,7 +35,8 @@ CREATE TABLE IF NOT EXISTS activities (
     name        VARCHAR(100) NOT NULL,
     description TEXT,
     type        ENUM('bulmaca','eslestirme','kategori','wordle','cengel','bosluk') NOT NULL,
-    max_score   INT NOT NULL DEFAULT 100
+    max_score   INT      NOT NULL DEFAULT 100,
+    is_active   TINYINT(1) NOT NULL DEFAULT 1   -- 0 = iç puanlama tipi, kullanıcıya gösterilmez
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 
 -- ============================================================
@@ -100,13 +101,13 @@ INSERT INTO users (username, email, password, role) VALUES
 ('admin', 'admin@genclikrehberim.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
 
 -- Etkinlik kayıtları — id sırası oyun JS yapılandırmasıyla uyumludur.
-INSERT INTO activities (id, name, description, type, max_score) VALUES
-(1, 'Zorba Davranışa Karşı Koyma Bulmacası', 'Zorbalıkla başa çıkma yöntemlerini bulmaca ile öğren', 'bulmaca',    100),
-(2, 'Doğru mu, Yanlış mı? Eşleştirme',        'Doğru ve yanlış davranışları eşleştir',                'eslestirme', 140),
-(3, 'Zorbalık mı, Değil mi? Kategori',         'Davranışları doğru kutuya yerleştir',                  'kategori',   170),
-(4, 'Wordle — 5 Harfli Kelime',                'Altı denemede kelimeyi bul, Türkçe harf desteğiyle',  'wordle',     100),
-(5, 'Çengel Bulmaca',                          'Kesişimli kare bulmaca ve gizli kelime',               'cengel',     100),
-(6, 'Boşluk Doldurma',                         'Eşleştirme oyunu Bölüm 2 — cümlelerdeki boşlukları doldur', 'bosluk',  80);
+INSERT INTO activities (id, name, description, type, max_score, is_active) VALUES
+(1, 'Zorba Davranışa Karşı Koyma Bulmacası', 'Zorbalıkla başa çıkma yöntemlerini bulmaca ile öğren', 'bulmaca',    100, 1),
+(2, 'Doğru mu, Yanlış mı? Eşleştirme',        'Doğru ve yanlış davranışları eşleştir',                'eslestirme', 140, 1),
+(3, 'Zorbalık mı, Değil mi? Kategori',         'Eslestirme Bölüm 2 — iç puanlama tipi',               'kategori',   170, 0),
+(4, 'Wordle — 5 Harfli Kelime',                'Altı denemede kelimeyi bul, Türkçe harf desteğiyle',  'wordle',     100, 1),
+(5, 'Çengel Bulmaca',                          'Kesişimli kare bulmaca ve gizli kelime',               'cengel',     100, 1),
+(6, 'Boşluk Doldurma',                         'Eşleştirme oyunu Bölüm 2 — iç puanlama tipi',         'bosluk',      80, 0);
 
 -- Çengel bulmaca soru bankası (akran zorbalığı; cevaplar tek kelime / bitişik)
 INSERT INTO crossword_bank (clue, answer, sort_order) VALUES

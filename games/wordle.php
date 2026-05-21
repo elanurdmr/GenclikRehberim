@@ -76,6 +76,6 @@ $wordleDateSeed = gmdate('Y-m-d'); // Günlük kelime (UTC; tutarlı seed)
     dateSeed: <?php echo json_encode($wordleDateSeed, JSON_UNESCAPED_UNICODE); ?>,
     activityId: <?= getActivityId('wordle') ?>
 };</script>
-<script src="/genclik-rehberim/assets/js/wordle.js"></script>
+<script src="/genclik-rehberim/assets/js/wordle.js?v=<?= filemtime(__DIR__ . '/../assets/js/wordle.js') ?>"></script>
 
 <?php include '../includes/footer.php'; ?>

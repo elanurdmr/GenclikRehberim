@@ -66,12 +66,12 @@ require_once __DIR__ . '/functions.php';
         </a>
 
         <!-- Hamburger menü (mobil) -->
-        <button class="nav-toggle" id="navToggle" aria-label="Menüyü aç/kapat" aria-expanded="false">
+        <button class="nav-toggle" aria-label="Menüyü aç/kapat" aria-expanded="false">
             <span class="material-symbols-outlined">menu</span>
         </button>
 
         <!-- Navigasyon bağlantıları -->
-        <ul class="nav-links" id="navLinks">
+        <ul class="nav-links">
             <li>
                 <a href="/genclik-rehberim/index.php">
                     <span class="material-symbols-outlined">home</span> Ana Sayfa

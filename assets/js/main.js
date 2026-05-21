@@ -7,9 +7,10 @@
    NAVİGASYON — Hamburger Menü
    ============================================================ */
 document.addEventListener('DOMContentLoaded', function () {
-    // Hamburger butonu ve nav linkleri elementleri
-    const navToggle = document.getElementById('navToggle');
-    const navLinks  = document.getElementById('navLinks');
+    /* Hamburger butonu ve nav listesi class seçicisiyle hedeflenir;
+       #id bağımlılığı olmadan herhangi bir sayfada çalışır. */
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks  = document.querySelector('.nav-links');
 
     if (navToggle && navLinks) {
         navToggle.addEventListener('click', function () {

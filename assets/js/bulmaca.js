@@ -33,6 +33,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+/**
+ * Verilen sorunun cevap kutucuklarını DOM'da oluşturur.
+ * @param {number} qNum   - Soru numarası (1–10)
+ * @param {string} answer - Cevap string'i (boşluk içerebilir)
+ */
 function buildLetterBoxes(qNum, answer) {
     const container = document.getElementById('boxes' + qNum);
     container.innerHTML = '';
@@ -52,6 +57,12 @@ function buildLetterBoxes(qNum, answer) {
     }
 }
 
+/**
+ * Türkçe karakterleri normalize ederek büyük harfe çevirir.
+ * i/ı/İ → I; ş/ğ/ü/ö/ç büyük harflerine dönüştürülür.
+ * @param {string} str - Dönüştürülecek string
+ * @returns {string} Trim edilmiş, büyük harfli string
+ */
 function normalizeTurkish(str) {
     /* Unicode escape'ler: kaynak dosya encoding'inden bağımsız, tüm tarayıcılarda güvenli.
        i/ı/İ/I → hepsi 'I'; diğer Türkçe harfler büyük harfe çevrilir. */
@@ -67,6 +78,10 @@ function normalizeTurkish(str) {
     return s.toUpperCase().trim();
 }
 
+/**
+ * Kullanıcının girdiği cevabı doğrular ve geri bildirim verir.
+ * @param {number} qNum - Kontrol edilecek soru numarası
+ */
 function checkAnswer(qNum) {
     if (answered[qNum]) return;
 
@@ -103,6 +118,12 @@ function checkAnswer(qNum) {
     }
 }
 
+/**
+ * Cevap harflerini animasyonlu olarak kutucuklara yazar.
+ * @param {number} qNum     - Soru numarası
+ * @param {string} answer   - Gösterilecek cevap string'i
+ * @param {string} cssClass - Kutucuklara eklenen CSS sınıfı ('revealed' veya 'wrong')
+ */
 function revealLetters(qNum, answer, cssClass) {
     let boxIdx = 0;
     for (let i = 0; i < answer.length; i++) {
@@ -120,6 +141,7 @@ function revealLetters(qNum, answer, cssClass) {
     }
 }
 
+/** İlerleme çubuğunu ve puan sayaçlarını günceller; tüm sorular bittiyse oyunu bitirir. */
 function updateProgress() {
     const percent = (answeredCount / TOTAL_QUESTIONS) * 100;
 
@@ -134,6 +156,7 @@ function updateProgress() {
     }
 }
 
+/** Oyunu sonlandırır: kalan soruları açar, sonuç modalını gösterir, puanı sunucuya kaydeder. */
 function finishGame() {
     for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
         if (!answered[i]) {
@@ -170,6 +193,7 @@ function finishGame() {
     });
 }
 
+/** Sayfayı yenileyerek oyunu baştan başlatır. */
 function restartGame() {
     window.location.reload();
 }
