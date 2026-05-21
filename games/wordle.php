@@ -6,6 +6,7 @@
 
 $pageTitle = 'Wordle';
 require_once '../includes/header.php';
+requireLogin();
 
 $wordleDateSeed = gmdate('Y-m-d'); // Günlük kelime (UTC; tutarlı seed)
 ?>
@@ -71,7 +72,10 @@ $wordleDateSeed = gmdate('Y-m-d'); // Günlük kelime (UTC; tutarlı seed)
     </div>
 </div>
 
-<script>window.GAME_CONFIG = { dateSeed: <?php echo json_encode($wordleDateSeed, JSON_UNESCAPED_UNICODE); ?> };</script>
+<script>window.GAME_CONFIG = {
+    dateSeed: <?php echo json_encode($wordleDateSeed, JSON_UNESCAPED_UNICODE); ?>,
+    activityId: <?= getActivityId('wordle') ?>
+};</script>
 <script src="/genclik-rehberim/assets/js/wordle.js"></script>
 
 <?php include '../includes/footer.php'; ?>

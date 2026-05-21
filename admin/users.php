@@ -187,8 +187,17 @@ $users = getAllUsers();
                                         </form>
 
                                         <!-- Silme -->
+                                        <?php
+                                        /* json_encode → güvenli JS string literali (tüm tehlikeli
+                                           karakterler \uXXXX kaçışlı); e() → HTML attribute kaçışı.
+                                           İki bağlamlı kodlama, kullanıcı adı yoluyla XSS'i kapatır. */
+                                        $confirmMsg = json_encode(
+                                            $user['username'] . ' kullanıcısını silmek istediğinizden emin misiniz?',
+                                            JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
+                                        );
+                                        ?>
                                         <form method="POST" style="display:inline"
-                                              onsubmit="return confirm('<?= e($user['username']) ?> kullanıcısını silmek istediğinizden emin misiniz?')">
+                                              onsubmit="return confirm(<?= e($confirmMsg) ?>)">
                                             <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                                             <input type="hidden" name="action" value="delete">
                                             <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">

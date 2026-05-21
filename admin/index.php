@@ -16,7 +16,6 @@ requireAdmin();
 $stats        = getAdminStats();
 $leaderboard  = getLeaderboard(10);
 $recentScores = getAllScores();
-$activityCount = (int)getDB()->query('SELECT COUNT(*) FROM activities')->fetchColumn();
 
 // Son 5 skoru al
 $recentScores = array_slice($recentScores, 0, 5);
@@ -93,13 +92,21 @@ $recentScores = array_slice($recentScores, 0, 5);
                     <div class="stat-icon purple">
                         <span class="material-symbols-outlined">groups</span>
                     </div>
+                    <?php if ($stats['new_students_week'] > 0): ?>
                     <span class="kpi-trend kpi-trend-up">
-                        <span class="material-symbols-outlined">trending_up</span> Aktif
+                        <span class="material-symbols-outlined">trending_up</span> +<?= (int)$stats['new_students_week'] ?>
                     </span>
+                    <?php else: ?>
+                    <span class="kpi-trend kpi-trend-flat">—</span>
+                    <?php endif; ?>
                 </div>
                 <div class="stat-info">
                     <p>Toplam Öğrenci</p>
                     <h3><?= (int)$stats['total_students'] ?></h3>
+                    <span class="stat-sub">
+                        <span class="material-symbols-outlined">person_add</span>
+                        Son 7 günde <?= (int)$stats['new_students_week'] ?> yeni kayıt
+                    </span>
                 </div>
             </div>
 
@@ -109,12 +116,16 @@ $recentScores = array_slice($recentScores, 0, 5);
                         <span class="material-symbols-outlined">sports_esports</span>
                     </div>
                     <span class="kpi-trend kpi-trend-up">
-                        <span class="material-symbols-outlined">trending_up</span>
+                        <span class="material-symbols-outlined">today</span> <?= (int)$stats['games_today'] ?> bugün
                     </span>
                 </div>
                 <div class="stat-info">
                     <p>Oynanan Oyun</p>
                     <h3><?= (int)$stats['total_games'] ?></h3>
+                    <span class="stat-sub">
+                        <span class="material-symbols-outlined">schedule</span>
+                        Tüm zamanların toplamı
+                    </span>
                 </div>
             </div>
 
@@ -124,12 +135,16 @@ $recentScores = array_slice($recentScores, 0, 5);
                         <span class="material-symbols-outlined">leaderboard</span>
                     </div>
                     <span class="kpi-trend kpi-trend-up">
-                        <span class="material-symbols-outlined">trending_up</span>
+                        <span class="material-symbols-outlined">military_tech</span> En yüksek <?= (int)$stats['top_score'] ?>
                     </span>
                 </div>
                 <div class="stat-info">
                     <p>Ortalama Puan</p>
-                    <h3><?= (int)$stats['avg_score'] ?></h3>
+                    <h3><?= $stats['avg_score'] ?></h3>
+                    <span class="stat-sub">
+                        <span class="material-symbols-outlined">query_stats</span>
+                        Oyun başına ortalama skor
+                    </span>
                 </div>
             </div>
 
@@ -139,12 +154,16 @@ $recentScores = array_slice($recentScores, 0, 5);
                         <span class="material-symbols-outlined">extension</span>
                     </div>
                     <span class="kpi-trend kpi-trend-up">
-                        <span class="material-symbols-outlined">trending_up</span>
+                        <span class="material-symbols-outlined">check_circle</span> Aktif
                     </span>
                 </div>
                 <div class="stat-info">
                     <p>Etkinlik Sayısı</p>
-                    <h3><?= $activityCount ?></h3>
+                    <h3><?= (int)$stats['total_activities'] ?></h3>
+                    <span class="stat-sub">
+                        <span class="material-symbols-outlined">grid_view</span>
+                        Yayında olan oyun modülü
+                    </span>
                 </div>
             </div>
 

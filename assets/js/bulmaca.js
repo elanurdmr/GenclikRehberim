@@ -18,6 +18,8 @@ const ANSWERS = {
 
 const TOTAL_QUESTIONS = 10;
 const POINTS_PER_Q    = 10;
+/* Etkinlik ID'si PHP'den (window.GAME_CONFIG) gelir; sabit kodlanmaz. */
+const ACTIVITY_ID     = (window.GAME_CONFIG && window.GAME_CONFIG.activityId) || 1;
 let score           = 0;
 let answeredCount   = 0;
 let answered        = {};
@@ -52,9 +54,9 @@ function buildLetterBoxes(qNum, answer) {
 
 function normalizeTurkish(str) {
     return str
-        .toUpperCase()
         .replace(/i/g, 'İ')
         .replace(/ı/g, 'I')
+        .toUpperCase()
         .trim();
 }
 
@@ -152,7 +154,7 @@ function finishGame() {
     document.getElementById('resultOverlay').classList.add('show');
 
     const saveStatus = document.getElementById('saveStatus');
-    saveScore(1, score, 100, function (data) {
+    saveScore(ACTIVITY_ID, score, 100, function (data) {
         if (data && data.success) {
             saveStatus.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
         } else if (data && data.login_required) {

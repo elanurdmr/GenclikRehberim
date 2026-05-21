@@ -145,3 +145,89 @@ document.addEventListener('keydown', function (e) {
     // ESC tuşuyla sonuç modalını kapat
     if (e.key === 'Escape') closeResult();
 });
+
+/* ============================================================
+   SONUÇ MODALI — Puan sayaç animasyonu + konfeti
+   ------------------------------------------------------------
+   Tamamen eklemeli: her .result-overlay'i izler; 'show' sınıfı
+   eklendiğinde içindeki puanı 0'dan hedefe sayar ve konfeti atar.
+   Böylece oyun JS dosyalarını değiştirmeye gerek kalmaz.
+   ============================================================ */
+(function () {
+    'use strict';
+
+    var reduceMotion = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* Bir sayı elemanını 0'dan hedefe doğru animasyonla artırır. */
+    function countUp(el, target, duration) {
+        if (reduceMotion || target <= 0) {
+            el.textContent = String(target);
+            return;
+        }
+        var startTs = null;
+        function step(ts) {
+            if (startTs === null) startTs = ts;
+            var p = Math.min((ts - startTs) / duration, 1);
+            var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+            el.textContent = String(Math.round(eased * target));
+            if (p < 1) {
+                requestAnimationFrame(step);
+            } else {
+                el.textContent = String(target);
+            }
+        }
+        requestAnimationFrame(step);
+    }
+
+    var CONFETTI_COLORS = ['#005da7', '#3a6a00', '#f7e61a', '#a1fa49', '#ba1a1a', '#a4c9ff'];
+
+    /* Ekranın üstünden düşen konfeti parçaları oluşturur. */
+    function confettiBurst(count) {
+        if (reduceMotion) return;
+        var layer = document.createElement('div');
+        layer.className = 'confetti-layer';
+        for (var i = 0; i < count; i++) {
+            var piece = document.createElement('span');
+            piece.className = 'confetti-piece';
+            piece.style.left              = (Math.random() * 100) + 'vw';
+            piece.style.background        = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+            piece.style.animationDuration = (2.4 + Math.random() * 1.8) + 's';
+            piece.style.animationDelay    = (Math.random() * 0.5) + 's';
+            piece.style.width             = (6 + Math.random() * 8) + 'px';
+            piece.style.height            = (10 + Math.random() * 8) + 'px';
+            if (Math.random() < 0.5) piece.style.borderRadius = '50%';
+            layer.appendChild(piece);
+        }
+        document.body.appendChild(layer);
+        setTimeout(function () { layer.remove(); }, 5200);
+    }
+
+    /* Bir .result-overlay göründüğünde puanı say + konfeti at. */
+    function celebrate(overlay) {
+        var scoreEl = overlay.querySelector('.result-score-big');
+        var target  = scoreEl ? parseInt(scoreEl.textContent, 10) : NaN;
+        if (scoreEl && !isNaN(target)) {
+            countUp(scoreEl, target, 900);
+        }
+        // Konfeti yalnızca puan kazanıldıysa (kayıp ekranında değil)
+        if (isNaN(target) || target > 0) {
+            confettiBurst(48);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.result-overlay').forEach(function (overlay) {
+            var obs = new MutationObserver(function () {
+                var shown = overlay.classList.contains('show');
+                if (shown && !overlay.dataset.celebrated) {
+                    overlay.dataset.celebrated = '1';
+                    celebrate(overlay);
+                } else if (!shown) {
+                    overlay.dataset.celebrated = '';
+                }
+            });
+            obs.observe(overlay, { attributes: true, attributeFilter: ['class'] });
+        });
+    });
+})();

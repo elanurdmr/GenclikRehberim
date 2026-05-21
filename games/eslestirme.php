@@ -9,6 +9,7 @@
 
 $pageTitle = 'Eşleştirme';
 require_once '../includes/header.php';
+requireLogin();
 ?>
 
 <!-- ===== İKİ BÖLÜMLÜ OYUN ===== -->
@@ -326,6 +327,11 @@ require_once '../includes/header.php';
     </div>
 </div>
 
+<script>window.GAME_CONFIG = {
+    activityMatch:    <?= getActivityId('eslestirme') ?>,
+    activityFill:     <?= getActivityId('bosluk') ?>,
+    activityCategory: <?= getActivityId('kategori') ?>
+};</script>
 <script src="/genclik-rehberim/assets/js/eslestirme.js"></script>
 
 <?php include '../includes/footer.php'; ?>

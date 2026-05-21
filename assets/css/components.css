@@ -30,7 +30,7 @@
     color: var(--on-primary);
     border-bottom: 3px solid var(--on-primary-fixed-variant);
 }
-.btn-primary:hover { background: #004d8f; }
+.btn-primary:hover { background: var(--primary-hover); }
 .btn-primary:active { border-bottom-width: 0; transform: translateY(3px); }
 
 .btn-secondary {
@@ -38,7 +38,7 @@
     color: var(--on-secondary);
     border-bottom: 3px solid var(--on-secondary-fixed-variant);
 }
-.btn-secondary:hover { background: #2d5300; }
+.btn-secondary:hover { background: var(--secondary-hover); }
 .btn-secondary:active { border-bottom-width: 0; transform: translateY(3px); }
 
 .btn-success {
@@ -46,7 +46,7 @@
     color: var(--on-secondary);
     border-bottom: 3px solid var(--on-secondary-fixed-variant);
 }
-.btn-success:hover { background: #2d5300; }
+.btn-success:hover { background: var(--secondary-hover); }
 
 .btn-outline {
     background: transparent;
@@ -70,7 +70,7 @@
     color: var(--on-error);
     border-bottom: 3px solid var(--on-error-container);
 }
-.btn-danger:hover { background: #9b1515; }
+.btn-danger:hover { background: var(--error-hover); }
 .btn-danger:active { border-bottom-width: 0; transform: translateY(3px); }
 
 .btn-sm  { padding: 0.45rem 1rem; font-size: 0.85rem; }
@@ -95,7 +95,7 @@
     border-bottom: 2px solid var(--on-primary-fixed-variant);
     transition: var(--transition);
 }
-.btn-nav-register:hover { background: #004d8f; }
+.btn-nav-register:hover { background: var(--primary-hover); }
 
 .btn-nav-logout {
     background: var(--error-container);
@@ -106,7 +106,7 @@
     font-weight: 700;
     transition: var(--transition);
 }
-.btn-nav-logout:hover { background: #ffc2be; }
+.btn-nav-logout:hover { background: var(--error-container-hover); }
 
 .btn-block { width: 100%; justify-content: center; }
 
@@ -156,7 +156,7 @@
     gap: 0.5rem;
 }
 .alert-danger  { background: var(--error-container); color: var(--on-error-container); border: 1px solid #ffb4ab; }
-.alert-success { background: #d1f5d0; color: #1a4d00; border: 1px solid #a1fa49; }
+.alert-success { background: var(--secondary-fixed); color: var(--on-secondary-fixed); border: 1px solid var(--secondary-fixed-dim); }
 
 /* ============================================================
    15. TABLOLAR

@@ -14,6 +14,7 @@
     var completedWords  = {};
     var focusedR        = -1;
     var focusedC        = -1;
+    var lastFocusedInput = null;
 
     var elEarned    = document.querySelector('.js-cw-earned');
     var elActiveDir  = document.querySelector('.js-cw-active-dir');
@@ -21,12 +22,30 @@
     var elActiveText = document.querySelector('.js-cw-active-text');
     var elHintBtn    = document.querySelector('.js-cw-hint-btn');
 
+    var elProgressFill  = document.querySelector('.js-cw-progress-fill');
+    var elProgressCount = document.querySelector('.js-cw-progress-count');
+    var elProgressBar   = document.querySelector('.js-cw-progress');
+    var totalWords = (CFG.acrossList ? CFG.acrossList.length : 0) +
+                     (CFG.downList ? CFG.downList.length : 0);
+
     /* Tüm .js-cw-final-score ve .js-cw-max-score elementlerini güncelle */
     function setFinalScoreEls(pts) {
         document.querySelectorAll('.js-cw-final-score').forEach(function (el) { el.textContent = String(pts); });
     }
     function setMaxScoreEls() {
         document.querySelectorAll('.js-cw-max-score').forEach(function (el) { el.textContent = String(CFG.maxScore || 100); });
+    }
+
+    /* İlerleme çubuğunu güncelle: çözülen kelime / toplam kelime */
+    function updateProgress() {
+        var solved = Object.keys(completedWords).length;
+        var pct = totalWords > 0 ? Math.round((solved / totalWords) * 100) : 0;
+        if (elProgressFill)  elProgressFill.style.width = pct + '%';
+        if (elProgressCount) elProgressCount.textContent = solved + ' / ' + totalWords + ' kelime';
+        if (elProgressBar) {
+            elProgressBar.setAttribute('aria-valuenow', String(pct));
+            elProgressBar.classList.toggle('is-complete', totalWords > 0 && solved >= totalWords);
+        }
     }
 
     /* Timer */
@@ -56,21 +75,21 @@
         return CFG.sol[r][c];
     }
 
+    /* Bir hücrenin ait olduğu kelimenin BAŞLANGIÇ numarasını döndürür.
+       Önceki sürüm sola/yukarı yürürken rastladığı İLK numarayı
+       döndürüyordu; oysa kelime ortasındaki bir hücre de (dik bir
+       kelime başlatıyorsa) numara taşır. Bu yüzden çözülen kelimeler
+       sıkça tanınmıyordu. Doğru davranış: kelimenin gerçek başına
+       (blok/sınıra kadar) yürü ve oradaki numarayı döndür. */
     function clueNumAt(r, c, across) {
         if (across) {
             var cc = c;
-            while (cc >= 0 && CFG.sol[r][cc] !== '#') {
-                if (CFG.nums[r][cc]) return CFG.nums[r][cc];
-                cc--;
-            }
-        } else {
-            var rr = r;
-            while (rr >= 0 && CFG.sol[rr][c] !== '#') {
-                if (CFG.nums[rr][c]) return CFG.nums[rr][c];
-                rr--;
-            }
+            while (cc - 1 >= 0 && CFG.sol[r][cc - 1] !== '#') cc--;
+            return CFG.nums[r][cc] || 0;
         }
-        return 0;
+        var rr = r;
+        while (rr - 1 >= 0 && CFG.sol[rr - 1][c] !== '#') rr--;
+        return CFG.nums[rr][c] || 0;
     }
 
     function activeClueMeta(r, c) {
@@ -111,6 +130,9 @@
     /* Aktif hücrenin ipucusunu döndürür (hem yatay hem dikey dener) */
     function getActiveClue() {
         var el = document.activeElement;
+        if (!el || !el.classList.contains('crossword-cell-input')) {
+            el = lastFocusedInput;
+        }
         if (!el || !el.classList.contains('crossword-cell-input')) return null;
         var r = parseInt(el.getAttribute('data-r'), 10);
         var c = parseInt(el.getAttribute('data-c'), 10);
@@ -184,6 +206,7 @@
                 if (icon) icon.hidden = false;
             } else {
                 delete completedWords[key];
+                updateProgress();
                 var cl2 = direction === 'across' ? acrossByN[String(clueNum)] : downByN[String(clueNum)];
                 if (cl2) {
                     for (var i = 0; i < cl2.word.length; i++) {
@@ -195,7 +218,7 @@
                 }
             }
         })
-        .catch(function () { delete completedWords[key]; });
+        .catch(function () { delete completedWords[key]; updateProgress(); });
     }
 
     function checkClueCompletion(cl, across) {
@@ -207,6 +230,7 @@
         if (full !== cl.word) return;
         completedWords[key] = true;
         markCellsComplete(cl, across);
+        updateProgress();
         saveWordToServer(dir, cl.n, full);
     }
 
@@ -284,7 +308,7 @@
         ss.textContent = '';
         if (!scoreSaved && typeof saveScore === 'function') {
             scoreSaved = true;
-            saveScore(5, earned, CFG.maxScore, function (data) {
+            saveScore(CFG.activityId || 5, earned, CFG.maxScore, function (data) {
                 if (data && data.success) {
                     ss.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
                 } else if (data && data.login_required) {
@@ -323,6 +347,7 @@
         });
 
         inp.addEventListener('focus', function () {
+            lastFocusedInput = inp;
             focusMeta(
                 parseInt(inp.getAttribute('data-r'), 10),
                 parseInt(inp.getAttribute('data-c'), 10)
@@ -385,6 +410,7 @@
         scoreSaved     = false;
         earned         = 0;
         elEarned.textContent = '0';
+        updateProgress();
     });
 
     document.querySelector('.js-cw-finish').addEventListener('click', finishGame);
@@ -434,6 +460,7 @@
     /* -------- init -------- */
 
     setMaxScoreEls();
+    updateProgress();
 
     Object.keys(acrossByN).forEach(function (k) {
         if (!acrossByN[k].n) acrossByN[k].n = parseInt(k, 10);

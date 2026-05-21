@@ -5,6 +5,8 @@
 
 (function () {
     const DATE_SEED = window.GAME_CONFIG.dateSeed;
+    /* Etkinlik ID'si PHP'den gelir; sabit kodlanmaz. */
+    const ACTIVITY_ID = window.GAME_CONFIG.activityId || 4;
 
     const WORDS = [
         'DURUM', 'CESUR', 'SAYGI', 'OLMAK', 'GEREK', 'FARKI', 'BIRAK', 'İÇSEL', 'ORTAK', 'GÜVEN',
@@ -216,7 +218,7 @@
         overlay.classList.add('show');
 
         if (typeof saveScore === 'function') {
-            saveScore(4, pts, 100, function (data) {
+            saveScore(ACTIVITY_ID, pts, 100, function (data) {
                 if (data && data.success) {
                     saveEl.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;color:var(--secondary);font-size:16px">check_circle</span> Puan kaydedildi!';
                 } else if (data && data.login_required) {

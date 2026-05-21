@@ -14,6 +14,24 @@ function e(string $str): string {
 }
 
 /**
+ * Bir etkinlik türünün (type) veritabanı ID'sini döndürür.
+ * Böylece oyun JS dosyalarına sabit ID gömmek yerine ID, sunucudan
+ * dinamik olarak geçirilir. Sonuç bellekte tutulur; bulunamazsa 0 döner.
+ */
+function getActivityId(string $type): int {
+    static $cache = [];
+    if (array_key_exists($type, $cache)) {
+        return $cache[$type];
+    }
+    $db   = getDB();
+    $stmt = $db->prepare('SELECT id FROM activities WHERE type = ? ORDER BY id ASC LIMIT 1');
+    $stmt->execute([$type]);
+    $cache[$type] = (int)($stmt->fetchColumn() ?: 0);
+
+    return $cache[$type];
+}
+
+/**
  * Kullanıcının belirli bir etkinlikteki en yüksek puanını döndürür.
  */
 function getUserHighScore(int $userId, int $activityId): int {
@@ -127,13 +145,23 @@ function getAllScores(): array {
 function getAdminStats(): array {
     $db = getDB();
 
-    $students = $db->query('SELECT COUNT(*) FROM users WHERE role="student"')->fetchColumn();
-    $games    = $db->query('SELECT COUNT(*) FROM scores')->fetchColumn();
-    $avgScore = $db->query('SELECT COALESCE(AVG(score),0) FROM scores')->fetchColumn();
+    $students   = $db->query('SELECT COUNT(*) FROM users WHERE role="student"')->fetchColumn();
+    $games      = $db->query('SELECT COUNT(*) FROM scores')->fetchColumn();
+    $avgScore   = $db->query('SELECT COALESCE(AVG(score),0) FROM scores')->fetchColumn();
+    $gamesToday = $db->query('SELECT COUNT(*) FROM scores WHERE DATE(played_at) = CURDATE()')->fetchColumn();
+    $newWeek    = $db->query(
+        'SELECT COUNT(*) FROM users WHERE role="student" AND created_at >= (NOW() - INTERVAL 7 DAY)'
+    )->fetchColumn();
+    $topScore   = $db->query('SELECT COALESCE(MAX(score),0) FROM scores')->fetchColumn();
+    $activities = $db->query('SELECT COUNT(*) FROM activities')->fetchColumn();
 
     return [
-        'total_students' => (int)$students,
-        'total_games'    => (int)$games,
-        'avg_score'      => round((float)$avgScore, 1),
+        'total_students'    => (int)$students,
+        'total_games'       => (int)$games,
+        'avg_score'         => round((float)$avgScore, 1),
+        'games_today'       => (int)$gamesToday,
+        'new_students_week' => (int)$newWeek,
+        'top_score'         => (int)$topScore,
+        'total_activities'  => (int)$activities,
     ];
 }
