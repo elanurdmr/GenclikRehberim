@@ -15,16 +15,17 @@ if (isAdmin()) {
     exit;
 }
 
-$userId       = (int)$_SESSION['user_id'];
-$username     = $_SESSION['username'];
-$totalScore   = getUserTotalScore($userId);
-$history      = getUserHistory($userId, 15);
-$leaderboard  = getLeaderboard(5);
-$highBulmaca  = getUserHighScore($userId, 1);
+$userId         = (int)$_SESSION['user_id'];
+$username       = $_SESSION['username'];
+$totalScore     = getUserTotalScore($userId);
+$history        = getUserHistory($userId, 15);
+$leaderboard    = getLeaderboard(5);
+$highBulmaca    = getUserHighScore($userId, 1);
 $highEslestirme = getUserHighScore($userId, 2);
-$highKategori = getUserHighScore($userId, 3);
-$highWordle   = getUserHighScore($userId, 4);
-$gamesPlayed  = count($history);
+$highKategori   = getUserHighScore($userId, 3);
+$highWordle     = getUserHighScore($userId, 4);
+$highCengel     = getUserHighScore($userId, 5);
+$gamesPlayed    = count($history);
 
 $weeklyPct = min(100, $totalScore > 0 ? (int)round(($totalScore % 400) / 4) : 0);
 if ($totalScore >= 400) {
@@ -34,15 +35,26 @@ if ($totalScore >= 400) {
 }
 
 $badges = [
-    ['icon' => 'local_fire_department', 'bg' => 'var(--tertiary-fixed)',          'color' => 'var(--tertiary)',           'name' => 'Aktif Öğrenci',  'unlocked' => $gamesPlayed >= 1],
-    ['icon' => 'waving_hand',           'bg' => 'var(--primary-fixed)',            'color' => 'var(--primary)',            'name' => 'Destekçi',       'unlocked' => $totalScore >= 50],
-    ['icon' => 'psychology',            'bg' => 'var(--secondary-fixed)',           'color' => 'var(--secondary)',          'name' => 'Farkındalık',    'unlocked' => $gamesPlayed >= 2],
-    ['icon' => 'emoji_events',          'bg' => 'rgba(255,190,11,0.15)',            'color' => '#9a6700',                  'name' => 'Şampiyon',       'unlocked' => $totalScore >= 200],
-    ['icon' => 'favorite',              'bg' => 'rgba(186,26,26,0.12)',             'color' => 'var(--error)',              'name' => 'Kalp Dolu',      'unlocked' => $gamesPlayed >= 3],
-    ['icon' => 'shield',                'bg' => 'rgba(58,106,0,0.12)',              'color' => 'var(--secondary)',          'name' => 'Koruyucu',       'unlocked' => $totalScore >= 100],
-    ['icon' => 'group',                 'bg' => 'var(--surface-container-high)',    'color' => 'var(--on-surface-variant)', 'name' => 'Takım Oyuncusu', 'unlocked' => $gamesPlayed >= 4],
-    ['icon' => 'star',                  'bg' => 'rgba(212,164,0,0.15)',             'color' => '#9a6700',                  'name' => 'Yıldız',         'unlocked' => $totalScore >= 300],
+    ['icon' => 'local_fire_department', 'bg' => 'var(--tertiary-fixed)',          'color' => 'var(--tertiary)',           'name' => 'Aktif Öğrenci',  'desc' => 'İlk oyununu tamamla',            'unlocked' => $gamesPlayed >= 1],
+    ['icon' => 'waving_hand',           'bg' => 'var(--primary-fixed)',            'color' => 'var(--primary)',            'name' => 'Destekçi',       'desc' => '50 puana ulaş',                  'unlocked' => $totalScore >= 50],
+    ['icon' => 'psychology',            'bg' => 'var(--secondary-fixed)',           'color' => 'var(--secondary)',          'name' => 'Farkındalık',    'desc' => '2 farklı oyun oyna',             'unlocked' => $gamesPlayed >= 2],
+    ['icon' => 'emoji_events',          'bg' => 'rgba(255,190,11,0.15)',            'color' => '#9a6700',                  'name' => 'Şampiyon',       'desc' => '200 puana ulaş',                 'unlocked' => $totalScore >= 200],
+    ['icon' => 'favorite',              'bg' => 'rgba(186,26,26,0.12)',             'color' => 'var(--error)',              'name' => 'Kalp Dolu',      'desc' => '3 farklı oyun oyna',             'unlocked' => $gamesPlayed >= 3],
+    ['icon' => 'shield',                'bg' => 'rgba(58,106,0,0.12)',              'color' => 'var(--secondary)',          'name' => 'Koruyucu',       'desc' => '100 puana ulaş',                 'unlocked' => $totalScore >= 100],
+    ['icon' => 'group',                 'bg' => 'var(--surface-container-high)',    'color' => 'var(--on-surface-variant)', 'name' => 'Takım Oyuncusu', 'desc' => '4 veya daha fazla oyun oyna',    'unlocked' => $gamesPlayed >= 4],
+    ['icon' => 'star',                  'bg' => 'rgba(212,164,0,0.15)',             'color' => '#9a6700',                  'name' => 'Yıldız',         'desc' => '300 puana ulaş',                 'unlocked' => $totalScore >= 300],
 ];
+
+// Yeni kazanılan rozetleri DB'ye kaydet ve popup için JS'e aktar
+$earnedBadges = getEarnedBadges($userId);
+$newlyEarned  = [];
+foreach ($badges as $badge) {
+    if ($badge['unlocked'] && !in_array($badge['name'], $earnedBadges, true)) {
+        if (awardBadge($userId, $badge['name'])) {
+            $newlyEarned[] = ['name' => $badge['name'], 'desc' => $badge['desc'], 'icon' => $badge['icon']];
+        }
+    }
+}
 ?>
 <?php include __DIR__ . '/includes/header.php'; ?>
 
@@ -132,7 +144,7 @@ $badges = [
                 </div>
                 <div class="student-jump-body">
                     <h3>Zorbalık Bulmacası</h3>
-                    <div class="student-jump-bar"><div style="width:<?= $highBulmaca > 0 ? min(100, (int)round($highBulmaca)) : 10 ?>%;background:var(--primary)"></div></div>
+                    <div class="student-jump-bar"><div style="width:<?= min(100, (int)$highBulmaca) ?>%;background:var(--primary)"></div></div>
                 </div>
             </a>
             <a class="student-jump-card" href="/genclik-rehberim/games/cengelbulmaca.php">
@@ -141,7 +153,7 @@ $badges = [
                 </div>
                 <div class="student-jump-body">
                     <h3>Çengel Bulmaca</h3>
-                    <div class="student-jump-bar"><div style="width:40%;background:var(--secondary)"></div></div>
+                    <div class="student-jump-bar"><div style="width:<?= min(100, (int)$highCengel) ?>%;background:var(--secondary)"></div></div>
                 </div>
             </a>
             <a class="student-jump-card" href="/genclik-rehberim/games/wordle.php">
@@ -150,7 +162,7 @@ $badges = [
                 </div>
                 <div class="student-jump-body">
                     <h3>Wordle</h3>
-                    <div class="student-jump-bar"><div style="width:<?= $highWordle > 0 ? min(100, $highWordle) : 10 ?>%;background:#075fab"></div></div>
+                    <div class="student-jump-bar"><div style="width:<?= min(100, (int)$highWordle) ?>%;background:#075fab"></div></div>
                 </div>
             </a>
             <a class="student-jump-card" href="/genclik-rehberim/games/eslestirme.php">
@@ -159,7 +171,7 @@ $badges = [
                 </div>
                 <div class="student-jump-body">
                     <h3>Eşleştirme</h3>
-                    <div class="student-jump-bar"><div style="width:<?= $highEslestirme > 0 ? min(100, (int)round($highEslestirme * 100 / 140)) : 15 ?>%;background:var(--secondary)"></div></div>
+                    <div class="student-jump-bar"><div style="width:<?= min(100, (int)round($highEslestirme * 100 / 140)) ?>%;background:var(--secondary)"></div></div>
                 </div>
             </a>
         </div>
@@ -242,5 +254,30 @@ $badges = [
         </section>
     </div>
 </main>
+
+<?php if (!empty($newlyEarned)): ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+(function () {
+    const newBadges = <?= json_encode($newlyEarned, JSON_UNESCAPED_UNICODE) ?>;
+    async function showBadgePopups() {
+        for (const badge of newBadges) {
+            await Swal.fire({
+                title: '🏅 Yeni Rozet Kazandın!',
+                html: `<strong style="font-size:1.1rem">${badge.name}</strong><br><span style="color:#666">${badge.desc}</span>`,
+                icon: 'success',
+                confirmButtonText: 'Harika!',
+                confirmButtonColor: 'var(--primary, #6750A4)',
+                timer: 5000,
+                timerProgressBar: true,
+                showClass: { popup: 'swal2-show' },
+                hideClass: { popup: 'swal2-hide' }
+            });
+        }
+    }
+    document.addEventListener('DOMContentLoaded', showBadgePopups);
+})();
+</script>
+<?php endif; ?>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

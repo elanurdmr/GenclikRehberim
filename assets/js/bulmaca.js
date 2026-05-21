@@ -53,11 +53,18 @@ function buildLetterBoxes(qNum, answer) {
 }
 
 function normalizeTurkish(str) {
-    return str
-        .replace(/i/g, 'İ')
-        .replace(/ı/g, 'I')
-        .toUpperCase()
-        .trim();
+    /* Unicode escape'ler: kaynak dosya encoding'inden bağımsız, tüm tarayıcılarda güvenli.
+       i/ı/İ/I → hepsi 'I'; diğer Türkçe harfler büyük harfe çevrilir. */
+    var s = String(str || '');
+    s = s.split('i')            .join('I')          /* i  U+0069 */
+         .split('ı').join('I')                  /* ı  U+0131 DOTLESS I */
+         .split('İ').join('I')                  /* İ  U+0130 DOTTED CAPITAL I */
+         .split('ş').join('Ş')              /* ş → Ş */
+         .split('ğ').join('Ğ')              /* ğ → Ğ */
+         .split('ü').join('Ü')              /* ü → Ü */
+         .split('ö').join('Ö')              /* ö → Ö */
+         .split('ç').join('Ç');             /* ç → Ç */
+    return s.toUpperCase().trim();
 }
 
 function checkAnswer(qNum) {

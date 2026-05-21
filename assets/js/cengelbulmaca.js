@@ -62,9 +62,23 @@
 
     /* -------- Yardımcı fonksiyonlar -------- */
 
+    /* Tek karakteri Türkçe büyük harfe çevirir (locale bağımsız). */
     function trKey(ch) {
         if (!ch || ch.length < 1) return '';
-        return ch.slice(-1).toLocaleUpperCase('tr-TR');
+        var c = ch.slice(-1);
+        /* \uXXXX — encoding bağımsız, tüm tarayıcılarda güvenli */
+        c = c.split('i')          .join('İ')  /* i → İ (U+0130) */
+             .split('ı').join('I');           /* ı → I (U+0049) */
+        return c.toUpperCase();
+    }
+
+    /* Karşılaştırma anahtarı: i/ı/İ/I ayrımını yok sayar. */
+    function cmpKey(s) {
+        return String(s || '')
+            .split('i')          .join('I')
+            .split('ı').join('I')       /* ı U+0131 DOTLESS I */
+            .split('İ').join('I')       /* İ U+0130 DOTTED CAPITAL I */
+            .toUpperCase();
     }
 
     function cellInput(r, c) {
@@ -227,7 +241,7 @@
         var key = dir + ':' + cl.n;
         if (completedWords[key]) return;
         var full = across ? readWordAcross(cl) : readWordDown(cl);
-        if (full !== cl.word) return;
+        if (cmpKey(full) !== cmpKey(cl.word)) return;
         completedWords[key] = true;
         markCellsComplete(cl, across);
         updateProgress();
@@ -242,7 +256,7 @@
             if (CFG.sol[nr][nc] !== '#') {
                 var t = cellInput(nr, nc);
                 if (t) {
-                    if (t.value && trKey(t.value) === CFG.sol[nr][nc]) {
+                    if (t.value && cmpKey(trKey(t.value)) === cmpKey(CFG.sol[nr][nc])) {
                         nr += dr; nc += dc; continue;
                     }
                     t.focus(); return;
@@ -276,7 +290,7 @@
         var sol = solAt(r, c);
         var wrap = inp.closest('.crossword-cell');
         wrap.classList.remove('crossword-letter-wrong');
-        if (v && v !== sol) wrap.classList.add('crossword-letter-wrong');
+        if (v && cmpKey(v) !== cmpKey(sol)) wrap.classList.add('crossword-letter-wrong');
 
         var ca = acrossByN[String(clueNumAt(r, c, true))];
         if (ca) checkClueCompletion(ca, true);
@@ -430,7 +444,7 @@
                 var inp = cellInput(hr, hc);
                 if (!inp) continue;
                 var correct = CFG.sol[hr][hc];
-                if (!inp.value || trKey(inp.value) !== correct) {
+                if (!inp.value || cmpKey(trKey(inp.value)) !== cmpKey(correct)) {
                     candidates.push({ r: hr, c: hc, inp: inp, correct: correct });
                 }
             }

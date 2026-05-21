@@ -155,6 +155,13 @@
         }
     }
 
+    function shakeRow(r) {
+        for (let c = 0; c < COLS; c++) {
+            board[r][c].classList.add('shake');
+            setTimeout(() => board[r][c].classList.remove('shake'), 500);
+        }
+    }
+
     function submitRow() {
         if (locked) return;
         if (col < COLS) {
@@ -165,6 +172,13 @@
         for (let c = 0; c < COLS; c++) {
             guess += board[row][c].textContent;
         }
+
+        if (!WORDS.includes(guess)) {
+            setMessage('Bu kelime listede yok! Farklı bir kelime dene.');
+            shakeRow(row);
+            return;
+        }
+
         setMessage('');
 
         const states = evaluateGuess(solution, guess);

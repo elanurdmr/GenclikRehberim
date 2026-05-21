@@ -140,6 +140,29 @@ function getAllScores(): array {
 }
 
 /**
+ * Kullanıcının veritabanında kayıtlı rozet adlarını döndürür.
+ */
+function getEarnedBadges(int $userId): array {
+    $db   = getDB();
+    $stmt = $db->prepare('SELECT badge_name FROM user_badges WHERE user_id = ?');
+    $stmt->execute([$userId]);
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
+/**
+ * Rozeti kullanıcıya kaydeder; zaten varsa sessizce atlar.
+ * Yeni kazanıldıysa true, zaten vardıysa false döner.
+ */
+function awardBadge(int $userId, string $badgeName): bool {
+    $db   = getDB();
+    $stmt = $db->prepare(
+        'INSERT IGNORE INTO user_badges (user_id, badge_name) VALUES (?, ?)'
+    );
+    $stmt->execute([$userId, $badgeName]);
+    return $stmt->rowCount() > 0;
+}
+
+/**
  * Admin paneli için özet istatistikler.
  */
 function getAdminStats(): array {

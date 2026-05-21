@@ -220,6 +220,6 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
 </div>
 
 <script>window.GAME_CONFIG = <?= $json ?>;</script>
-<script src="/genclik-rehberim/assets/js/cengelbulmaca.js"></script>
+<script src="/genclik-rehberim/assets/js/cengelbulmaca.js?v=<?= filemtime(__DIR__ . '/../assets/js/cengelbulmaca.js') ?>"></script>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

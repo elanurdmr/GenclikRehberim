@@ -38,8 +38,9 @@ if ($filterType !== 'all') {
 }
 
 if ($filterUser !== '') {
-    $sql .= ' AND u.username LIKE ?';
-    $params[] = '%' . $filterUser . '%';
+    $escaped = str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $filterUser);
+    $sql .= " AND u.username LIKE ? ESCAPE '\\\\'";
+    $params[] = '%' . $escaped . '%';
 }
 
 $sql .= ' ORDER BY s.played_at DESC LIMIT 200';
@@ -96,10 +97,24 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
     <!-- Ana içerik -->
     <section class="admin-content">
 
-        <h1 class="admin-page-title">
-            <span class="material-symbols-outlined icon-fill">bar_chart</span>
-            Skor İzleme
-        </h1>
+        <div class="admin-content__header">
+            <h1 class="admin-page-title admin-content__header-title">
+                <span class="material-symbols-outlined icon-fill">bar_chart</span>
+                Skor İzleme
+            </h1>
+            <div class="admin-content__actions">
+                <?php
+                $exportQuery = http_build_query(array_filter([
+                    'type' => $filterType !== 'all' ? $filterType : '',
+                    'user' => $filterUser,
+                ]));
+                ?>
+                <a href="/genclik-rehberim/admin/export.php<?= $exportQuery ? '?' . $exportQuery : '' ?>"
+                   class="btn btn-primary btn-sm">
+                    <span class="material-symbols-outlined">download</span> CSV İndir
+                </a>
+            </div>
+        </div>
 
         <!-- Filtre kartı -->
         <div class="card" style="margin-bottom:2rem">

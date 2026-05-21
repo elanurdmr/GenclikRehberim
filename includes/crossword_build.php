@@ -9,11 +9,24 @@ require_once __DIR__ . '/CrosswordEngine.php';
 
 /**
  * Cevabı ızgara için normalize et (Türkçe).
+ * Izgara yerleşimi ve depolama için kullanılır; i/ı ayrımını KORUR.
  */
 function crossword_normalize_answer(string $a): string
 {
     $a = preg_replace('/\s+/u', '', trim($a));
     $a = str_replace(['ı', 'i'], ['I', 'İ'], $a);
+
+    return mb_strtoupper($a, 'UTF-8');
+}
+
+/**
+ * YALNIZCA KARŞILAŞTIRMA için normalize et.
+ * i/ı/İ/I ayrımını yok sayar; kullanıcı hatalarına karşı hoşgörülüdür.
+ */
+function crossword_compare_key(string $a): string
+{
+    $a = preg_replace('/\s+/u', '', trim($a));
+    $a = str_replace(['i', 'ı', 'İ', 'I'], 'I', $a);
 
     return mb_strtoupper($a, 'UTF-8');
 }

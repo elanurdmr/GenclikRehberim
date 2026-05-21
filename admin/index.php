@@ -283,7 +283,7 @@ $recentScores = array_slice($recentScores, 0, 5);
                     <span class="material-symbols-outlined icon-fill">sports_esports</span>
                     Oyun Modülleri
                 </h2>
-                <span class="badge badge-success">3 Aktif</span>
+                <span class="badge badge-success">4 Aktif</span>
             </div>
             <div class="admin-modules__grid">
                 <!-- Bulmaca -->
@@ -294,6 +294,28 @@ $recentScores = array_slice($recentScores, 0, 5);
                     <div class="admin-modules__info">
                         <div class="admin-modules__name">Bulmaca</div>
                         <div class="admin-modules__detail">10 Soru · 100 Puan</div>
+                    </div>
+                    <span class="badge badge-success">Aktif</span>
+                </div>
+                <!-- Çengel Bulmaca -->
+                <div class="admin-modules__card">
+                    <div class="admin-modules__icon" style="background:var(--secondary-container)">
+                        <span class="material-symbols-outlined admin-modules__icon-symbol" style="color:var(--secondary)">grid_on</span>
+                    </div>
+                    <div class="admin-modules__info">
+                        <div class="admin-modules__name">Çengel Bulmaca</div>
+                        <div class="admin-modules__detail">Günlük Bulmaca · 100 Puan</div>
+                    </div>
+                    <span class="badge badge-success">Aktif</span>
+                </div>
+                <!-- Wordle -->
+                <div class="admin-modules__card">
+                    <div class="admin-modules__icon" style="background:#e3f0ff">
+                        <span class="material-symbols-outlined admin-modules__icon-symbol" style="color:#075fab">spellcheck</span>
+                    </div>
+                    <div class="admin-modules__info">
+                        <div class="admin-modules__name">Wordle</div>
+                        <div class="admin-modules__detail">5 Harfli Kelime · 100 Puan</div>
                     </div>
                     <span class="badge badge-success">Aktif</span>
                 </div>

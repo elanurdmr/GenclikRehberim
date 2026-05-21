@@ -277,6 +277,6 @@ requireLogin();
 </div>
 
 <script>window.GAME_CONFIG = { activityId: <?= getActivityId('bulmaca') ?> };</script>
-<script src="/genclik-rehberim/assets/js/bulmaca.js"></script>
+<script src="/genclik-rehberim/assets/js/bulmaca.js?v=<?= filemtime(__DIR__ . '/../assets/js/bulmaca.js') ?>"></script>
 
 <?php include '../includes/footer.php'; ?>

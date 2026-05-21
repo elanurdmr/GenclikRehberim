@@ -80,6 +80,18 @@ CREATE TABLE IF NOT EXISTS crossword_word_scores (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 
 -- ============================================================
+-- Tablo 6: user_badges — Kazanılan rozetler
+-- ============================================================
+CREATE TABLE IF NOT EXISTS user_badges (
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    user_id    INT          NOT NULL,
+    badge_name VARCHAR(100) NOT NULL,
+    earned_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_user_badge (user_id, badge_name),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+-- ============================================================
 -- Başlangıç Verileri
 -- ============================================================
 
