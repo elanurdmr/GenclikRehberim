@@ -12,7 +12,7 @@
         <!-- Marka ve açıklama -->
         <div class="footer-brand">
             <span class="footer-logo">
-                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">shield_person</span>
+                <span class="material-symbols-outlined">shield_person</span>
                 Gençlik Rehberim
             </span>
             <p>Akran zorbalığına karşı farkındalık ve doğru davranışları öğretmek amacıyla geliştirilmiştir.</p>
@@ -34,10 +34,10 @@
         <nav class="footer-nav" aria-label="Hukuki bağlantılar">
             <h4>Bağlantılar</h4>
             <ul>
-                <li><a href="#">Hakkımızda</a></li>
-                <li><a href="#">Gizlilik Politikası</a></li>
-                <li><a href="#">Kullanım Şartları</a></li>
-                <li><a href="#">İletişim</a></li>
+                <li><a href="/genclik-rehberim/index.php">Hakkımızda</a></li>
+                <li><a href="/genclik-rehberim/index.php">Gizlilik Politikası</a></li>
+                <li><a href="/genclik-rehberim/index.php">Kullanım Şartları</a></li>
+                <li><a href="/genclik-rehberim/index.php">İletişim</a></li>
             </ul>
         </nav>
 
@@ -53,7 +53,7 @@
                 PHP · MySQL · JavaScript
             </p>
             <p>
-                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">favorite</span>
+                <span class="material-symbols-outlined">favorite</span>
                 Gençlere destek için yapıldı
             </p>
         </div>

@@ -25,7 +25,7 @@ $leaderboard = getLeaderboard(3);
             <div class="hero-text">
                 <!-- Gamification rozeti -->
                 <div class="hero-badge">
-                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">stars</span>
+                    <span class="material-symbols-outlined">stars</span>
                     Gençlik Rehberim
                 </div>
 
@@ -62,10 +62,12 @@ $leaderboard = getLeaderboard(3);
                     src="./docs/photos/akranzorbaligi.png"
                     alt="Pozitif enerji dolu öğrenciler"
                     class="hero-image"
+                    width="600"
+                    height="460"
                     loading="lazy">
                 <div class="hero-floating-card">
                     <div class="hero-floating-icon">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">favorite</span>
+                        <span class="material-symbols-outlined">favorite</span>
                     </div>
                     <div>
                         <p class="hero-floating-num">1000+</p>
@@ -90,7 +92,7 @@ $leaderboard = getLeaderboard(3);
             <article class="game-card card-bulmaca">
                 <div class="game-card-top">
                     <div class="game-card-icon">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">extension</span>
+                        <span class="material-symbols-outlined">extension</span>
                     </div>
                     <span class="game-card-arrow">
                         <span class="material-symbols-outlined">arrow_outward</span>
@@ -112,7 +114,7 @@ $leaderboard = getLeaderboard(3);
             <article class="game-card card-bulmaca">
                 <div class="game-card-top">
                     <div class="game-card-icon">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">grid_on</span>
+                        <span class="material-symbols-outlined">grid_on</span>
                     </div>
                     <span class="game-card-arrow">
                         <span class="material-symbols-outlined">arrow_outward</span>
@@ -131,10 +133,10 @@ $leaderboard = getLeaderboard(3);
             </article>
 
             <!-- Wordle -->
-            <article class="game-card" style="border-color:rgba(7,95,171,0.2)">
+            <article class="game-card card-wordle">
                 <div class="game-card-top">
-                    <div class="game-card-icon" style="background:linear-gradient(135deg,#5d9cec,#075fab)">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">spellcheck</span>
+                    <div class="game-card-icon">
+                        <span class="material-symbols-outlined">spellcheck</span>
                     </div>
                     <span class="game-card-arrow">
                         <span class="material-symbols-outlined">arrow_outward</span>
@@ -156,7 +158,7 @@ $leaderboard = getLeaderboard(3);
             <article class="game-card card-eslestirme">
                 <div class="game-card-top">
                     <div class="game-card-icon">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">join_inner</span>
+                        <span class="material-symbols-outlined">join_inner</span>
                     </div>
                     <span class="game-card-arrow">
                         <span class="material-symbols-outlined">arrow_outward</span>

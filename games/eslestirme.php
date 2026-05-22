@@ -259,6 +259,20 @@ requireLogin();
     </div>
 </main>
 
+<!-- ===== YANLIŞ CEVAP GERİ BİLDİRİM POPUP ===== -->
+<div class="feedback-popup-overlay" id="feedbackPopupOverlay" role="dialog" aria-modal="true" aria-label="Cevap geri bildirimi">
+    <div class="feedback-popup-card">
+        <div class="feedback-popup-icon">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">cancel</span>
+        </div>
+        <h3 class="feedback-popup-title">Yanlış Cevap!</h3>
+        <div class="feedback-popup-body" id="feedbackPopupBody"></div>
+        <button class="btn btn-primary" id="feedbackPopupOkBtn">
+            <span class="material-symbols-outlined">check_circle</span> Anladım
+        </button>
+    </div>
+</div>
+
 <!-- ===== BÖLÜM 1 TAMAMLAMA MODALİ ===== -->
 <div class="result-overlay" id="sectionDoneOverlay" role="dialog" aria-modal="true" aria-label="Bölüm 1 sonucu">
     <div class="result-card">

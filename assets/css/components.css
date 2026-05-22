@@ -76,36 +76,37 @@
 .btn-sm  { padding: 0.45rem 1rem; font-size: 0.85rem; }
 .btn-lg  { padding: 1rem 2.25rem; font-size: 1.1rem; }
 
-/* Nav butonları */
+/* Nav butonları — layout.css'deki .nav-links li a seçicisini geçersiz kılmak için
+   daha yüksek özgünlük (.nav-links li a.btn-nav-*) kullanılır; !important gerekmez. */
 .btn-nav-login {
-    color: var(--primary) !important;
     font-weight: 700;
     padding: 0.5rem 1rem;
     border-radius: 8px;
     transition: var(--transition);
 }
+.nav-links li a.btn-nav-login { color: var(--primary); }
 .btn-nav-login:hover { background: var(--surface-container-low); }
 
 .btn-nav-register {
     background: var(--primary);
-    color: var(--on-primary) !important;
     padding: 0.5rem 1.25rem;
     border-radius: 9999px;
     font-weight: 700;
     border-bottom: 2px solid var(--on-primary-fixed-variant);
     transition: var(--transition);
 }
+.nav-links li a.btn-nav-register { color: var(--on-primary); }
 .btn-nav-register:hover { background: var(--primary-hover); }
 
 .btn-nav-logout {
     background: var(--error-container);
-    color: var(--on-error-container) !important;
     padding: 0.4rem 1rem;
     border-radius: 9999px;
     font-size: 0.85rem;
     font-weight: 700;
     transition: var(--transition);
 }
+.nav-links li a.btn-nav-logout { color: var(--on-error-container); }
 .btn-nav-logout:hover { background: var(--error-container-hover); }
 
 .btn-block { width: 100%; justify-content: center; }

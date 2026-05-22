@@ -61,23 +61,23 @@ foreach ($badges as $badge) {
 <main class="student-dashboard">
     <header class="student-dash-header">
         <div>
-            <h1 class="text-display-lg" style="font-size:clamp(1.75rem,4vw,2.5rem);font-weight:800;margin-bottom:0.35rem">
+            <h1 class="student-page-title">
                 Merhaba, <?= htmlspecialchars($username, ENT_QUOTES, 'UTF-8') ?>!
             </h1>
-            <p class="text-body-base" style="color:var(--on-surface-variant);max-width:520px;margin:0;line-height:1.55">
-                Etkinlikleri tamamla, puan topla ve haftalık hedefinde ilerle. Tasarım: güvenli ve motive edici öğrenci paneli.
+            <p class="student-page-subtitle">
+                Etkinlikleri tamamla, puan topla ve haftalık hedefinde ilerle.
             </p>
         </div>
         <div class="student-xp-pill">
-            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;color:var(--secondary)">star</span>
+            <span class="material-symbols-outlined">star</span>
             <span><?= (int)$totalScore ?> XP</span>
         </div>
     </header>
 
     <div class="student-bento">
         <section class="student-card-bento" aria-label="Haftalık hedef">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
-                <h2 class="text-headline-md" style="font-size:1.15rem;font-weight:800">İlerleme</h2>
+            <div class="panel-card-header">
+                <h2 class="panel-section-title">İlerleme</h2>
                 <span class="badge badge-bulmaca"><?= (int)$weeklyPct ?>% tamamlandı</span>
             </div>
             <div class="progress-bar-outer" style="height:12px;margin-bottom:0.5rem">
@@ -87,31 +87,31 @@ foreach ($badges as $badge) {
                 <span><?= (int)$gamesPlayed ?> oyun kaydı</span>
                 <span>Hedef: daha fazla etkinlik</span>
             </div>
-            <div style="display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap">
-                <article style="flex:1;min-width:140px;background:var(--surface);padding:0.85rem;border-radius:12px;border:1px solid var(--outline-variant);display:flex;gap:0.65rem;align-items:center">
+            <div class="panel-stat-row">
+                <article class="panel-stat-item">
                     <div class="student-badge-icon-wrap" style="margin:0;background:var(--secondary-fixed);color:var(--secondary)">
                         <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:22px">check_circle</span>
                     </div>
                     <div>
-                        <div style="font-weight:700;font-size:0.85rem">Bulmaca</div>
-                        <div style="font-size:0.75rem;color:var(--on-surface-variant)">En iyi: <?= (int)$highBulmaca ?></div>
+                        <div class="panel-stat-label">Bulmaca</div>
+                        <div class="panel-stat-sub">En iyi: <?= (int)$highBulmaca ?></div>
                     </div>
                 </article>
-                <article style="flex:1;min-width:140px;background:var(--surface);padding:0.85rem;border-radius:12px;border:1px solid var(--outline-variant);display:flex;gap:0.65rem;align-items:center">
+                <article class="panel-stat-item">
                     <div class="student-badge-icon-wrap" style="margin:0;background:var(--primary-fixed);color:var(--primary)">
                         <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:22px">play_circle</span>
                     </div>
                     <div>
-                        <div style="font-weight:700;font-size:0.85rem">Wordle</div>
-                        <div style="font-size:0.75rem;color:var(--on-surface-variant)">En iyi: <?= (int)$highWordle ?></div>
+                        <div class="panel-stat-label">Wordle</div>
+                        <div class="panel-stat-sub">En iyi: <?= (int)$highWordle ?></div>
                     </div>
                 </article>
             </div>
         </section>
 
         <section class="student-card-bento" aria-label="Rozetler">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-                <h2 class="text-headline-md" style="font-size:1.15rem;font-weight:800">Rozetler</h2>
+            <div class="panel-card-header">
+                <h2 class="panel-section-title">Rozetler</h2>
                 <a href="/genclik-rehberim/index.php#oyunlar" class="btn btn-outline btn-sm" style="padding:0.35rem 0.65rem">
                     <span class="material-symbols-outlined" style="font-size:18px">arrow_forward</span>
                 </a>
@@ -125,7 +125,7 @@ foreach ($badges as $badge) {
                             <?= $badge['unlocked'] ? htmlspecialchars($badge['icon'], ENT_QUOTES, 'UTF-8') : 'lock' ?>
                         </span>
                     </div>
-                    <span style="font-size:0.78rem;font-weight:700"><?= htmlspecialchars($badge['name'], ENT_QUOTES, 'UTF-8') ?></span>
+                    <span class="badge-name"><?= htmlspecialchars($badge['name'], ENT_QUOTES, 'UTF-8') ?></span>
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -133,9 +133,9 @@ foreach ($badges as $badge) {
     </div>
 
     <section class="student-card-bento" style="margin-top:1.25rem" aria-label="Oyunlara devam et">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
-            <h2 class="text-headline-md" style="font-size:1.15rem;font-weight:800">Tekrar Oyna</h2>
-            <a href="/genclik-rehberim/index.php" class="font-label-caps text-label-caps" style="color:var(--primary);font-size:0.8rem">Tümü</a>
+        <div class="panel-card-header">
+            <h2 class="panel-section-title">Tekrar Oyna</h2>
+            <a href="/genclik-rehberim/index.php" class="panel-view-all-link">Tümü</a>
         </div>
         <div class="student-jump-grid">
             <a class="student-jump-card" href="/genclik-rehberim/games/bulmaca.php">
@@ -211,10 +211,10 @@ foreach ($badges as $badge) {
                                     <div class="progress-track">
                                         <div class="progress-fill" style="width:<?= (int)$percent ?>%"></div>
                                     </div>
-                                    <span style="font-size:0.75rem;font-weight:700"><?= (int)$percent ?>%</span>
+                                    <span class="progress-pct"><?= (int)$percent ?>%</span>
                                 </div>
                             </td>
-                            <td style="font-size:0.82rem;color:var(--on-surface-variant)"><?= date('d.m.Y H:i', strtotime($row['played_at'])) ?></td>
+                            <td class="cell-date"><?= date('d.m.Y H:i', strtotime($row['played_at'])) ?></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -234,20 +234,21 @@ foreach ($badges as $badge) {
                 <div class="empty-state"><span class="material-symbols-outlined">emoji_events</span><p>Henüz veri yok.</p></div>
             <?php else: ?>
                 <?php foreach ($leaderboard as $i => $leader): ?>
-                <div style="display:flex;align-items:center;gap:1rem;padding:0.85rem 1rem;border-bottom:1px solid var(--surface-variant)">
-                    <div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.85rem;color:#fff;flex-shrink:0;background:<?= $i===0?'#FFBE0B':($i===1?'#94a3b8':($i===2?'#c47722':'var(--surface-container-high)')) ?>">
+                <?php $rankBg = $i===0 ? '#FFBE0B' : ($i===1 ? '#94a3b8' : ($i===2 ? '#c47722' : 'var(--surface-container-high)')); ?>
+                <div class="panel-leader-row">
+                    <div class="panel-leader-rank" style="background:<?= $rankBg ?>">
                         <?= $i + 1 ?>
                     </div>
-                    <div style="flex:1;min-width:0">
-                        <div style="font-weight:800;font-size:0.9rem">
+                    <div class="panel-leader-info">
+                        <div class="panel-leader-name">
                             <?= htmlspecialchars($leader['username'], ENT_QUOTES, 'UTF-8') ?>
                             <?php if ($leader['username'] === $username): ?>
-                                <span style="color:var(--primary);font-size:0.72rem">(sen)</span>
+                                <span class="panel-leader-you">(sen)</span>
                             <?php endif; ?>
                         </div>
-                        <div style="font-size:0.78rem;color:var(--on-surface-variant)"><?= (int)$leader['games_played'] ?> oyun</div>
+                        <div class="panel-leader-meta"><?= (int)$leader['games_played'] ?> oyun</div>
                     </div>
-                    <div style="font-weight:900;color:var(--primary)"><?= (int)$leader['total_score'] ?></div>
+                    <div class="panel-leader-score"><?= (int)$leader['total_score'] ?></div>
                 </div>
                 <?php endforeach; ?>
             <?php endif; ?>

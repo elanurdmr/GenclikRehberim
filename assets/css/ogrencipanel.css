@@ -4,6 +4,150 @@
    ============================================================ */
 
 /* ============================================================
+   ÖĞRENCİ PANELİ — SAYFA BAŞLIĞI
+   ============================================================ */
+.student-page-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    margin-bottom: 0.35rem;
+}
+.student-page-subtitle {
+    color: var(--on-surface-variant);
+    max-width: 520px;
+    margin: 0;
+    line-height: 1.55;
+}
+.student-xp-pill .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1;
+    color: var(--secondary);
+}
+/* Bölüm kart başlık satırı (flex row) */
+.panel-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+/* Kart içi bölüm başlıkları */
+.panel-section-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+/* Mini stat kart satırı */
+.panel-stat-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+.panel-stat-item {
+    flex: 1;
+    min-width: 140px;
+    background: var(--surface);
+    padding: 0.85rem;
+    border-radius: 12px;
+    border: 1px solid var(--outline-variant);
+    display: flex;
+    gap: 0.65rem;
+    align-items: center;
+}
+.panel-stat-label {
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+.panel-stat-sub {
+    font-size: 0.75rem;
+    color: var(--on-surface-variant);
+}
+/* Liderlik satırı */
+.panel-leader-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--surface-variant);
+}
+.panel-leader-row:last-child { border-bottom: none; }
+.panel-leader-rank {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 0.85rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+.panel-leader-info { flex: 1; min-width: 0; }
+.panel-leader-name {
+    font-weight: 800;
+    font-size: 0.9rem;
+}
+.panel-leader-meta {
+    font-size: 0.78rem;
+    color: var(--on-surface-variant);
+}
+.panel-leader-score {
+    font-weight: 900;
+    color: var(--primary);
+}
+.panel-leader-you {
+    color: var(--primary);
+    font-size: 0.72rem;
+}
+/* İlerleme çubuğu hücresi */
+.progress-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--surface-variant);
+    border-radius: 99px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 99px;
+}
+.progress-pct {
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+/* Tarih hücresi */
+.cell-date {
+    font-size: 0.82rem;
+    color: var(--on-surface-variant);
+}
+/* Rozet isim etiketi */
+.badge-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+/* Sana ait rozet belirteci */
+.badge-owner-label {
+    color: var(--primary);
+    font-size: 0.72rem;
+}
+/* Genel link — tümünü gör */
+.panel-view-all-link {
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+}
+.panel-view-all-link:hover { text-decoration: underline; }
+
+/* ============================================================
    ÖĞRENCİ PANELİ BENTO
    ============================================================ */
 .student-dashboard { padding: 1.5rem 1rem 6rem; max-width: 1200px; margin: 0 auto; }

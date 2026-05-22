@@ -62,30 +62,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="/genclik-rehberim/assets/css/auth.css">
     <link rel="stylesheet" href="/genclik-rehberim/assets/css/style.css">
 </head>
-<body style="min-height:100vh">
+<body>
 
-<nav style="padding:1rem 1.5rem;background:rgba(255,255,255,0.92);
-            border-bottom:1px solid var(--outline-variant);
-            display:flex;align-items:center;gap:0.75rem">
-    <a href="/genclik-rehberim/index.php"
-       style="display:flex;align-items:center;gap:0.5rem;
-              font-weight:900;color:var(--primary);font-size:1.1rem;
-              text-decoration:none">
-        <span class="material-symbols-outlined"
-              style="font-variation-settings:'FILL' 1">shield_person</span>
+<nav class="auth-nav" aria-label="Kayıt sayfası navigasyonu">
+    <a href="/genclik-rehberim/index.php" class="auth-nav-brand">
+        <span class="material-symbols-outlined">shield_person</span>
         Gençlik Rehberim
     </a>
-    <span style="margin-left:auto;color:var(--on-surface-variant);
-                 font-size:0.85rem">
-        <?php if (basename($_SERVER['PHP_SELF']) === 'girisyap.php'): ?>
-            Hesabın yok mu?
-            <a href="/genclik-rehberim/kayitol.php"
-               style="color:var(--primary);font-weight:700">Kayıt Ol</a>
-        <?php else: ?>
-            Hesabın var mı?
-            <a href="/genclik-rehberim/girisyap.php"
-               style="color:var(--primary);font-weight:700">Giriş Yap</a>
-        <?php endif; ?>
+    <span class="auth-nav-tagline">
+        Hesabın var mı?
+        <a href="/genclik-rehberim/girisyap.php">Giriş Yap</a>
     </span>
 </nav>
 
@@ -102,35 +88,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmnoFJpySXcdPWSXnU52kJjutNSq3bSNzE_0wqbBBjDMOHkf0-BDFye-5343E1ZcC05M8XYnaRlL34diyXfFx7xfEDJleAdb1p_AdcT9T_S0mHerBTi7UP0EQQ_DR7ElD1LxD5lmGh75uBHdRZfV6JVQRplbv00rZznv_yxmFs5V7QwtPuXP57anzXkBC0DWbjUvAEqMtsQpv-vPqCNuiPf-1M5krDfyuPcg7bZLSKgwLRL6HiFffwBFfxF16ZkKuzFCjlkeWK8YwrY" alt="" loading="lazy">
             <div class="auth-glass-caption">
                 <p class="caption-title">Güvenli Bir Alan</p>
-                <p class="text-body-base" style="color:var(--on-surface-variant);font-size:0.9rem;line-height:1.55;margin:0">Zorbalığa karşı farkındalık ve destek odaklı öğrenci rehberliği.</p>
+                <p class="auth-glass-caption-text">Zorbalığa karşı farkındalık ve destek odaklı öğrenci rehberliği.</p>
             </div>
         </div>
     </section>
 
-    <div class="auth-split-box" style="max-width:480px">
+    <div class="auth-split-box auth-split-box--register">
         <article class="auth-register-card">
             <header>
-                <div class="auth-split-brand-icon" style="margin-bottom:1rem">
-                    <span class="material-symbols-outlined" style="font-size:32px;color:var(--on-primary-container)">school</span>
+                <div class="auth-brand-icon-lg">
+                    <span class="material-symbols-outlined">school</span>
                 </div>
                 <h1 class="auth-split-title">Aramıza Katıl</h1>
                 <p class="auth-split-sub">Hesabını oluştur, etkinliklere katıl.</p>
             </header>
 
             <div class="auth-safe-badge">
-                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">verified_user</span>
+                <span class="material-symbols-outlined">verified_user</span>
                 Burası öğrenciler için güvenli bir alan.
             </div>
 
             <?php if ($error): ?>
                 <div class="alert alert-danger">
-                    <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">error</span>
+                    <span class="material-symbols-outlined alert-icon">error</span>
                     <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
                 </div>
             <?php endif; ?>
             <?php if ($success): ?>
                 <div class="alert alert-success">
-                    <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">check_circle</span>
+                    <span class="material-symbols-outlined alert-icon">check_circle</span>
                     <?= htmlspecialchars($success, ENT_QUOTES, 'UTF-8') ?>
                 </div>
             <?php endif; ?>
@@ -173,16 +159,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input class="form-control-auth" type="password" id="password2" name="password2" required placeholder="Şifreyi tekrarla">
                 </div>
 
-                <button type="submit" class="btn btn-primary auth-btn-full" style="margin-top:0.75rem">
+                <button type="submit" class="btn btn-primary auth-btn-full">
                     Kayıt Ol
                     <span class="material-symbols-outlined">arrow_forward</span>
                 </button>
             </form>
             <?php endif; ?>
 
-            <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--surface-variant);text-align:center">
-                <p style="color:var(--on-surface-variant);font-size:0.9rem;margin-bottom:0.5rem">Zaten hesabın var mı?</p>
-                <a href="/genclik-rehberim/girisyap.php" class="btn btn-outline" style="width:100%;justify-content:center">Giriş Yap</a>
+            <div class="auth-register-footer">
+                <p>Zaten hesabın var mı?</p>
+                <a href="/genclik-rehberim/girisyap.php" class="btn btn-outline">Giriş Yap</a>
             </div>
         </article>
 
@@ -193,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
 
-        <p class="auth-footer-link" style="margin-top:1rem">
+        <p class="auth-footer-link">
             <a href="/genclik-rehberim/index.php">← Ana Sayfa</a>
         </p>
     </div>
