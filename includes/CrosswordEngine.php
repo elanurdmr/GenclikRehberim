@@ -1,6 +1,6 @@
 <?php
 /**
- * CrosswordEngine — Kesişimli kare bulmaca yerleştirme (UTF-8 Türkçe)
+ * CrosswordEngine — Kesişimli Çengel Bulmaca yerleştirme (UTF-8 Türkçe)
  */
 declare(strict_types=1);
 

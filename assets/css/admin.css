@@ -8,8 +8,8 @@
     margin-top: 1.5rem;
 }
 
-.admin-sidebar__link--danger {
-    color: var(--error) !important;
+.admin-sidebar nav ul li a.admin-sidebar__link--danger {
+    color: var(--error);
 }
 
 /* --- Content header bölgesi --- */

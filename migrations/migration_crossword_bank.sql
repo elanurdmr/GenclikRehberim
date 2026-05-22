@@ -1,4 +1,4 @@
--- Soru bankası + kelime tamamlama kayıtları (kare bulmaca)
+-- Soru bankası + kelime tamamlama kayıtları (çengel bulmaca)
 USE db_genclik_rehberim;
 
 CREATE TABLE IF NOT EXISTS crossword_bank (

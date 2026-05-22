@@ -9,24 +9,24 @@
 /* ---------- VERİ ---------- */
 
 var CARDS = [
-    { id: 1,  text: 'Zorbalığa müdahale etmeden önce kendi güvenliğimi kontrol ederim.',        category: 'dogru'  },
-    { id: 2,  text: 'Zorbalık olunca herkesi oradan uzaklaşmaya çağırırım.',                    category: 'dogru'  },
-    { id: 3,  text: 'Arkadaşlarımla birlikte zorbalık yapan kişiyi nazikçe uyarırım.',          category: 'dogru'  },
-    { id: 4,  text: 'Zorbalık yapan kişiye, bu davranışın başkasını üzdüğünü söylerim.',        category: 'dogru'  },
-    { id: 5,  text: 'Böyle bir durumda öğretmenime veya bir yetişkine haber veririm.',          category: 'dogru'  },
-    { id: 6,  text: 'Zorbalığa uğrayan arkadaşımın yanında olur, ona destek olurum.',          category: 'dogru'  },
-    { id: 7,  text: 'Zorbalık yapan kişiyle konuşup davranışını düzeltmesine yardımcı olurum.',category: 'dogru'  },
-    { id: 8,  text: 'Okulda herkesin güvende olma hakkı olduğunu bilirim.',                    category: 'dogru'  },
-    { id: 9,  text: 'Zorbalık olurken kendi güvenliğimi düşünmeden müdahale ederim.',          category: 'yanlis' },
-    { id: 10, text: 'Zorbalık yapan kişiyi alkışlarım, gülerim ya da desteklerim.',            category: 'yanlis' },
-    { id: 11, text: 'Olanları öğretmene söylemem çünkü ispiyonculuk sanırım.',                 category: 'yanlis' },
-    { id: 12, text: 'Zorbalığa uğrayan kişiyi görmezden gelirim.',                            category: 'yanlis' },
-    { id: 13, text: 'Zorbalık yapan kişiyi uyarmaktan korkarım ve hiçbir şey yapmam.',        category: 'yanlis' },
-    { id: 14, text: 'Zorbalık sırasında olay yerinde kalıp izlerim.',                         category: 'yanlis' },
+    { id: 1,  text: 'Zorbalığa müdahale etmeden önce kendi güvenliğimi kontrol ederim.',        category: 'dogru',  reason: 'Kendi güvenliğini kontrol etmek sorumluluk bilincidir; güvende olmadan etkili yardım sağlanamaz.' },
+    { id: 2,  text: 'Zorbalık olunca herkesi oradan uzaklaşmaya çağırırım.',                    category: 'dogru',  reason: 'İzleyen kalabalık zorbalığı besler; kalabalığı dağıtmak zorbalığı azaltır.' },
+    { id: 3,  text: 'Arkadaşlarımla birlikte zorbalık yapan kişiyi nazikçe uyarırım.',          category: 'dogru',  reason: 'Birlikte nazikçe uyarmak çatışma yaratmadan zorbalığı durdurmada etkilidir.' },
+    { id: 4,  text: 'Zorbalık yapan kişiye, bu davranışın başkasını üzdüğünü söylerim.',        category: 'dogru',  reason: 'Empati kurmasına yardımcı olmak davranış değişikliğini destekler.' },
+    { id: 5,  text: 'Böyle bir durumda öğretmenime veya bir yetişkine haber veririm.',          category: 'dogru',  reason: 'Yetişkin müdahalesi zorbalığı etkili biçimde durdurmak için gereklidir.' },
+    { id: 6,  text: 'Zorbalığa uğrayan arkadaşımın yanında olur, ona destek olurum.',          category: 'dogru',  reason: 'Destek görmek kurbanın kendini daha güvende hissetmesini sağlar.' },
+    { id: 7,  text: 'Zorbalık yapan kişiyle konuşup davranışını düzeltmesine yardımcı olurum.',category: 'dogru',  reason: 'Yapıcı diyalog zorbalığa neden olan düşünceleri değiştirmeye yardımcı olabilir.' },
+    { id: 8,  text: 'Okulda herkesin güvende olma hakkı olduğunu bilirim.',                    category: 'dogru',  reason: 'Bu temel bir haktır; güvenli okul ortamı için farkındalık şarttır.' },
+    { id: 9,  text: 'Zorbalık olurken kendi güvenliğimi düşünmeden müdahale ederim.',          category: 'yanlis', reason: 'Güvenliğini gözetmeden müdahale etmek hem seni hem durumu daha kötü hale getirebilir.' },
+    { id: 10, text: 'Zorbalık yapan kişiyi alkışlarım, gülerim ya da desteklerim.',            category: 'yanlis', reason: 'Zorbalığı desteklemek onu güçlendirir ve kurbanı daha çok incitir.' },
+    { id: 11, text: 'Olanları öğretmene söylemem çünkü ispiyonculuk sanırım.',                 category: 'yanlis', reason: 'Yetkiliye bildirmek ispiyonculuk değil, güvenli ortam için sorumluluk almaktır.' },
+    { id: 12, text: 'Zorbalığa uğrayan kişiyi görmezden gelirim.',                            category: 'yanlis', reason: 'Sessiz kalmak zorbalığa ortak olmaktır; kurban daha çaresiz hisseder.' },
+    { id: 13, text: 'Zorbalık yapan kişiyi uyarmaktan korkarım ve hiçbir şey yapmam.',        category: 'yanlis', reason: 'Hareketsiz kalmak zorbalığın devam etmesine izin verir. Küçük adımlar bile fark yaratır.' },
+    { id: 14, text: 'Zorbalık sırasında olay yerinde kalıp izlerim.',                         category: 'yanlis', reason: 'İzleyici olmak zorbalığa güç verir; ayrılmak veya yardım çağırmak daha doğrudur.' },
 ];
 
 var FILL_SENTENCES = [
-    { id: 1, template: 'Zorbalığa uğradığımda bir ___ yetişkinden yardım isterim.',
+    { id: 1, template: 'Zorbalığa uğradığımda bir ___ yetişkenden yardım isterim.',
       blank: 'güvendiğim', options: ['güvendiğim', 'korktuğum', 'tanımadığım', 'gördüğüm'] },
     { id: 2, template: 'Arkadaşım zorbalığa uğrarsa ona ___ olurum.',
       blank: 'destek', options: ['destek', 'engel', 'rakip', 'yabancı'] },
@@ -45,28 +45,27 @@ var FILL_SENTENCES = [
 ];
 
 var KAT_WORDS = [
-    { id: 1,  text: 'Yumruk atmak',                 category: 'zorbalik' },
-    { id: 2,  text: 'Tehdit etmek',                 category: 'zorbalik' },
-    { id: 3,  text: 'Küfretmek',                    category: 'zorbalik' },
-    { id: 4,  text: 'Kavga çıkarmak',               category: 'zorbalik' },
-    { id: 5,  text: 'Kötü lakap takmak',            category: 'zorbalik' },
-    { id: 6,  text: 'Arkadaşını itmek',             category: 'zorbalik' },
-    { id: 7,  text: 'Çelme takmak',                 category: 'zorbalik' },
-    { id: 8,  text: 'Yardım etmek',                 category: 'not' },
-    { id: 9,  text: 'Sırada beklemek',              category: 'not' },
-    { id: 10, text: 'Nazik konuşmak',               category: 'not' },
-    { id: 11, text: 'Arkadaşını dinlemek',          category: 'not' },
-    { id: 12, text: 'Oyuna davet etmek',            category: 'not' },
-    { id: 13, text: 'Paylaşmak',                    category: 'not' },
-    { id: 14, text: 'Sorunu bildirmek',             category: 'not' },
-    { id: 15, text: 'Arkadaşına gülümsemek',        category: 'not' },
-    { id: 16, text: 'Birini düşerse kaldırmak',     category: 'not' },
-    { id: 17, text: 'Söz hakkına saygı göstermek',  category: 'not' },
+    { id: 1,  text: 'Yumruk atmak',                 category: 'zorbalik', reason: 'Fiziksel şiddet uygulayan davranış açık bir zorbalıktır.' },
+    { id: 2,  text: 'Tehdit etmek',                 category: 'zorbalik', reason: 'Korkutmaya yönelik davranış psikolojik zorbalıktır.' },
+    { id: 3,  text: 'Küfretmek',                    category: 'zorbalik', reason: 'Hakaret içeren dil sözel zorbalık kapsamındadır.' },
+    { id: 4,  text: 'Kavga çıkarmak',               category: 'zorbalik', reason: 'Saldırgan davranış güvenli ortamı bozar ve zorbalıktır.' },
+    { id: 5,  text: 'Kötü lakap takmak',            category: 'zorbalik', reason: 'İsim takarak aşağılamak sözel ve duygusal zorbalıktır.' },
+    { id: 6,  text: 'Arkadaşını itmek',             category: 'zorbalik', reason: 'Kasıtlı fiziksel temas içeren zorbalık türüdür.' },
+    { id: 7,  text: 'Çelme takmak',                 category: 'zorbalik', reason: 'Kasıtlı olarak düşürmeye çalışmak fiziksel zorbalıktır.' },
+    { id: 8,  text: 'Yardım etmek',                 category: 'not',      reason: 'Yardımlaşmak olumlu ve destekleyici bir davranıştır.' },
+    { id: 9,  text: 'Sırada beklemek',              category: 'not',      reason: 'Kurallara uymak saygılı ve olumlu bir davranıştır.' },
+    { id: 10, text: 'Nazik konuşmak',               category: 'not',      reason: 'Kibarca iletişim güvenli ve dostane bir ortam yaratır.' },
+    { id: 11, text: 'Arkadaşını dinlemek',          category: 'not',      reason: 'Aktif dinleme empati ve saygı gösterir.' },
+    { id: 12, text: 'Oyuna davet etmek',            category: 'not',      reason: 'Dahil etmek dışlanmayı önler ve arkadaşlığı güçlendirir.' },
+    { id: 13, text: 'Paylaşmak',                    category: 'not',      reason: 'Paylaşmak dayanışma ve yardımlaşma ruhunu güçlendirir.' },
+    { id: 14, text: 'Sorunu bildirmek',             category: 'not',      reason: 'Yetkiliye haber vermek sorumluluk almaktır; ispiyonculuk değildir.' },
+    { id: 15, text: 'Arkadaşına gülümsemek',        category: 'not',      reason: 'Olumlu iletişim dostane ve güvenli bir ortam yaratır.' },
+    { id: 16, text: 'Birini düşerse kaldırmak',     category: 'not',      reason: 'Empati ve yardımseverliğin güzel bir göstergesidir.' },
+    { id: 17, text: 'Söz hakkına saygı göstermek',  category: 'not',      reason: 'Herkesin konuşma hakkına saygı göstermek demokratik iletişimin temelidir.' },
 ];
 
 /* ---------- DURUM ---------- */
 
-/* Etkinlik ID'leri PHP'den (window.GAME_CONFIG) gelir; sabit kodlanmaz. */
 var ESL_CFG      = window.GAME_CONFIG || {};
 var ACT_MATCH    = ESL_CFG.activityMatch    || 2;
 var ACT_FILL     = ESL_CFG.activityFill     || 6;
@@ -92,8 +91,35 @@ var fillSelectedOption = null;
 var fillAnsweredCount  = 0;
 
 // Bölüm 3
-var selectedWord = null;
-var placedWords  = {};
+var selectedWord          = null;
+var placedWords           = {};
+var allWordsPlacedPending = false;
+
+/* ============================================================
+   YANLIŞ CEVAP POPUP
+   ============================================================ */
+
+var feedbackPopupOnClose = null;
+
+function showFeedbackPopup(bodyHtml, onClose) {
+    document.getElementById('feedbackPopupBody').innerHTML = bodyHtml;
+    document.getElementById('feedbackPopupOverlay').classList.add('show');
+    feedbackPopupOnClose = onClose || null;
+}
+
+function closeFeedbackPopup() {
+    document.getElementById('feedbackPopupOverlay').classList.remove('show');
+    var cb = feedbackPopupOnClose;
+    feedbackPopupOnClose = null;
+    if (cb) {
+        /* Popup'ın DOM'dan tamamen kaldırılıp tarayıcının repaint yapması için
+           küçük bir gecikme — aksi hâlde cardEnter animasyonu tetiklenmez. */
+        setTimeout(cb, 50);
+    } else if (allWordsPlacedPending) {
+        allWordsPlacedPending = false;
+        setTimeout(checkAllKategori, 300);
+    }
+}
 
 /* ============================================================
    BÖLÜM GEÇİŞİ
@@ -136,10 +162,12 @@ function buildCards() {
     cardQueue = CARDS.slice().sort(function () { return Math.random() - 0.5; });
     currentCardIdx = 0;
     placedCards    = {};
+    score1         = 0;
     dogruCount     = 0;
     yanlisCount    = 0;
     document.getElementById('dogru-count').textContent  = 0;
     document.getElementById('yanlis-count').textContent = 0;
+    document.getElementById('scoreDisplay').textContent = 0;
     document.getElementById('section1Done').style.display = 'none';
     showNextCard();
 }
@@ -159,7 +187,7 @@ function showNextCard() {
 
     var card = cardQueue[currentCardIdx];
     var el = document.createElement('div');
-    el.className   = 'flashcard flashcard-enter';
+    el.className   = 'flashcard';
     el.id          = 'card_' + card.id;
     el.draggable   = true;
     el.dataset.id  = String(card.id);
@@ -171,12 +199,18 @@ function showNextCard() {
     el.addEventListener('touchend',   touchEnd,   { passive: false });
     wrap.appendChild(el);
     activeCard = el;
+    /* Animasyon sınıfını bir sonraki render karesinde ekle;
+       böylece tarayıcı önce elemanı DOM'a yerleştirir, sonra animasyonu başlatır. */
+    requestAnimationFrame(function () { el.classList.add('flashcard-enter'); });
 }
 
 function placeCard(targetCat) {
     if (!activeCard) return;
     var cardId = parseInt(activeCard.dataset.id);
     if (placedCards[cardId]) return;
+
+    var card      = cardQueue[currentCardIdx];
+    var isCorrect = targetCat === card.category;
 
     var exitClass = targetCat === 'dogru' ? 'flashcard-exit-right' : 'flashcard-exit-left';
     activeCard.classList.remove('flashcard-enter');
@@ -190,10 +224,24 @@ function placeCard(targetCat) {
         yanlisCount++;
         document.getElementById('yanlis-count').textContent = yanlisCount;
     }
-    document.getElementById('scoreDisplay').textContent = Object.keys(placedCards).length * 5;
 
     currentCardIdx++;
-    setTimeout(showNextCard, 320);
+
+    if (isCorrect) {
+        score1 += 10;
+        document.getElementById('scoreDisplay').textContent = score1;
+        setTimeout(showNextCard, 320);
+    } else {
+        var correctLabel = card.category === 'dogru' ? 'Doğru Davranış' : 'Yanlış Davranış';
+        var placedLabel  = targetCat === 'dogru'     ? 'Doğru Davranış' : 'Yanlış Davranış';
+        var bodyHtml =
+            '<div class="popup-wrong-answer">Yerleştirdiğin kutu: <strong>' + placedLabel + '</strong></div>' +
+            '<div class="popup-correct-answer">✓ Doğru kutu: <strong>' + correctLabel + '</strong></div>' +
+            (card.reason ? '<div class="popup-reason">' + card.reason + '</div>' : '');
+        setTimeout(function () {
+            showFeedbackPopup(bodyHtml, showNextCard);
+        }, 320);
+    }
 }
 
 function dragStart(e) {
@@ -265,14 +313,8 @@ function onTouchEndGlobal(e) {
     document.removeEventListener('touchend',  onTouchEndGlobal);
 }
 
-function updatePlacedCount() {} // no-op — counts updated inside placeCard
-
 function checkAllEsles() {
-    score1 = 0;
-    CARDS.forEach(function (card) {
-        if (placedCards[card.id] === card.category) score1 += 10;
-    });
-
+    /* score1 anlık olarak placeCard() içinde biriktirilir, yeniden hesaplanmaz */
     document.getElementById('scoreDisplay').textContent = score1;
 
     var pct = score1 / 140 * 100;
@@ -362,6 +404,16 @@ function selectFillOption(opt, chipEl) {
     slot.classList.add('has-value');
 }
 
+function advanceFillQuestion() {
+    fillCurrentIdx++;
+    fillSelectedOption = null;
+    if (fillCurrentIdx >= FILL_SENTENCES.length) {
+        finishFillGame();
+    } else {
+        showFillQuestion();
+    }
+}
+
 function checkFillAnswer() {
     if (!fillSelectedOption) {
         var fb = document.getElementById('fillFeedback');
@@ -373,6 +425,10 @@ function checkFillAnswer() {
     var fb = document.getElementById('fillFeedback');
     document.querySelectorAll('.fill-option-chip').forEach(function (c) { c.disabled = true; });
 
+    fillAnsweredCount++;
+    document.getElementById('fillProgressText').textContent = fillAnsweredCount;
+    document.getElementById('fillProgressBar').style.width = (fillAnsweredCount / FILL_SENTENCES.length * 100) + '%';
+
     if (fillSelectedOption === q.blank) {
         fillScore += 10;
         document.querySelectorAll('.fill-option-chip').forEach(function (c) {
@@ -380,33 +436,25 @@ function checkFillAnswer() {
         });
         fb.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;vertical-align:middle">check_circle</span> Doğru! +10 puan';
         fb.className = 'fill-feedback correct-fb';
+        document.getElementById('fillScoreDisplay').textContent = fillScore;
+        document.getElementById('fillScoreBar').textContent     = fillScore;
+        setTimeout(advanceFillQuestion, 1400);
     } else {
         document.querySelectorAll('.fill-option-chip').forEach(function (c) {
             if (c.textContent === fillSelectedOption) c.classList.add('wrong');
-            if (c.textContent === q.blank) c.classList.add('correct');
+            if (c.textContent === q.blank)           c.classList.add('correct');
         });
         fb.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;vertical-align:middle">cancel</span> Yanlış! Doğru cevap: <strong>' + q.blank + '</strong>';
         fb.className = 'fill-feedback wrong-fb';
+
+        var bodyHtml =
+            '<div class="popup-wrong-answer">Seçtiğin cevap: <strong>' + fillSelectedOption + '</strong></div>' +
+            '<div class="popup-correct-answer">✓ Doğru cevap: <strong>' + q.blank + '</strong></div>';
+        showFeedbackPopup(bodyHtml, advanceFillQuestion);
     }
-
-    fillAnsweredCount++;
-    document.getElementById('fillScoreDisplay').textContent    = fillScore;
-    document.getElementById('fillProgressText').textContent    = fillAnsweredCount;
-    document.getElementById('fillProgressBar').style.width     = (fillAnsweredCount / FILL_SENTENCES.length * 100) + '%';
-    document.getElementById('fillScoreBar').textContent        = fillScore;
-
-    setTimeout(function () {
-        fillCurrentIdx++;
-        fillSelectedOption = null;
-        if (fillCurrentIdx >= FILL_SENTENCES.length) {
-            finishFillGame();
-        } else {
-            showFillQuestion();
-        }
-    }, 1400);
 }
 
-function checkFillGame() { checkFillAnswer(); } // HTML onclick alias
+function checkFillGame() { checkFillAnswer(); }
 
 function fillHint() {
     var q = FILL_SENTENCES[fillCurrentIdx];
@@ -491,9 +539,10 @@ function placeSelected(targetCat) {
             '<span class="material-symbols-outlined">warning</span>Önce bir kelimeye tıkla!</div>';
         return;
     }
-    var wordId = selectedWord;
-    var word   = KAT_WORDS.filter(function (w) { return w.id === wordId; })[0];
-    var chip   = document.getElementById('chip_' + wordId);
+    var wordId    = selectedWord;
+    var word      = KAT_WORDS.filter(function (w) { return w.id === wordId; })[0];
+    var isCorrect = targetCat === word.category;
+    var chip      = document.getElementById('chip_' + wordId);
     chip.classList.remove('selected');
     chip.classList.add('placed');
 
@@ -502,15 +551,32 @@ function placeSelected(targetCat) {
     newChip.className   = 'word-chip';
     newChip.id          = 'placed_' + wordId;
     newChip.textContent = word.text;
-    if (targetCat === 'zorbalik') {
-        newChip.style.cssText = 'background:rgba(186,26,26,0.1);border-color:var(--error);color:var(--on-error-container)';
+
+    if (isCorrect) {
+        score3 += 10;
+        newChip.style.cssText = 'background:rgba(58,106,0,0.1);border-color:var(--secondary);color:var(--on-secondary-fixed-variant);font-weight:700';
     } else {
-        newChip.style.cssText = 'background:rgba(58,106,0,0.1);border-color:var(--secondary);color:var(--on-secondary-fixed-variant)';
+        newChip.style.cssText = 'background:rgba(186,26,26,0.12);border-color:var(--error);color:var(--on-error-container);font-weight:700';
     }
     targetContainer.appendChild(newChip);
     placedWords[wordId] = targetCat;
     selectedWord = null;
     document.getElementById('selectedHint').innerHTML = '';
+
+    document.getElementById('scoreDisplayK').textContent    = score3;
+    document.getElementById('scoreDisplayBarK').textContent = score3;
+
+    if (!isCorrect) {
+        var correctLabel = word.category === 'zorbalik' ? 'ZORBALIK' : 'ZORBALIK DEĞİL';
+        var placedLabel  = targetCat === 'zorbalik'     ? 'ZORBALIK' : 'ZORBALIK DEĞİL';
+        var bodyHtml =
+            '<div class="popup-wrong-answer">Yerleştirdiğin kelime: <strong>' + word.text + '</strong></div>' +
+            '<div class="popup-wrong-answer">Yerleştirdiğin kategori: <strong>' + placedLabel + '</strong></div>' +
+            '<div class="popup-correct-answer">✓ Doğru kategori: <strong>' + correctLabel + '</strong></div>' +
+            (word.reason ? '<div class="popup-reason">' + word.reason + '</div>' : '');
+        showFeedbackPopup(bodyHtml, null);
+    }
+
     updateKategoriProgress();
 }
 
@@ -518,39 +584,27 @@ function updateKategoriProgress() {
     var count = Object.keys(placedWords).length;
     document.getElementById('placedCountK').textContent    = count;
     document.getElementById('placedCountBarK').textContent = count;
-    document.getElementById('progressBarK').style.width   = (count / 17 * 100) + '%';
-    if (count === 17) setTimeout(checkAllKategori, 500);
+    document.getElementById('progressBarK').style.width   = (count / KAT_WORDS.length * 100) + '%';
+    if (count === KAT_WORDS.length) {
+        var popupOpen = document.getElementById('feedbackPopupOverlay').classList.contains('show');
+        if (popupOpen) {
+            allWordsPlacedPending = true;
+        } else {
+            setTimeout(checkAllKategori, 500);
+        }
+    }
 }
 
 function checkAllKategori() {
     var placed = Object.keys(placedWords).length;
-    if (placed < 17) {
+    if (placed < KAT_WORDS.length) {
         document.getElementById('selectedHint').innerHTML =
             '<div class="selected-hint-inner" style="background:var(--tertiary);color:var(--on-tertiary)">' +
-            '<span class="material-symbols-outlined">warning</span>Lütfen tüm kelimeleri yerleştir! (' + placed + '/17)</div>';
+            '<span class="material-symbols-outlined">warning</span>Lütfen tüm kelimeleri yerleştir! (' + placed + '/' + KAT_WORDS.length + ')</div>';
         return;
     }
-    score3 = 0;
-    KAT_WORDS.forEach(function (word) {
-        var placedChip = document.getElementById('placed_' + word.id);
-        if (!placedChip) return;
-        if (placedWords[word.id] === word.category) {
-            score3 += 10;
-            placedChip.style.background  = 'rgba(58,106,0,0.15)';
-            placedChip.style.borderColor = 'var(--secondary)';
-            placedChip.style.color       = 'var(--on-secondary-fixed-variant)';
-            placedChip.style.fontWeight  = '700';
-        } else {
-            placedChip.style.background  = 'rgba(186,26,26,0.12)';
-            placedChip.style.borderColor = 'var(--error)';
-            placedChip.style.color       = 'var(--on-error-container)';
-            placedChip.style.fontWeight  = '700';
-        }
-    });
 
-    document.getElementById('scoreDisplayK').textContent    = score3;
-    document.getElementById('scoreDisplayBarK').textContent = score3;
-
+    /* score3 anlık olarak placeSelected() içinde biriktirilir */
     var total = score1 + fillScore + score3;
     document.getElementById('finalScore1').textContent     = score1;
     document.getElementById('finalScore2').textContent     = fillScore;
@@ -597,6 +651,8 @@ function checkAll() {
 document.addEventListener('DOMContentLoaded', function () {
     buildCards();
     buildWordChips();
+
+    document.getElementById('feedbackPopupOkBtn').addEventListener('click', closeFeedbackPopup);
 
     document.querySelectorAll('#section1 .flashcard-zone').forEach(function (zone) {
         zone.addEventListener('dragleave', function () {

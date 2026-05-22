@@ -1,0 +1,443 @@
+/* ============================================================
+   cengelbulmaca.css — Gençlik Rehberim | Çengel Bulmaca Stilleri
+   ============================================================ */
+
+/* ============================================================
+   ÇENGEL BULMACA — SAYFA TASARIMI
+   ============================================================ */
+.cengel-page {
+    position: relative;
+    padding: 1.25rem 1rem 5rem;
+    min-height: 70vh;
+    background: linear-gradient(165deg, var(--surface-container-low) 0%, var(--background) 45%, var(--primary-fixed-dim) 120%);
+}
+.cengel-shell {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.cengel-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+    align-items: flex-start;
+}
+@media (min-width: 768px) {
+    .cengel-hero {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+}
+.cengel-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(161, 250, 73, 0.2);
+    color: var(--on-secondary-container);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    margin-bottom: 0.65rem;
+}
+.cengel-title { margin: 0 0 0.5rem; line-height: 1.15; }
+.cengel-lead { color: var(--on-surface-variant); max-width: 560px; margin: 0; }
+.cengel-hud {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    background: var(--surface-container-lowest);
+    border-radius: 14px;
+    box-shadow: 0 20px 40px -15px rgba(74, 144, 226, 0.15);
+    border-top: 4px solid var(--tertiary-fixed);
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+.cengel-hud-item {
+    padding: 0.85rem 1.15rem;
+    text-align: center;
+    border-right: 1px solid var(--outline-variant);
+    min-width: 88px;
+}
+.cengel-hud-item:last-child { border-right: none; }
+.cengel-hud-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--on-surface-variant);
+    margin-bottom: 0.2rem;
+}
+.cengel-hud-value { font-size: 1.15rem; font-weight: 800; }
+.cengel-streak-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--tertiary);
+}
+.cengel-streak-icon { font-size: 20px; font-variation-settings: 'FILL' 1; }
+
+.cengel-bento {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+@media (min-width: 1100px) {
+    .cengel-bento {
+        grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+    }
+}
+.ambient-shadow { box-shadow: 0 20px 40px -15px rgba(74, 144, 226, 0.15); }
+.cengel-grid-wrap {
+    background: var(--surface-container-lowest);
+    border-radius: 20px;
+    padding: 1rem;
+    border-top: 4px solid var(--primary);
+}
+.cengel-grid-header {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+    font-size: 0.88rem;
+}
+.cengel-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cengel-cols, 12), minmax(0, 1fr));
+    gap: 4px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 4px;
+    background: var(--outline-variant);
+    border-radius: 12px;
+}
+.cengel-grid-row {
+    display: contents;
+}
+.cengel-cell {
+    position: relative;
+    aspect-ratio: 1;
+    min-width: 0;
+    min-height: 28px;
+}
+.cengel-cell-block {
+    background: var(--surface-container-highest);
+    border-radius: 4px;
+    pointer-events: none;
+}
+.cengel-cell-fill {
+    background: var(--surface-container-lowest);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    transition: border-color 0.15s, background 0.15s;
+}
+.cengel-cell-fill.is-focused {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary-fixed);
+}
+.cengel-cell-fill.cengel-cell-correct {
+    background: rgba(58, 106, 0, 0.15);
+    border-color: var(--secondary);
+}
+.cengel-cell-wrong {
+    background: rgba(186, 26, 26, 0.08);
+    border-color: var(--error-container);
+}
+.cengel-cell-num {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    font-size: 0.55rem;
+    font-weight: 800;
+    color: var(--on-surface-variant);
+    line-height: 1;
+    pointer-events: none;
+    z-index: 1;
+}
+.cengel-cell-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-weight: 800;
+    font-size: clamp(0.65rem, 2.5vw, 1rem);
+    text-transform: none;
+    padding: 0.45rem 0.15rem 0.1rem;
+    color: var(--on-surface);
+    font-family: var(--font);
+}
+.cengel-cell-input:focus {
+    outline: none;
+}
+.cengel-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+.cengel-active-clue {
+    background: var(--primary-container);
+    color: var(--on-primary-container);
+    padding: 1.25rem;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.cengel-active-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    opacity: 0.95;
+    margin-bottom: 0.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+}
+.cengel-active-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 1rem;
+}
+.cengel-clue-card {
+    background: var(--surface-container-lowest);
+    border-radius: 20px;
+    border-top: 4px solid var(--secondary-container);
+    overflow: hidden;
+}
+.cengel-clue-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--outline-variant);
+}
+.cengel-tab {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 0.85rem 0.5rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--on-surface-variant);
+    font-family: var(--font);
+    transition: background 0.15s, color 0.15s;
+}
+.cengel-tab.is-active {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+    background: rgba(41, 118, 199, 0.06);
+}
+.cengel-tab-note {
+    font-size: 0.78rem;
+    color: var(--on-surface-variant);
+    padding: 0.6rem 1rem 0;
+    margin: 0;
+    line-height: 1.4;
+}
+.cengel-clue-panel { display: none; }
+.cengel-clue-panel.is-visible { display: block; }
+.cengel-clue-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.75rem;
+    max-height: 280px;
+    overflow-y: auto;
+}
+.cengel-clue-item {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.65rem 0.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    align-items: flex-start;
+    transition: background 0.12s;
+}
+.cengel-clue-item:hover { background: var(--surface-container-low); }
+.cengel-clue-item.is-active {
+    background: rgba(161, 250, 73, 0.18);
+    border: 1px solid var(--secondary-container);
+}
+.cengel-clue-no { font-weight: 800; color: var(--on-surface-variant); flex-shrink: 0; min-width: 1.5rem; }
+.cengel-clue-txt { font-size: 0.9rem; line-height: 1.45; }
+.cengel-clue-done { margin-left: auto; color: var(--secondary); font-size: 20px; flex-shrink: 0; }
+.cengel-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+/* Çengel bulmaca — ilerleme çubuğu */
+.cengel-progress {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: var(--surface-container-lowest);
+    border-radius: 14px;
+    border-top: 4px solid var(--secondary);
+    padding: 0.85rem 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 20px 40px -15px rgba(74, 144, 226, 0.15);
+}
+.cengel-progress-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.cengel-progress-info .material-symbols-outlined {
+    font-size: 20px;
+    color: var(--secondary);
+    font-variation-settings: 'FILL' 1;
+}
+.cengel-progress-label { color: var(--on-surface-variant); }
+.cengel-progress-count {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--secondary);
+}
+.cengel-progress-track {
+    flex: 1;
+    min-width: 140px;
+    height: 10px;
+    background: var(--surface-variant);
+    border-radius: 9999px;
+    overflow: hidden;
+}
+.cengel-progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, var(--secondary), var(--secondary-fixed-dim));
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cengel-progress.is-complete {
+    border-top-color: var(--tertiary);
+}
+.cengel-progress.is-complete .cengel-progress-fill {
+    background: linear-gradient(90deg, var(--tertiary), var(--tertiary-fixed-dim));
+}
+.cengel-progress.is-complete .cengel-progress-info .material-symbols-outlined,
+.cengel-progress.is-complete .cengel-progress-count {
+    color: var(--tertiary);
+}
+
+/* ============================================================
+   KESİŞİMLİ ÇENGEL BULMACA — CSS Grid Tahta
+   ============================================================ */
+.crossword-dir-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+.crossword-dir-bar .material-symbols-outlined { font-size: 22px; color: var(--primary); }
+.crossword-kbd {
+    display: inline-block;
+    padding: 0.12em 0.45em;
+    font-size: 0.85em;
+    font-family: inherit;
+    border-radius: 6px;
+    border: 1px solid var(--outline-variant);
+    background: var(--surface-container-low);
+}
+.crossword-hud-hint { font-size: 0.95rem; opacity: 0.95; }
+.crossword-hint-note {
+    margin: 0.5rem 0 0;
+    font-size: 0.78rem;
+    color: var(--on-surface-variant);
+    line-height: 1.4;
+}
+.crossword-hint-note code {
+    font-size: 0.85em;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    background: var(--surface-container-high);
+}
+
+.crossword-board {
+    display: grid;
+    grid-template-columns: repeat(var(--crossword-cols, 15), minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 3px;
+    width: 100%;
+    max-width: min(92vw, 640px);
+    margin: 0 auto;
+    aspect-ratio: var(--crossword-cols, 15) / var(--crossword-rows, 15);
+    -webkit-user-select: none;
+    user-select: none;
+}
+.crossword-cell {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+}
+.crossword-cell-block {
+    background: var(--on-surface);
+    opacity: 0.88;
+    border-radius: 3px;
+    pointer-events: none;
+}
+.crossword-cell-letter {
+    position: relative;
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.crossword-cell-letter:has(.crossword-cell-input:focus) {
+    outline: 2px solid var(--primary);
+    outline-offset: 0;
+    background: var(--primary-fixed);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary-fixed-dim);
+    z-index: 2;
+}
+.crossword-cell-letter.crossword-word-solved {
+    background: var(--secondary-fixed);
+    border-color: var(--secondary);
+}
+.crossword-cell-letter.crossword-word-solved:has(.crossword-cell-input:focus) {
+    outline-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary-fixed-dim), 0 0 0 2px var(--secondary-fixed-dim);
+}
+.crossword-cell-letter.crossword-letter-wrong {
+    border-color: var(--error);
+    background: var(--error-container);
+}
+.crossword-cell-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: clamp(0.65rem, 2.8cqw + 0.55rem, 1.15rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--on-surface);
+    padding: 0;
+    margin: 0;
+    cursor: default;
+    font-family: inherit;
+    box-sizing: border-box;
+    padding-top: 0.35em;
+}
+.crossword-cell-input:focus {
+    outline: none;
+}
+.crossword-letter-wrong .crossword-cell-input {
+    color: var(--on-error-container);
+}

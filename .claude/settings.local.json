@@ -23,7 +23,8 @@
       "Bash(node *)",
       "Bash(Get-ChildItem -Path \"C:\\\\Code\\\\genclik-rehberim\" -File -ErrorAction SilentlyContinue)",
       "Bash(Select-Object Name)",
-      "PowerShell(cmd /c mklink /J C:\\\\xampp\\\\htdocs\\\\genclik-rehberim C:\\\\Code\\\\genclik-rehberim)"
+      "PowerShell(cmd /c mklink /J C:\\\\xampp\\\\htdocs\\\\genclik-rehberim C:\\\\Code\\\\genclik-rehberim)",
+      "Bash(Get-ChildItem -Path \"C:\\\\xampp\\\\htdocs\\\\genclik-rehberim\" -Recurse -File)"
     ]
   }
 }

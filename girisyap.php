@@ -55,28 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-<nav style="padding:1rem 1.5rem;background:rgba(255,255,255,0.92);
-            border-bottom:1px solid var(--outline-variant);
-            display:flex;align-items:center;gap:0.75rem">
-    <a href="/genclik-rehberim/index.php"
-       style="display:flex;align-items:center;gap:0.5rem;
-              font-weight:900;color:var(--primary);font-size:1.1rem;
-              text-decoration:none">
-        <span class="material-symbols-outlined"
-              style="font-variation-settings:'FILL' 1">shield_person</span>
+<nav class="auth-nav" aria-label="Giriş sayfası navigasyonu">
+    <a href="/genclik-rehberim/index.php" class="auth-nav-brand">
+        <span class="material-symbols-outlined">shield_person</span>
         Gençlik Rehberim
     </a>
-    <span style="margin-left:auto;color:var(--on-surface-variant);
-                 font-size:0.85rem">
-        <?php if (basename($_SERVER['PHP_SELF']) === 'girisyap.php'): ?>
-            Hesabın yok mu?
-            <a href="/genclik-rehberim/kayitol.php"
-               style="color:var(--primary);font-weight:700">Kayıt Ol</a>
-        <?php else: ?>
-            Hesabın var mı?
-            <a href="/genclik-rehberim/girisyap.php"
-               style="color:var(--primary);font-weight:700">Giriş Yap</a>
-        <?php endif; ?>
+    <span class="auth-nav-tagline">
+        Hesabın yok mu?
+        <a href="/genclik-rehberim/kayitol.php">Kayıt Ol</a>
     </span>
 </nav>
 
@@ -107,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <?php if ($error): ?>
                     <div class="alert alert-danger">
-                        <span class="material-symbols-outlined" style="font-size:18px;font-variation-settings:'FILL' 1;">error</span>
+                        <span class="material-symbols-outlined alert-icon">error</span>
                         <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
                     </div>
                 <?php endif; ?>
@@ -133,10 +119,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="auth-row-between">
                         <label class="auth-checkbox-label">
-                            <input type="checkbox" name="remember" value="1" style="width:18px;height:18px;accent-color:var(--primary)">
+                            <input type="checkbox" name="remember" value="1" class="auth-checkbox-input">
                             Beni hatırla
                         </label>
-                        <span class="auth-footer-link" style="margin:0"><a href="#">Şifremi unuttum</a></span>
+                        <span class="auth-footer-link auth-footer-link--no-margin"><a href="/genclik-rehberim/girisyap.php">Şifremi unuttum</a></span>
                     </div>
 
                     <button type="submit" class="btn btn-primary auth-btn-full">
@@ -157,13 +143,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </button>
                 </div>
 
-                <p class="auth-footer-link" style="margin-top:1.75rem">
+                <p class="auth-footer-link">
                     Hesabın yok mu?
                     <a href="/genclik-rehberim/kayitol.php">Kayıt Ol</a>
                 </p>
                 <p class="auth-footer-link">
                     <a href="/genclik-rehberim/index.php">
-                        <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">arrow_back</span>
+                        <span class="material-symbols-outlined alert-icon">arrow_back</span>
                         Ana Sayfa
                     </a>
                 </p>

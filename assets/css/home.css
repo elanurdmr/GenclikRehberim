@@ -41,6 +41,9 @@
     font-size: 16px;
     font-variation-settings: 'FILL' 1;
 }
+.hero-floating-icon .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1;
+}
 .hero-text h1 {
     font-size: clamp(2.2rem, 5vw, 3rem);
     font-weight: 800;
@@ -191,13 +194,18 @@
     align-items: center;
     justify-content: center;
 }
-.card-bulmaca .game-card-icon    { background: var(--primary-fixed);   color: var(--on-primary-fixed); }
-.card-eslestirme .game-card-icon { background: var(--secondary-fixed); color: var(--on-secondary-fixed); }
-.card-kategori .game-card-icon   { background: var(--tertiary-fixed);  color: var(--on-tertiary-fixed); }
-.card-wordle .game-card-icon     { background: var(--primary-fixed);   color: var(--on-primary-fixed); }
-.card-cengel .game-card-icon     { background: var(--tertiary-fixed);  color: var(--on-tertiary-fixed); }
+.card-bulmaca .game-card-icon    { background: var(--primary-fixed);                           color: var(--on-primary-fixed); }
+.card-eslestirme .game-card-icon { background: var(--secondary-fixed);                        color: var(--on-secondary-fixed); }
+.card-kategori .game-card-icon   { background: var(--tertiary-fixed);                         color: var(--on-tertiary-fixed); }
+.card-wordle                     { border-color: rgba(7,95,171,0.2); }
+.card-wordle .game-card-icon     { background: linear-gradient(135deg, #5d9cec, #075fab);     color: #fff; }
+.card-cengel .game-card-icon     { background: var(--tertiary-fixed);                         color: var(--on-tertiary-fixed); }
 .game-card-icon .material-symbols-outlined {
     font-size: 26px;
+    font-variation-settings: 'FILL' 1;
+}
+/* Oyun kartı içi ikona FILL efekti (index.php inline style yerine) */
+.game-card .game-card-icon .material-symbols-outlined {
     font-variation-settings: 'FILL' 1;
 }
 .game-card-arrow { color: var(--outline); transition: var(--transition); }

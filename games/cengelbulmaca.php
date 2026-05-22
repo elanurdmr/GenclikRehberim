@@ -1,6 +1,6 @@
 <?php
 /**
- * cengelbulmaca.php — Kesişimli Kare Bulmaca
+ * cengelbulmaca.php — Kesişimli Çengel Bulmaca
  * 12×12 ızgara · max 8 kelime · max 8 harf · gizli kelime mekaniği
  */
 declare(strict_types=1);
@@ -60,7 +60,7 @@ $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
                     <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">grid_on</span>
                     Çengel Bulmaca · <?= htmlspecialchars($puzzle['seed'], ENT_QUOTES, 'UTF-8') ?>
                 </div>
-                <h1 class="cengel-title text-display-lg">Kare Bulmaca</h1>
+                <h1 class="cengel-title text-display-lg">Çengel Bulmaca</h1>
                 <p class="cengel-lead text-body-base">
                     Hücreye tıkla, yön otomatik seçilir. Aynı hücreye tekrar tıkla yönü değiştir.
                 </p>

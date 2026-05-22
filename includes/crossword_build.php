@@ -1,6 +1,6 @@
 <?php
 /**
- * Kare bulmaca — veri + derleme (tarih tohumu)
+ * çengel bulmaca — veri + derleme (tarih tohumu)
  */
 declare(strict_types=1);
 

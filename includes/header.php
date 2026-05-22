@@ -45,8 +45,19 @@ require_once __DIR__ . '/functions.php';
     <?php if ($__pb === 'ogrencipanel.php'): ?>
     <link rel="stylesheet" href="/genclik-rehberim/assets/css/ogrencipanel.css">
     <?php endif; ?>
-    <?php if (strpos($__path, '/games/') !== false): ?>
-    <link rel="stylesheet" href="/genclik-rehberim/assets/css/games.css">
+    <?php
+    $__gameMap = [
+        'cengelbulmaca.php' => 'cengelbulmaca.css',
+        'wordle.php'        => 'wordle.css',
+        'bulmaca.php'       => 'bulmaca.css',
+        'eslestirme.php'    => 'eslestirme.css',
+    ];
+    if (strpos($__path, '/games/') !== false):
+    ?>
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/game-shared.css">
+    <?php if (isset($__gameMap[$__pb])): ?>
+    <link rel="stylesheet" href="/genclik-rehberim/assets/css/<?= $__gameMap[$__pb] ?>">
+    <?php endif; ?>
     <?php endif; ?>
     <?php if (strpos($__path, '/admin/') !== false): ?>
     <link rel="stylesheet" href="/genclik-rehberim/assets/css/admin.css">

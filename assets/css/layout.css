@@ -118,6 +118,9 @@
     font-variation-settings: 'FILL' 1;
     font-size: 22px;
 }
+.footer-info p .material-symbols-outlined:last-of-type {
+    font-variation-settings: 'FILL' 1;
+}
 .footer-brand p {
     color: var(--on-surface-variant);
     line-height: 1.6;

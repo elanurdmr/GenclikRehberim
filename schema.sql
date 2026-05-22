@@ -106,7 +106,7 @@ INSERT INTO activities (id, name, description, type, max_score, is_active) VALUE
 (2, 'Doğru mu, Yanlış mı? Eşleştirme',        'Doğru ve yanlış davranışları eşleştir',                'eslestirme', 140, 1),
 (3, 'Zorbalık mı, Değil mi? Kategori',         'Eslestirme Bölüm 2 — iç puanlama tipi',               'kategori',   170, 0),
 (4, 'Wordle — 5 Harfli Kelime',                'Altı denemede kelimeyi bul, Türkçe harf desteğiyle',  'wordle',     100, 1),
-(5, 'Çengel Bulmaca',                          'Kesişimli kare bulmaca ve gizli kelime',               'cengel',     100, 1),
+(5, 'Çengel Bulmaca',                          'Kesişimli çengel bulmaca ve gizli kelime',               'cengel',     100, 1),
 (6, 'Boşluk Doldurma',                         'Eşleştirme oyunu Bölüm 2 — iç puanlama tipi',         'bosluk',      80, 0);
 
 -- Çengel bulmaca soru bankası (akran zorbalığı; cevaplar tek kelime / bitişik)
