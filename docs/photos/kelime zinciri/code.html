@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kelime Zinciri - Gençlik Rehberim</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary": "#686000",
+                      "error-container": "#ffdad6",
+                      "primary-fixed-dim": "#a4c9ff",
+                      "surface-container-highest": "#e1e2e9",
+                      "on-primary-fixed": "#001c39",
+                      "on-primary-container": "#fdfcff",
+                      "inverse-surface": "#2e3036",
+                      "secondary-fixed-dim": "#87dc2c",
+                      "outline": "#717783",
+                      "on-error": "#ffffff",
+                      "primary-container": "#2976c7",
+                      "on-primary-fixed-variant": "#004883",
+                      "on-secondary-fixed": "#0e2000",
+                      "primary-fixed": "#d4e3ff",
+                      "secondary": "#3a6a00",
+                      "surface-bright": "#f8f9ff",
+                      "surface-dim": "#d8dae1",
+                      "surface": "#f8f9ff",
+                      "on-surface-variant": "#414751",
+                      "background": "#f8f9ff",
+                      "surface-variant": "#e1e2e9",
+                      "on-tertiary-fixed-variant": "#4e4800",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-container": "#a1fa49",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed": "#1f1c00",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#e6e8ef",
+                      "primary": "#005da7",
+                      "on-secondary-fixed-variant": "#2a5000",
+                      "on-surface": "#191c21",
+                      "inverse-on-surface": "#eff0f8",
+                      "surface-tint": "#0060ac",
+                      "surface-container": "#ecedf5",
+                      "tertiary-container": "#bbae00",
+                      "tertiary-fixed": "#f7e61a",
+                      "outline-variant": "#c1c7d3",
+                      "on-tertiary-container": "#464100",
+                      "surface-container-low": "#f2f3fb",
+                      "on-secondary": "#ffffff",
+                      "secondary-fixed": "#a1fa49",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-container": "#3e7100",
+                      "on-background": "#191c21",
+                      "on-primary": "#ffffff",
+                      "inverse-primary": "#a4c9ff",
+                      "tertiary-fixed-dim": "#d9c900"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin": "24px",
+                      "gutter": "20px",
+                      "xs": "4px",
+                      "sm": "12px",
+                      "lg": "40px",
+                      "base": "8px",
+                      "xl": "64px",
+                      "md": "24px"
+              },
+              "fontFamily": {
+                      "label-caps": ["Plus Jakarta Sans"],
+                      "body-base": ["Plus Jakarta Sans"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "title-sm": ["Plus Jakarta Sans"],
+                      "display-lg": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "500"}],
+                      "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                      "title-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        .timer-ring {
+            transition: stroke-dashoffset 0.1s linear;
+        }
+
+        .chain-gradient {
+            background: linear-gradient(135deg, rgba(0, 93, 167, 0.05) 0%, rgba(161, 250, 73, 0.05) 100%);
+        }
+        
+        .floating-badge {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c1c7d3; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-base antialiased min-h-screen pb-24 md:pb-0">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-md docked full-width top-0 z-50">
+<nav class="flex justify-between items-center px-margin py-base w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<span class="text-title-sm font-display-lg text-primary dark:text-primary-fixed-dim">Gençlik Rehberim</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-body-base text-body-base text-primary dark:text-primary-fixed-dim border-b-2 border-primary py-1" href="#">Oyunlar</a>
+<a class="font-body-base text-body-base text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low transition-colors px-3 py-1 rounded-lg" href="#">Eğitim</a>
+<a class="font-body-base text-body-base text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-low transition-colors px-3 py-1 rounded-lg" href="#">Ana Sayfa</a>
+</div>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant">notifications</button>
+<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden border-2 border-primary/20">
+<img alt="Student profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwdBqVFbNdJJMn2tHUrrRQqZYo8m24N-kuuzs469OYeBIgnaLtXTIhJCNETsqHoo4zdRyOCPfF1RvFL2PB0P4J-hUhkPGZhCCe_yfbLTvWv00kLXjbLN_WHeyd2k_kC9k9rmkpJniqzp-62szpEfOhOhZVNbFVOk7RA9-IDB6gy56rMMQ3ijo_jgHrrxyF7KqazDg_kduMztyTcPaBB2LIEdZtzyasx5y9GwVd5xJKYkwZihIvpyTYbA81qtoRFwEUtEELP5FPUI9s"/>
+</div>
+</div>
+</nav>
+</header>
+<main class="max-w-7xl mx-auto px-margin pt-lg pb-xl">
+<!-- Gamification Header -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-lg">
+<div class="md:col-span-2 flex flex-col justify-center">
+<h1 class="font-display-lg text-display-lg text-primary mb-xs">Kelime Zinciri</h1>
+<p class="text-on-surface-variant max-w-xl">Sosyal farkındalık üzerine kelimeler türeterek zinciri uzat. Akran zorbalığına karşı dur, saygıyı yay!</p>
+</div>
+<div class="flex flex-col gap-sm">
+<!-- High Score Badge -->
+<div class="bg-surface-container-lowest p-sm rounded-xl shadow-[0_20px_40px_rgba(74,144,226,0.1)] border-t-4 border-tertiary-container flex items-center justify-between floating-badge">
+<div class="flex items-center gap-sm">
+<div class="bg-tertiary-fixed text-on-tertiary-fixed p-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">EN YÜKSEK SKOR</p>
+<p class="font-headline-md text-title-sm text-on-surface">24 Kelime</p>
+</div>
+</div>
+<span class="text-tertiary-container font-bold text-headline-md">#1</span>
+</div>
+<!-- Current Progress -->
+<div class="bg-surface-container-lowest p-sm rounded-xl shadow-[0_20px_40px_rgba(74,144,226,0.1)] border-t-4 border-secondary flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="bg-secondary-container text-on-secondary-container p-2 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">link</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">ZİNCİR UZUNLUĞU</p>
+<p class="font-headline-md text-title-sm text-on-surface" id="chainLengthDisplay">8 Kelime</p>
+</div>
+</div>
+<div class="w-12 h-12 relative">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-outline-variant" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-secondary" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" stroke-dasharray="125.6" stroke-dashoffset="30" stroke-width="4"></circle>
+</svg>
+</div>
+</div>
+</div>
+</div>
+<!-- The Chain Display -->
+<div class="relative chain-gradient rounded-3xl p-lg mb-lg overflow-hidden border border-outline-variant/30 min-h-[280px] flex items-center justify-center">
+<div class="flex flex-wrap items-center justify-center gap-6 md:gap-10 relative z-10 w-full overflow-x-auto py-8" id="chainContainer">
+<!-- Sample Chain Item -->
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-lowest px-6 py-3 rounded-full shadow-lg border-2 border-primary-container/20 flex items-center gap-1 hover:scale-105 transition-transform cursor-default">
+<span class="font-display-lg text-title-sm text-on-surface">EMPAT</span>
+<span class="font-display-lg text-title-sm text-error font-extrabold">İ</span>
+</div>
+<div class="text-primary-container animate-pulse">
+<span class="material-symbols-outlined text-4xl">arrow_forward</span>
+</div>
+<div class="bg-surface-container-lowest px-6 py-3 rounded-full shadow-lg border-2 border-primary-container/20 flex items-center gap-1 hover:scale-105 transition-transform cursor-default">
+<span class="font-display-lg text-title-sm text-error font-extrabold">İ</span>
+<span class="font-display-lg text-title-sm text-on-surface">LETİŞİM</span>
+</div>
+<div class="text-primary-container animate-pulse">
+<span class="material-symbols-outlined text-4xl">arrow_forward</span>
+</div>
+<div class="bg-surface-container-lowest px-6 py-3 rounded-full shadow-lg border-2 border-primary-container/20 flex items-center gap-1 hover:scale-105 transition-transform cursor-default">
+<span class="font-display-lg text-title-sm text-on-surface">MEHAME</span>
+<span class="font-display-lg text-title-sm text-error font-extrabold">T</span>
+</div>
+</div>
+</div>
+<!-- Abstract background graphic -->
+<div class="absolute inset-0 pointer-events-none opacity-20 flex items-center justify-center">
+<svg height="100%" preserveaspectratio="none" viewbox="0 0 1000 300" width="100%">
+<path d="M0,150 C250,50 750,250 1000,150" fill="transparent" stroke="#005da7" stroke-dasharray="10 10" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- User Input Area -->
+<div class="max-w-2xl mx-auto relative">
+<div class="bg-surface-container-lowest rounded-3xl p-base shadow-[0_30px_60px_rgba(0,93,167,0.15)] flex items-center gap-sm transition-all duration-300" id="inputWrapper">
+<!-- Timer Circle -->
+<div class="relative w-16 h-16 flex-shrink-0 ml-sm">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-surface-container-high" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" stroke-width="4"></circle>
+<circle class="text-primary timer-ring" cx="32" cy="32" fill="transparent" id="timerCircle" r="28" stroke="currentColor" stroke-dasharray="176" stroke-dashoffset="0" stroke-width="4"></circle>
+</svg>
+<span class="absolute inset-0 flex items-center justify-center font-bold text-primary" id="countdownText">15</span>
+</div>
+<input autofocus="" class="flex-grow bg-transparent border-none focus:ring-0 text-title-sm px-base h-16 placeholder:text-outline-variant font-medium" id="wordInput" placeholder="Son harfle başlayan yeni kelime..." type="text"/>
+<button class="bg-primary text-on-primary rounded-2xl h-16 px-8 flex items-center gap-3 font-bold hover:bg-primary-container active:scale-95 transition-all shadow-[0_4px_0_#004883] border-b-2 border-primary-fixed-dim" id="submitBtn">
+<span>Gönder</span>
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+<!-- Context Hint -->
+<p class="text-center mt-6 text-on-surface-variant font-label-caps text-label-caps tracking-widest flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">tips_and_updates</span>
+                İPUCU: SON HARF 'T' - SAYGI, SEVGİ, DESTEK GİBİ KAVRAMLARI DÜŞÜN!
+            </p>
+</div>
+<!-- Secondary Content Grid (Bento Style) -->
+<div class="mt-xl grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Recent Words -->
+<div class="bg-surface-container rounded-3xl p-md border-t-4 border-primary">
+<h3 class="font-title-sm text-title-sm mb-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">history</span>
+                    Geçmiş Kelimeler
+                </h3>
+<div class="space-y-sm">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span>Dayanışma</span>
+<span class="text-secondary font-bold text-xs">+15 Puan</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span>Arkadaşlık</span>
+<span class="text-secondary font-bold text-xs">+12 Puan</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span>Adalet</span>
+<span class="text-secondary font-bold text-xs">+18 Puan</span>
+</div>
+</div>
+</div>
+<!-- Knowledge Card -->
+<div class="bg-secondary-container text-on-secondary-container rounded-3xl p-md relative overflow-hidden group">
+<div class="relative z-10">
+<h3 class="font-title-sm text-title-sm mb-sm">Biliyor muydun?</h3>
+<p class="text-body-base leading-snug">Olumlu bir kelime kullanmak, beynimizde mutluluk hormonu salgılanmasına yardımcı olur.</p>
+</div>
+<span class="material-symbols-outlined absolute -bottom-4 -right-4 text-9xl opacity-10 group-hover:scale-110 transition-transform">lightbulb</span>
+</div>
+<!-- Achievement Card -->
+<div class="bg-surface-container-high rounded-3xl p-md flex flex-col justify-between border-t-4 border-tertiary-container">
+<div>
+<h3 class="font-title-sm text-title-sm mb-xs">Yeni Rozet!</h3>
+<p class="text-label-caps text-label-caps text-on-surface-variant">HOŞGÖRÜ ELÇİSİ</p>
+</div>
+<div class="flex items-center gap-sm mt-md">
+<div class="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-md border-2 border-tertiary-container text-tertiary-container">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
+</div>
+<div>
+<div class="w-24 h-2 bg-outline-variant rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[80%]"></div>
+</div>
+<p class="text-xs mt-1 font-bold">8/10 Kelime</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface-container-lowest dark:bg-surface-container-low shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-[10px]">Ana Sayfa</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">school</span>
+<span class="font-label-caps text-[10px]">Eğitim</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined">sports_esports</span>
+<span class="font-label-caps text-[10px]">Oyunlar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-caps text-[10px]">Profil</span>
+</a>
+</nav>
+<!-- Footer (Hidden on Mobile) -->
+<footer class="hidden md:block bg-surface-container-high w-full mt-xl">
+<div class="flex flex-row justify-between items-center px-margin py-lg w-full max-w-7xl mx-auto">
+<span class="text-body-base font-display-lg text-on-surface">Gençlik Rehberim</span>
+<div class="flex gap-gutter">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors" href="#">Hakkımızda</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors" href="#">Yardım</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors" href="#">Gizlilik Politikası</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors" href="#">İletişim</a>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">© 2024 Gençlik Rehberim. Tüm Hakları Saklıdır.</p>
+</div>
+</footer>
+<script>
+        // Game Logic Mockup
+        const input = document.getElementById('wordInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const inputWrapper = document.getElementById('inputWrapper');
+        const timerCircle = document.getElementById('timerCircle');
+        const countdownText = document.getElementById('countdownText');
+        const chainContainer = document.getElementById('chainContainer');
+        const chainLengthDisplay = document.getElementById('chainLengthDisplay');
+
+        let timeLeft = 15;
+        let chainCount = 8;
+        const totalTime = 15;
+        const radius = 28;
+        const circumference = 2 * Math.PI * radius;
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                // Time up logic
+                inputWrapper.classList.add('shake', 'border-error');
+                setTimeout(() => {
+                    inputWrapper.classList.remove('shake', 'border-error');
+                    timeLeft = 15;
+                }, 500);
+                return;
+            }
+
+            timeLeft -= 0.1;
+            const offset = circumference - (timeLeft / totalTime) * circumference;
+            timerCircle.style.strokeDashoffset = offset;
+            countdownText.innerText = Math.ceil(timeLeft);
+
+            // Change color based on time left
+            if (timeLeft < 5) {
+                timerCircle.classList.remove('text-primary');
+                timerCircle.classList.add('text-error');
+            } else {
+                timerCircle.classList.add('text-primary');
+                timerCircle.classList.remove('text-error');
+            }
+        }
+
+        const timerInterval = setInterval(updateTimer, 100);
+
+        function handleWordSubmit() {
+            const word = input.value.trim().toUpperCase();
+            if (word.length < 3) {
+                inputWrapper.classList.add('shake', 'border-error');
+                setTimeout(() => inputWrapper.classList.remove('shake', 'border-error'), 500);
+                return;
+            }
+
+            // Simulate successful word
+            const lastChar = word.slice(-1);
+            const body = word.slice(0, -1);
+
+            const newBadge = `
+                <div class="text-primary-container animate-pulse">
+                    <span class="material-symbols-outlined text-4xl">arrow_forward</span>
+                </div>
+                <div class="bg-surface-container-lowest px-6 py-3 rounded-full shadow-lg border-2 border-primary-container/20 flex items-center gap-1 scale-0 animate-[scale-in_0.3s_forwards]">
+                    <span class="font-display-lg text-title-sm text-on-surface">${body}</span>
+                    <span class="font-display-lg text-title-sm text-error font-extrabold">${lastChar}</span>
+                </div>
+            `;
+            
+            chainContainer.insertAdjacentHTML('beforeend', newBadge);
+            chainContainer.scrollLeft = chainContainer.scrollWidth;
+            
+            input.value = '';
+            timeLeft = 15;
+            chainCount++;
+            chainLengthDisplay.innerText = `${chainCount} Kelime`;
+            
+            // Visual feedback
+            inputWrapper.classList.add('bg-secondary-container/20');
+            setTimeout(() => inputWrapper.classList.remove('bg-secondary-container/20'), 300);
+        }
+
+        submitBtn.addEventListener('click', handleWordSubmit);
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleWordSubmit();
+        });
+
+        // CSS for dynamic animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes scale-in {
+                to { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body></html>
