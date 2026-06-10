@@ -50,7 +50,7 @@
     align-items: center;
     gap: 0.25rem;
     list-style: none;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .nav-links li a {
@@ -71,6 +71,92 @@
     transform: scale(1.03);
 }
 .nav-links li a .material-symbols-outlined { font-size: 18px; }
+
+/* ── Oyunlar Dropdown ── */
+.nav-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-dropdown-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--on-surface-variant);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    transition: var(--transition);
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+}
+.nav-dropdown-btn:hover,
+.nav-dropdown.open .nav-dropdown-btn {
+    color: var(--primary);
+    background: var(--surface-container-low);
+}
+.nav-dropdown-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+.nav-dropdown-btn .material-symbols-outlined { font-size: 18px; }
+.nav-caret { font-size: 18px !important; transition: transform 0.2s ease; }
+.nav-dropdown.open .nav-caret { transform: rotate(180deg); }
+
+@keyframes navDropIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 1px solid var(--outline-variant);
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+    list-style: none;
+    min-width: 220px;
+    z-index: 1010;
+    padding: 0.5rem;
+}
+.nav-dropdown.open .nav-dropdown-menu {
+    display: block;
+    animation: navDropIn 0.15s ease forwards;
+}
+
+.nav-dropdown-menu li a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--on-surface-variant);
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+    /* Sıfırla: üst seviye .nav-links li a:hover transform'unu engelle */
+    transform: none !important;
+}
+.nav-dropdown-menu li a:hover {
+    background: var(--surface-container-low);
+    color: var(--primary);
+}
+.nav-dropdown-menu li a .material-symbols-outlined { font-size: 16px; }
 
 /* Hamburger */
 .nav-toggle {
@@ -187,6 +273,23 @@
     .nav-links li a { border-radius: 10px; }
     .nav-toggle { display: flex; align-items: center; }
     .site-header { position: relative; }
+
+    /* Mobilde dropdown inline açılır */
+    .nav-dropdown { width: 100%; flex-direction: column; align-items: stretch; }
+    .nav-dropdown-btn { width: 100%; border-radius: 10px; }
+    .nav-dropdown-menu {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        border-left: 2px solid var(--outline-variant);
+        border-radius: 0;
+        background: transparent;
+        padding: 0 0 0.25rem 0.75rem;
+        margin-top: 0.25rem;
+        animation: none;
+        min-width: unset;
+    }
 
     .footer-inner {
         grid-template-columns: 1fr 1fr;

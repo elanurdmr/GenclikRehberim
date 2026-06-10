@@ -20,11 +20,13 @@ $username       = $_SESSION['username'];
 $totalScore     = getUserTotalScore($userId);
 $history        = getUserHistory($userId, 15);
 $leaderboard    = getLeaderboard(5);
-$highBulmaca        = getUserHighScore($userId, getActivityId('bulmaca'));
-$highEslestirme     = getUserHighScore($userId, getActivityId('eslestirme'));
-$highWordle         = getUserHighScore($userId, getActivityId('wordle'));
-$highCengel         = getUserHighScore($userId, getActivityId('cengel'));
-$eslestirmeMaxScore = getActivityMaxScore(getActivityId('eslestirme'));
+$highBulmaca           = getUserHighScore($userId, getActivityId('bulmaca'));
+$highEslestirme        = getUserHighScore($userId, getActivityId('eslestirme'));
+$highWordle            = getUserHighScore($userId, getActivityId('wordle'));
+$highCengel            = getUserHighScore($userId, getActivityId('cengel'));
+$highBenimHikayem      = getUserHighScore($userId, getActivityId('benimhikayem'));
+$highFarkindalikZinciri = getUserHighScore($userId, getActivityId('farkindalikzinciri'));
+$eslestirmeMaxScore    = getActivityMaxScore(getActivityId('eslestirme'));
 $gamesPlayed    = count($history);
 
 $weeklyPct = min(100, $totalScore > 0 ? (int)round(($totalScore % 400) / 4) : 0);
@@ -87,10 +89,10 @@ foreach ($badges as $badge) {
                 <span><?= (int)$gamesPlayed ?> oyun kaydı</span>
                 <span>Hedef: daha fazla etkinlik</span>
             </div>
-            <div class="panel-stat-row">
+            <div class="panel-stat-row" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:1rem">
                 <article class="panel-stat-item">
-                    <div class="student-badge-icon-wrap" style="margin:0;background:var(--secondary-fixed);color:var(--secondary)">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:22px">check_circle</span>
+                    <div class="student-badge-icon-wrap" style="margin:0;background:var(--primary-fixed);color:var(--primary);flex-shrink:0">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:20px">extension</span>
                     </div>
                     <div>
                         <div class="panel-stat-label">Bulmaca</div>
@@ -98,12 +100,48 @@ foreach ($badges as $badge) {
                     </div>
                 </article>
                 <article class="panel-stat-item">
-                    <div class="student-badge-icon-wrap" style="margin:0;background:var(--primary-fixed);color:var(--primary)">
-                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:22px">play_circle</span>
+                    <div class="student-badge-icon-wrap" style="margin:0;background:#e3f0ff;color:#075fab;flex-shrink:0">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:20px">spellcheck</span>
                     </div>
                     <div>
                         <div class="panel-stat-label">Wordle</div>
                         <div class="panel-stat-sub">En iyi: <?= (int)$highWordle ?></div>
+                    </div>
+                </article>
+                <article class="panel-stat-item">
+                    <div class="student-badge-icon-wrap" style="margin:0;background:var(--tertiary-fixed);color:var(--tertiary);flex-shrink:0">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:20px">grid_on</span>
+                    </div>
+                    <div>
+                        <div class="panel-stat-label">Çengel Bulmaca</div>
+                        <div class="panel-stat-sub">En iyi: <?= (int)$highCengel ?></div>
+                    </div>
+                </article>
+                <article class="panel-stat-item">
+                    <div class="student-badge-icon-wrap" style="margin:0;background:var(--secondary-fixed);color:var(--secondary);flex-shrink:0">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:20px">join_inner</span>
+                    </div>
+                    <div>
+                        <div class="panel-stat-label">Eşleştirme</div>
+                        <div class="panel-stat-sub">En iyi: <?= (int)$highEslestirme ?></div>
+                    </div>
+                </article>
+                <article class="panel-stat-item">
+                    <div class="student-badge-icon-wrap" style="margin:0;background:#fff3e0;color:#e65100;flex-shrink:0">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:20px">auto_stories</span>
+                    </div>
+                    <div>
+                        <div class="panel-stat-label">Benim Hikayem</div>
+                        <div class="panel-stat-sub">En iyi: <?= (int)$highBenimHikayem ?></div>
+                    </div>
+                </article>
+                <article class="panel-stat-item">
+                    <div class="student-badge-icon-wrap" style="margin:0;background:#e0f2f1;color:#00695c;flex-shrink:0">
+                        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;font-size:20px">link</span>
+                    </div>
+                    <div>
+                        <div class="panel-stat-label">Fark. Zinciri</div>
+                        <div class="panel-stat-sub">En iyi: <?= (int)$highFarkindalikZinciri ?></div>
                     </div>
                 </article>
             </div>
@@ -174,8 +212,50 @@ foreach ($badges as $badge) {
                     <div class="student-jump-bar"><div style="width:<?= min(100, (int)round($highEslestirme * 100 / max(1, $eslestirmeMaxScore))) ?>%;background:var(--secondary)"></div></div>
                 </div>
             </a>
+            <a class="student-jump-card" href="/genclik-rehberim/games/benimhikayem.php">
+                <div class="student-jump-visual" style="background:linear-gradient(135deg,#f9a825,#e65100)">
+                    <span class="material-symbols-outlined">auto_stories</span>
+                </div>
+                <div class="student-jump-body">
+                    <h3>Benim Hikayem</h3>
+                    <div class="student-jump-bar"><div style="width:<?= min(100, (int)$highBenimHikayem) ?>%;background:#e65100"></div></div>
+                </div>
+            </a>
+            <a class="student-jump-card" href="/genclik-rehberim/games/farkindalikzinciri.php">
+                <div class="student-jump-visual" style="background:linear-gradient(135deg,#26c6da,#00838f)">
+                    <span class="material-symbols-outlined">link</span>
+                </div>
+                <div class="student-jump-body">
+                    <h3>Farkındalık Zinciri</h3>
+                    <div class="student-jump-bar"><div style="width:<?= min(100, (int)$highFarkindalikZinciri) ?>%;background:#00838f"></div></div>
+                </div>
+            </a>
         </div>
     </section>
+
+    <!-- Hızlı erişim: Profil + Geri Bildirim -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.25rem">
+        <a href="/genclik-rehberim/profil.php" class="student-card-bento" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem">
+            <div class="student-badge-icon-wrap" style="background:var(--primary-fixed);color:var(--primary);flex-shrink:0">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">manage_accounts</span>
+            </div>
+            <div>
+                <div style="font-weight:800;font-size:.95rem">Profilim</div>
+                <div style="font-size:.8rem;color:var(--on-surface-variant)">Bilgilerini güncelle</div>
+            </div>
+            <span class="material-symbols-outlined" style="margin-left:auto;color:var(--outline)">chevron_right</span>
+        </a>
+        <a href="/genclik-rehberim/geri-bildirim.php" class="student-card-bento" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem">
+            <div class="student-badge-icon-wrap" style="background:var(--secondary-fixed);color:var(--secondary);flex-shrink:0">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">feedback</span>
+            </div>
+            <div>
+                <div style="font-weight:800;font-size:.95rem">Geri Bildirim</div>
+                <div style="font-size:.8rem;color:var(--on-surface-variant)">Düşüncelerini paylaş</div>
+            </div>
+            <span class="material-symbols-outlined" style="margin-left:auto;color:var(--outline)">chevron_right</span>
+        </a>
+    </div>
 
     <div style="display:grid;grid-template-columns:1fr;gap:1.25rem;margin-top:1.25rem">
         <?php if ($gamesPlayed > 0): ?>

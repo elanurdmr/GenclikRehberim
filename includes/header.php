@@ -88,38 +88,58 @@ require_once __DIR__ . '/functions.php';
                     <span class="material-symbols-outlined">home</span> Ana Sayfa
                 </a>
             </li>
-            <li>
-                <a href="/genclik-rehberim/games/bulmaca.php">
-                    <span class="material-symbols-outlined">extension</span> Bulmaca
-                </a>
-            </li>
-            <li>
-                <a href="/genclik-rehberim/games/cengelbulmaca.php">
-                    <span class="material-symbols-outlined">grid_on</span> Çengel
-                </a>
-            </li>
-            <li>
-                <a href="/genclik-rehberim/games/wordle.php">
-                    <span class="material-symbols-outlined">spellcheck</span> Wordle
-                </a>
-            </li>
-            <li>
-                <a href="/genclik-rehberim/games/eslestirme.php">
-                    <span class="material-symbols-outlined">join_inner</span> Eşleştirme
-                </a>
+
+            <!-- Oyunlar Dropdown -->
+            <li class="nav-dropdown">
+                <button class="nav-dropdown-btn" aria-haspopup="true" aria-expanded="false">
+                    <span class="material-symbols-outlined">sports_esports</span>
+                    Oyunlar
+                    <span class="material-symbols-outlined nav-caret">expand_more</span>
+                </button>
+                <ul class="nav-dropdown-menu" role="menu">
+                    <li><a href="/genclik-rehberim/games/bulmaca.php" role="menuitem">
+                        <span class="material-symbols-outlined">extension</span> Bulmaca
+                    </a></li>
+                    <li><a href="/genclik-rehberim/games/cengelbulmaca.php" role="menuitem">
+                        <span class="material-symbols-outlined">grid_on</span> Çengel Bulmaca
+                    </a></li>
+                    <li><a href="/genclik-rehberim/games/wordle.php" role="menuitem">
+                        <span class="material-symbols-outlined">spellcheck</span> Wordle
+                    </a></li>
+                    <li><a href="/genclik-rehberim/games/eslestirme.php" role="menuitem">
+                        <span class="material-symbols-outlined">join_inner</span> Eşleştirme
+                    </a></li>
+                    <li><a href="/genclik-rehberim/games/benimhikayem.php" role="menuitem">
+                        <span class="material-symbols-outlined">auto_stories</span> Benim Hikayem
+                    </a></li>
+                    <li><a href="/genclik-rehberim/games/farkindalikzinciri.php" role="menuitem">
+                        <span class="material-symbols-outlined">link</span> Farkındalık Zinciri
+                    </a></li>
+                </ul>
             </li>
             <?php if (isLoggedIn()): ?>
+                <?php if (!isAdmin()): ?>
                 <li>
                     <a href="/genclik-rehberim/ogrencipanel.php">
-                        <span class="material-symbols-outlined">bar_chart</span> Öğrenci Paneli
+                        <span class="material-symbols-outlined">bar_chart</span> Panelim
                     </a>
                 </li>
-                <?php if (isAdmin()): ?>
-                    <li>
-                        <a href="/genclik-rehberim/admin/index.php">
-                            <span class="material-symbols-outlined">settings</span> Admin
-                        </a>
-                    </li>
+                <li>
+                    <a href="/genclik-rehberim/profil.php">
+                        <span class="material-symbols-outlined">manage_accounts</span> Profilim
+                    </a>
+                </li>
+                <li>
+                    <a href="/genclik-rehberim/geri-bildirim.php">
+                        <span class="material-symbols-outlined">feedback</span> Geri Bildirim
+                    </a>
+                </li>
+                <?php else: ?>
+                <li>
+                    <a href="/genclik-rehberim/admin/index.php">
+                        <span class="material-symbols-outlined">settings</span> Admin
+                    </a>
+                </li>
                 <?php endif; ?>
                 <li>
                     <a href="/genclik-rehberim/logout.php" class="btn-nav-logout">

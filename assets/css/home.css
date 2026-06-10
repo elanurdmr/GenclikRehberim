@@ -180,6 +180,8 @@
 .card-kategori::before   { background: var(--tertiary); }
 .card-wordle::before     { background: var(--primary-container); }
 .card-cengel::before     { background: var(--tertiary-container); }
+.card-hikaye::before     { background: #f57c00; }
+.card-zincir::before     { background: #00897b; }
 
 .game-card-top {
     display: flex;
@@ -200,6 +202,33 @@
 .card-wordle                     { border-color: rgba(7,95,171,0.2); }
 .card-wordle .game-card-icon     { background: linear-gradient(135deg, #5d9cec, #075fab);     color: #fff; }
 .card-cengel .game-card-icon     { background: var(--tertiary-fixed);                         color: var(--on-tertiary-fixed); }
+.card-hikaye                     { border-color: rgba(245,124,0,0.2); }
+.card-hikaye .game-card-icon     { background: #fff3e0;                                       color: #e65100; }
+.card-zincir                     { border-color: rgba(0,137,123,0.2); }
+.card-zincir .game-card-icon     { background: #e0f2f1;                                       color: #00695c; }
+
+.btn-hikaye {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: #f57c00; color: #fff;
+    padding: .75rem 1.5rem; border-radius: 9999px;
+    font-family: var(--font); font-weight: 700; font-size: 1rem; line-height: 1;
+    border: none; border-bottom: 3px solid #bf360c;
+    cursor: pointer; text-decoration: none; white-space: nowrap;
+    transition: var(--transition);
+}
+.btn-hikaye:hover  { background: #e65100; transform: translateY(-2px); }
+.btn-hikaye:active { border-bottom-width: 0; transform: translateY(3px); }
+.btn-zincir {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: #00897b; color: #fff;
+    padding: .75rem 1.5rem; border-radius: 9999px;
+    font-family: var(--font); font-weight: 700; font-size: 1rem; line-height: 1;
+    border: none; border-bottom: 3px solid #004d40;
+    cursor: pointer; text-decoration: none; white-space: nowrap;
+    transition: var(--transition);
+}
+.btn-zincir:hover  { background: #00695c; transform: translateY(-2px); }
+.btn-zincir:active { border-bottom-width: 0; transform: translateY(3px); }
 .game-card-icon .material-symbols-outlined {
     font-size: 26px;
     font-variation-settings: 'FILL' 1;

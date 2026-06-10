@@ -46,6 +46,11 @@ $recentScores = array_slice($recentScores, 0, 5);
                         <span class="material-symbols-outlined">bar_chart</span> Skorlar
                     </a>
                 </li>
+                <li>
+                    <a href="/genclik-rehberim/admin/feedback.php">
+                        <span class="material-symbols-outlined">feedback</span> Geri Bildirimler
+                    </a>
+                </li>
                 <li class="admin-sidebar__nav-item--spaced">
                     <a href="/genclik-rehberim/index.php">
                         <span class="material-symbols-outlined">home</span> Ana Sayfa
@@ -327,6 +332,28 @@ $recentScores = array_slice($recentScores, 0, 5);
                     <div class="admin-modules__info">
                         <div class="admin-modules__name">Eşleştirme</div>
                         <div class="admin-modules__detail">3 Bölüm · 390 Puan</div>
+                    </div>
+                    <span class="badge badge-success">Aktif</span>
+                </div>
+                <!-- Benim Hikayem -->
+                <div class="admin-modules__card">
+                    <div class="admin-modules__icon" style="background:#fff3e0">
+                        <span class="material-symbols-outlined admin-modules__icon-symbol" style="color:#e65100">auto_stories</span>
+                    </div>
+                    <div class="admin-modules__info">
+                        <div class="admin-modules__name">Benim Hikayem</div>
+                        <div class="admin-modules__detail">15 Karar · 100 Puan</div>
+                    </div>
+                    <span class="badge badge-success">Aktif</span>
+                </div>
+                <!-- Farkındalık Zinciri -->
+                <div class="admin-modules__card">
+                    <div class="admin-modules__icon" style="background:#e0f2f1">
+                        <span class="material-symbols-outlined admin-modules__icon-symbol" style="color:#00695c">link</span>
+                    </div>
+                    <div class="admin-modules__info">
+                        <div class="admin-modules__name">Farkındalık Zinciri</div>
+                        <div class="admin-modules__detail">120 Saniye · 100 Puan</div>
                     </div>
                     <span class="badge badge-success">Aktif</span>
                 </div>

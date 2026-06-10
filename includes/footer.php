@@ -27,6 +27,10 @@
                 <li><a href="/genclik-rehberim/games/cengelbulmaca.php">Çengel Bulmaca</a></li>
                 <li><a href="/genclik-rehberim/games/wordle.php">Wordle</a></li>
                 <li><a href="/genclik-rehberim/games/eslestirme.php">Eşleştirme</a></li>
+                <li><a href="/genclik-rehberim/games/benimhikayem.php">Benim Hikayem</a></li>
+                <li><a href="/genclik-rehberim/games/farkindalikzinciri.php">Farkındalık Zinciri</a></li>
+                <li><a href="/genclik-rehberim/profil.php">Profilim</a></li>
+                <li><a href="/genclik-rehberim/geri-bildirim.php">Geri Bildirim</a></li>
             </ul>
         </nav>
 
