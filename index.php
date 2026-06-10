@@ -176,6 +176,50 @@ $leaderboard = getLeaderboard(3);
                 </a>
             </article>
 
+            <!-- Benim Hikayem -->
+            <article class="game-card card-hikaye">
+                <div class="game-card-top">
+                    <div class="game-card-icon">
+                        <span class="material-symbols-outlined">auto_stories</span>
+                    </div>
+                    <span class="game-card-arrow">
+                        <span class="material-symbols-outlined">arrow_outward</span>
+                    </span>
+                </div>
+                <div>
+                    <h3>Benim Hikayem</h3>
+                    <p>15 karar noktasında empati ve cesaret testine gir. Zorbalık karşısında nasıl davranırsın?</p>
+                </div>
+                <div class="score-badge">
+                    <span class="material-symbols-outlined">star</span> Max 100 Puan
+                </div>
+                <a href="/genclik-rehberim/games/benimhikayem.php" class="btn btn-hikaye">
+                    <span class="material-symbols-outlined">play_arrow</span> Oyna
+                </a>
+            </article>
+
+            <!-- Farkındalık Zinciri -->
+            <article class="game-card card-zincir">
+                <div class="game-card-top">
+                    <div class="game-card-icon">
+                        <span class="material-symbols-outlined">link</span>
+                    </div>
+                    <span class="game-card-arrow">
+                        <span class="material-symbols-outlined">arrow_outward</span>
+                    </span>
+                </div>
+                <div>
+                    <h3>Farkındalık Zinciri</h3>
+                    <p>Bilgisayarın verdiği kelimeden başlayarak 120 saniyede empati ve dostluk zinciri kur!</p>
+                </div>
+                <div class="score-badge">
+                    <span class="material-symbols-outlined">star</span> Max 100 Puan
+                </div>
+                <a href="/genclik-rehberim/games/farkindalikzinciri.php" class="btn btn-zincir">
+                    <span class="material-symbols-outlined">play_arrow</span> Oyna
+                </a>
+            </article>
+
         </div>
     </section>
 

@@ -174,6 +174,110 @@ function awardBadge(int $userId, string $badgeName): bool {
 }
 
 /**
+ * Tek kullanıcıyı ID ile döndürür.
+ */
+function getUserById(int $userId): array {
+    $db   = getDB();
+    $stmt = $db->prepare('SELECT id, username, email, role, created_at FROM users WHERE id = ?');
+    $stmt->execute([$userId]);
+    return $stmt->fetch() ?: [];
+}
+
+/**
+ * Kullanıcı adı/e-posta'nın başka bir hesapta olup olmadığını kontrol eder.
+ */
+function isUsernameOrEmailTaken(string $username, string $email, int $excludeId): bool {
+    $db   = getDB();
+    $stmt = $db->prepare('SELECT COUNT(*) FROM users WHERE (username = ? OR email = ?) AND id != ?');
+    $stmt->execute([$username, $email, $excludeId]);
+    return (bool)$stmt->fetchColumn();
+}
+
+/**
+ * Kullanıcı adı ve e-posta günceller.
+ */
+function updateUserInfo(int $userId, string $username, string $email): bool {
+    $db   = getDB();
+    $stmt = $db->prepare('UPDATE users SET username = ?, email = ? WHERE id = ?');
+    return $stmt->execute([$username, $email, $userId]);
+}
+
+/**
+ * Kullanıcı şifresini bcrypt hash ile günceller.
+ */
+function updateUserPassword(int $userId, string $newHash): bool {
+    $db   = getDB();
+    $stmt = $db->prepare('UPDATE users SET password = ? WHERE id = ?');
+    return $stmt->execute([$newHash, $userId]);
+}
+
+/**
+ * Kullanıcının mevcut şifre hash'ini döndürür.
+ */
+function getUserPasswordHash(int $userId): string {
+    $db   = getDB();
+    $stmt = $db->prepare('SELECT password FROM users WHERE id = ?');
+    $stmt->execute([$userId]);
+    return (string)($stmt->fetchColumn() ?: '');
+}
+
+/**
+ * Geri bildirim kaydeder.
+ */
+function saveFeedback(int $userId, string $category, string $message): bool {
+    $db   = getDB();
+    $stmt = $db->prepare('INSERT INTO feedback (user_id, category, message) VALUES (?, ?, ?)');
+    return $stmt->execute([$userId, $category, $message]);
+}
+
+/**
+ * Admin için tüm geri bildirimleri döndürür.
+ */
+function getAllFeedback(): array {
+    $db   = getDB();
+    $stmt = $db->query(
+        'SELECT f.id, u.username, f.category, f.message, f.is_read, f.created_at
+         FROM feedback f
+         JOIN users u ON u.id = f.user_id
+         ORDER BY f.created_at DESC'
+    );
+    return $stmt->fetchAll();
+}
+
+/**
+ * Kullanıcının kendi geri bildirimlerini döndürür.
+ */
+function getUserFeedback(int $userId): array {
+    $db   = getDB();
+    $stmt = $db->prepare(
+        'SELECT id, category, message, created_at FROM feedback WHERE user_id = ? ORDER BY created_at DESC'
+    );
+    $stmt->execute([$userId]);
+    return $stmt->fetchAll();
+}
+
+/**
+ * Geri bildirimi okundu olarak işaretler.
+ */
+function markFeedbackRead(int $feedbackId): void {
+    $db   = getDB();
+    $stmt = $db->prepare('UPDATE feedback SET is_read = 1 WHERE id = ?');
+    $stmt->execute([$feedbackId]);
+}
+
+/**
+ * Okunmamış geri bildirim sayısını döndürür (admin sidebar için).
+ */
+function getUnreadFeedbackCount(): int {
+    $db = getDB();
+    try {
+        return (int)$db->query('SELECT COUNT(*) FROM feedback WHERE is_read = 0')->fetchColumn();
+    } catch (\PDOException $e) {
+        return 0;
+    }
+}
+
+/**
  * Admin paneli için özet istatistikler.
  */
 function getAdminStats(): array {

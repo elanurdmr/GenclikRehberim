@@ -80,6 +80,11 @@ $avgScore   = $totalGames > 0 ? round($totalScore / $totalGames, 1) : 0;
                         <span class="material-symbols-outlined">bar_chart</span> Skorlar
                     </a>
                 </li>
+                <li>
+                    <a href="/genclik-rehberim/admin/feedback.php">
+                        <span class="material-symbols-outlined">feedback</span> Geri Bildirimler
+                    </a>
+                </li>
                 <li class="admin-sidebar__nav-item--spaced">
                     <a href="/genclik-rehberim/index.php">
                         <span class="material-symbols-outlined">home</span> Ana Sayfa
